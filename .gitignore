@@ -1,0 +1,31 @@
+# Large data files
+mineru_output/
+mineru_output.zip
+*.zip
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+*.egg-info/
+dist/
+build/
+venv/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary extraction files
+guide/*_raw.txt
+
+# Agent files
+.agent/
+.agents/
+.gemini/
