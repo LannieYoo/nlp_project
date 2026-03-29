@@ -6,7 +6,7 @@ import { useSearch } from './hooks/useSearch'
 
 const DEFAULT_SETTINGS = {
   model: 'qwen2.5:0.5b',
-  topK: 5,
+  topK: 10,
   methods: ['fts', 'vector', 'tree', 'metadata'],
   bookFilter: '',
 }
@@ -33,9 +33,11 @@ export default function App() {
   const sidebarWidth = sidebarCollapsed ? 'lg:pl-14' : 'pl-0 lg:pl-60'
 
   return (
-    <div className="h-screen flex flex-col" style={{ background: '#0c0c0c' }}>
-      {/* Top steel accent line */}
-      <div className="h-px bg-gradient-to-r from-mint-500/50 via-mint-400/20 to-transparent flex-shrink-0" />
+    <div className="h-screen flex flex-col" style={{ background: '#f8f8f8' }}>
+      {/* Top accent line */}
+      <div className="h-[2px] flex-shrink-0" style={{
+        background: 'linear-gradient(90deg, #5273e8 0%, #a5beff 50%, transparent 100%)'
+      }} />
 
       <div className="flex-1 flex overflow-hidden">
         {/* Sidebar */}
@@ -51,7 +53,7 @@ export default function App() {
           {/* Mobile sidebar toggle */}
           <button
             onClick={() => setSidebarCollapsed(c => !c)}
-            className="lg:hidden fixed top-2.5 left-2.5 z-40 p-2 rounded-md glass text-neutral-400 hover:text-neutral-200 transition-colors"
+            className="lg:hidden fixed top-3 left-3 z-40 p-2 rounded-xl bg-white border border-neutral-200 shadow-soft text-neutral-500 hover:text-neutral-700 transition-colors"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -60,7 +62,7 @@ export default function App() {
 
           {/* Q&A panel */}
           <div className={`
-            flex-1 min-w-0 border-r border-white/[0.04]
+            flex-1 min-w-0 border-r border-neutral-100
             ${pdfState.bookId ? 'lg:w-1/2 lg:flex-none' : 'w-full'}
           `}>
             <SearchPanel
@@ -77,7 +79,7 @@ export default function App() {
           {/* PDF Viewer — right half on desktop */}
           {pdfState.bookId && (
             <>
-              <div className="hidden lg:block lg:w-1/2 lg:flex-none">
+              <div className="hidden lg:block lg:w-1/2 lg:flex-none bg-neutral-100">
                 <PdfViewer
                   bookId={pdfState.bookId}
                   pageIdx={pdfState.pageIdx}
@@ -85,9 +87,9 @@ export default function App() {
                 />
               </div>
 
-              {/* Mobile: full-screen overlay with proper width */}
+              {/* Mobile: full-screen overlay */}
               {showPdfMobile && (
-                <div className="lg:hidden fixed inset-0 z-50 w-full h-full" style={{ background: '#0c0c0c' }}>
+                <div className="lg:hidden fixed inset-0 z-50 w-full h-full" style={{ background: '#f0f0f0' }}>
                   <PdfViewer
                     bookId={pdfState.bookId}
                     pageIdx={pdfState.pageIdx}

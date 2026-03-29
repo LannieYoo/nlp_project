@@ -6,7 +6,6 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': 'http://localhost:8000',
-      '/pdf': 'http://localhost:8000',
     },
   },
 })

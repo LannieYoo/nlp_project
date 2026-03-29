@@ -1,7 +1,8 @@
 """
 FastAPI Backend Server for AI Textbook Q&A System.
 
-Wraps the existing RAG engine as REST API and serves PDFs statically.
+Wraps the existing RAG engine as REST API.
+PDF pages rendered as images via pypdfium2 (no PyMuPDF).
 """
 
 import os
@@ -10,9 +11,9 @@ import sqlite3
 from typing import List, Optional
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import Response
 from pydantic import BaseModel
 
 # Add project root to path
@@ -20,11 +21,11 @@ PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(_
 sys.path.insert(0, PROJECT_ROOT)
 
 from backend.rag.engine import RAGEngine
-from backend.ui.pdf_viewer import PDFViewer
+from backend.api.page_renderer import PageRenderer
 
 # --------------- Globals ---------------
 _engine: Optional[RAGEngine] = None
-_viewer: Optional[PDFViewer] = None
+_renderer: Optional[PageRenderer] = None
 
 PDF_BASE_DIR = os.path.join(PROJECT_ROOT, "mineru_output", "textbooks")
 DB_PATH = os.path.join(PROJECT_ROOT, "data", "chunks.db")
@@ -41,11 +42,11 @@ def get_engine() -> RAGEngine:
     return _engine
 
 
-def get_viewer() -> PDFViewer:
-    global _viewer
-    if _viewer is None:
-        _viewer = PDFViewer(pdf_base_dir=PDF_BASE_DIR)
-    return _viewer
+def get_renderer() -> PageRenderer:
+    global _renderer
+    if _renderer is None:
+        _renderer = PageRenderer(pdf_base_dir=PDF_BASE_DIR)
+    return _renderer
 
 
 # --------------- Pydantic Models ---------------
@@ -58,7 +59,7 @@ class SearchRequest(BaseModel):
 
 
 class HighlightInfo(BaseModel):
-    """PDF-space coordinates for bbox highlight overlay."""
+    """PDF-space coordinates for highlight overlay."""
     x: float
     y: float
     width: float
@@ -100,55 +101,17 @@ class BookInfo(BaseModel):
 # --------------- Highlight Computation ---------------
 def compute_highlight(source: dict) -> Optional[HighlightInfo]:
     """
-    Compute PDF-space highlight coordinates for a source.
-    Uses PyMuPDF text search (most accurate) with bbox fallback.
+    Compute PDF-space highlight coordinates using pypdfium2.
     """
-    viewer = get_viewer()
+    renderer = get_renderer()
     book_id = source.get("book_id", "")
     page_idx = source.get("page_idx", 0)
     text_preview = source.get("text_preview", "")
     bbox = source.get("bbox", [0, 0, 0, 0])
 
-    pdf_path = viewer.get_pdf_path(book_id)
-    if not pdf_path:
-        return None
-
-    try:
-        import pymupdf
-        doc = pymupdf.open(pdf_path)
-        if page_idx >= len(doc):
-            doc.close()
-            return None
-
-        page = doc[page_idx]
-        page_w = page.rect.width
-        page_h = page.rect.height
-        rect = None
-
-        # Strategy 1: Text search
-        if text_preview:
-            rects = viewer._find_text_rects(page, text_preview)
-            if rects:
-                rect = viewer._merge_rects(rects, page)
-
-        # Strategy 2: Bbox conversion fallback
-        if rect is None and bbox and len(bbox) == 4 and any(b > 0 for b in bbox):
-            rect = viewer._convert_bbox_to_pdf(bbox, page, book_id, page_idx)
-
-        doc.close()
-
-        if rect and rect.width > 0 and rect.height > 0:
-            return HighlightInfo(
-                x=rect.x0,
-                y=rect.y0,
-                width=rect.width,
-                height=rect.height,
-                page_width=page_w,
-                page_height=page_h,
-            )
-    except Exception as e:
-        print(f"Highlight computation error: {e}")
-
+    result = renderer.compute_highlight_coords(book_id, page_idx, text_preview, bbox)
+    if result:
+        return HighlightInfo(**result)
     return None
 
 
@@ -158,6 +121,8 @@ async def lifespan(app: FastAPI):
     yield
     if _engine:
         _engine.close()
+    if _renderer:
+        _renderer.close()
 
 
 app = FastAPI(title="AI Textbook Q&A API", lifespan=lifespan)
@@ -196,11 +161,11 @@ def get_books():
         rows = cur.fetchall()
         conn.close()
 
-        viewer = get_viewer()
+        renderer = get_renderer()
         books = []
         for (bid,) in rows:
             title = bid.replace("_", " ").title()
-            has_pdf = viewer.get_pdf_path(bid) is not None
+            has_pdf = renderer.get_pdf_path(bid) is not None
             books.append(BookInfo(book_id=bid, title=title, has_pdf=has_pdf))
         return books
     except Exception as e:
@@ -245,18 +210,55 @@ def search(req: SearchRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/pdf/{book_id}")
-def serve_pdf(book_id: str):
-    """Serve the original PDF file for a given book."""
-    viewer = get_viewer()
-    pdf_path = viewer.get_pdf_path(book_id)
-    if not pdf_path or not os.path.exists(pdf_path):
-        raise HTTPException(status_code=404, detail=f"PDF not found: {book_id}")
-    return FileResponse(
-        pdf_path,
-        media_type="application/pdf",
-        headers={"Accept-Ranges": "bytes"},
+@app.get("/api/page-image/{book_id}/{page_idx}")
+def get_page_image(
+    book_id: str,
+    page_idx: int,
+    scale: float = Query(default=2.0, ge=0.5, le=4.0),
+    hl_x: Optional[float] = Query(default=None),
+    hl_y: Optional[float] = Query(default=None),
+    hl_w: Optional[float] = Query(default=None),
+    hl_h: Optional[float] = Query(default=None),
+):
+    """
+    Render a PDF page as a PNG image.
+    Optionally draws a highlight rectangle (in PDF point coordinates).
+    """
+    renderer = get_renderer()
+
+    highlight_rect = None
+    if all(v is not None for v in [hl_x, hl_y, hl_w, hl_h]):
+        highlight_rect = (hl_x, hl_y, hl_w, hl_h)
+
+    png_data = renderer.render_page(
+        book_id=book_id,
+        page_idx=page_idx,
+        scale=scale,
+        highlight_rect=highlight_rect,
     )
+
+    if png_data is None:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Could not render page {page_idx} of {book_id}"
+        )
+
+    return Response(
+        content=png_data,
+        media_type="image/png",
+        headers={
+            "Cache-Control": "public, max-age=3600",
+        },
+    )
+
+
+@app.get("/api/page-count/{book_id}")
+def get_page_count(book_id: str):
+    renderer = get_renderer()
+    count = renderer.get_page_count(book_id)
+    if count == 0:
+        raise HTTPException(status_code=404, detail=f"PDF not found: {book_id}")
+    return {"book_id": book_id, "page_count": count}
 
 
 if __name__ == "__main__":
