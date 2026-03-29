@@ -96,6 +96,7 @@ class BookInfo(BaseModel):
     book_id: str
     title: str
     has_pdf: bool
+    page_count: int = 0
 
 
 # --------------- Highlight Computation ---------------
@@ -166,7 +167,13 @@ def get_books():
         for (bid,) in rows:
             title = bid.replace("_", " ").title()
             has_pdf = renderer.get_pdf_path(bid) is not None
-            books.append(BookInfo(book_id=bid, title=title, has_pdf=has_pdf))
+            page_count = 0
+            if has_pdf:
+                try:
+                    page_count = renderer.get_page_count(bid)
+                except Exception:
+                    pass
+            books.append(BookInfo(book_id=bid, title=title, has_pdf=has_pdf, page_count=page_count))
         return books
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -238,10 +245,22 @@ def get_page_image(
     )
 
     if png_data is None:
-        raise HTTPException(
-            status_code=404,
-            detail=f"Could not render page {page_idx} of {book_id}"
-        )
+        # Generate a placeholder image instead of 404
+        from PIL import Image, ImageDraw, ImageFont
+        w, h = int(612 * scale), int(792 * scale)
+        img = Image.new("RGB", (w, h), (240, 240, 240))
+        draw = ImageDraw.Draw(img)
+        msg = f"Page {page_idx + 1} could not be rendered"
+        try:
+            font = ImageFont.truetype("arial.ttf", int(16 * scale))
+        except Exception:
+            font = ImageFont.load_default()
+        bbox = draw.textbbox((0, 0), msg, font=font)
+        tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
+        draw.text(((w - tw) / 2, (h - th) / 2), msg, fill=(150, 150, 150), font=font)
+        buf = io.BytesIO()
+        img.save(buf, format="PNG")
+        png_data = buf.getvalue()
 
     return Response(
         content=png_data,
@@ -259,6 +278,46 @@ def get_page_count(book_id: str):
     if count == 0:
         raise HTTPException(status_code=404, detail=f"PDF not found: {book_id}")
     return {"book_id": book_id, "page_count": count}
+
+
+@app.get("/api/search-in-book/{book_id}")
+def search_in_book(book_id: str, q: str = Query(..., min_length=1)):
+    """Search for text in a specific book's PDF and return matching pages with snippets."""
+    renderer = get_renderer()
+    pdf_path = renderer.get_pdf_path(book_id)
+    if not pdf_path:
+        raise HTTPException(status_code=404, detail=f"PDF not found: {book_id}")
+
+    import pypdfium2 as pdfium
+    results = []
+    try:
+        pdf = pdfium.PdfDocument(pdf_path)
+        for page_idx in range(len(pdf)):
+            try:
+                page = pdf[page_idx]
+                textpage = page.get_textpage()
+                text = textpage.get_text_range()
+                if q.lower() in text.lower():
+                    pos = text.lower().find(q.lower())
+                    start = max(0, pos - 40)
+                    end = min(len(text), pos + len(q) + 60)
+                    snippet = ('…' if start > 0 else '') + text[start:end].strip() + ('…' if end < len(text) else '')
+                    results.append({"page_idx": page_idx, "snippet": snippet})
+                textpage.close()
+                page.close()
+            except Exception:
+                # Skip pages that can't be read (corrupted, access violation, etc.)
+                continue
+            if len(results) >= 50:
+                break
+        pdf.close()
+    except Exception as e:
+        # Return partial results if we got some before the error
+        if results:
+            return {"book_id": book_id, "query": q, "total": len(results), "results": results}
+        raise HTTPException(status_code=500, detail=str(e))
+
+    return {"book_id": book_id, "query": q, "total": len(results), "results": results}
 
 
 if __name__ == "__main__":

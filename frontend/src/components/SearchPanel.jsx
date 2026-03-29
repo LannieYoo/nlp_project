@@ -1,12 +1,58 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import SourceCard from './SourceCard'
+
+const SUGGESTIONS = [
+  'What is SVM (Support Vector Machine)?',
+  'Explain gradient descent optimization',
+  'How does backpropagation work?',
+  'What is the transformer attention mechanism?',
+  'Explain convolutional neural networks (CNN)',
+  'What is reinforcement learning?',
+  'How does batch normalization work?',
+  'Explain the bias-variance tradeoff',
+  'What is the EM algorithm?',
+  'How does dropout regularization work?',
+  'Explain recurrent neural networks (RNN)',
+  'What is the Bayesian approach to machine learning?',
+  'How does principal component analysis (PCA) work?',
+  'What is cross-validation?',
+  'Explain the kernel trick in SVM',
+  'What is natural language processing (NLP)?',
+  'How does word2vec work?',
+  'What are generative adversarial networks (GAN)?',
+  'Explain maximum likelihood estimation',
+  'What is the softmax function?',
+  'How does LSTM work?',
+  'What is transfer learning?',
+  'Explain decision tree algorithms',
+  'What is logistic regression?',
+  'How does random forest work?',
+]
 
 export default function SearchPanel({ result, loading, error, onSearch, settings, onViewPdf, activeSource }) {
   const [query, setQuery] = useState('')
+  const [showSuggestions, setShowSuggestions] = useState(false)
   const inputRef = useRef(null)
+  const suggestionsRef = useRef(null)
+
+  const filteredSuggestions = query.trim().length >= 2
+    ? SUGGESTIONS.filter(s => s.toLowerCase().includes(query.toLowerCase())).slice(0, 6)
+    : []
+
+  // Close suggestions on click outside
+  useEffect(() => {
+    const handler = (e) => {
+      if (suggestionsRef.current && !suggestionsRef.current.contains(e.target) && !inputRef.current.contains(e.target)) {
+        setShowSuggestions(false)
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
 
   const handleSearch = () => {
     if (!query.trim()) return
+    setShowSuggestions(false)
     onSearch({
       query: query.trim(),
       topK: settings.topK,
@@ -18,6 +64,29 @@ export default function SearchPanel({ result, loading, error, onSearch, settings
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') handleSearch()
+  }
+
+  const selectSuggestion = (s) => {
+    setQuery(s)
+    setShowSuggestions(false)
+    inputRef.current?.focus()
+  }
+
+  // Highlight matching text in suggestion
+  const highlightMatch = (text, q) => {
+    if (!q.trim()) return text
+    const idx = text.toLowerCase().indexOf(q.toLowerCase())
+    if (idx === -1) return text
+    const before = text.slice(0, idx)
+    const match = text.slice(idx, idx + q.length)
+    const after = text.slice(idx + q.length)
+    return (
+      <>
+        {before}
+        <span className="font-bold text-accent-600">{match}</span>
+        {after}
+      </>
+    )
   }
 
   return (
@@ -33,7 +102,8 @@ export default function SearchPanel({ result, loading, error, onSearch, settings
               ref={inputRef}
               type="text"
               value={query}
-              onChange={e => setQuery(e.target.value)}
+              onChange={e => { setQuery(e.target.value); setShowSuggestions(true) }}
+              onFocus={() => setShowSuggestions(true)}
               onKeyDown={handleKeyDown}
               placeholder="e.g. What is the transformer attention mechanism?"
               className="w-full px-4 py-2.5 bg-neutral-50 rounded-xl border border-neutral-200 text-sm text-neutral-700
@@ -48,6 +118,22 @@ export default function SearchPanel({ result, loading, error, onSearch, settings
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
+
+            {/* Autocomplete dropdown */}
+            {showSuggestions && filteredSuggestions.length > 0 && (
+              <div ref={suggestionsRef}
+                className="absolute left-0 right-0 top-full mt-1 bg-white rounded-xl border border-neutral-200 shadow-lg z-20 overflow-hidden animate-fade-in">
+                {filteredSuggestions.map((s, i) => (
+                  <button key={i} onClick={() => selectSuggestion(s)}
+                    className="w-full px-4 py-2 text-left text-sm text-neutral-600 hover:bg-accent-50 hover:text-accent-700 transition-colors flex items-center gap-2">
+                    <svg className="w-3.5 h-3.5 text-neutral-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <span>{highlightMatch(s, query)}</span>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
           <button
             onClick={handleSearch}

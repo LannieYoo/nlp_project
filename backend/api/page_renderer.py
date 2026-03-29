@@ -105,6 +105,24 @@ class PageRenderer:
 
         except Exception as e:
             print(f"Page render error: {e}")
+            # Clear corrupted doc cache and retry once with lower scale
+            if book_id in self._doc_cache:
+                try:
+                    self._doc_cache[book_id].close()
+                except Exception:
+                    pass
+                del self._doc_cache[book_id]
+            try:
+                doc2 = self._get_doc(book_id)
+                if doc2 and page_idx < len(doc2):
+                    page2 = doc2[page_idx]
+                    bitmap2 = page2.render(scale=min(scale, 1.0))
+                    pil2 = bitmap2.to_pil()
+                    buf2 = io.BytesIO()
+                    pil2.save(buf2, format="PNG", optimize=True)
+                    return buf2.getvalue()
+            except Exception as e2:
+                print(f"Page render retry also failed: {e2}")
             return None
 
     def compute_highlight_coords(

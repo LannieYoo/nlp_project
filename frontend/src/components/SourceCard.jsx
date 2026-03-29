@@ -1,17 +1,5 @@
 import { useState, useEffect } from 'react'
-
-const KNOWN_BOOKS = {
-  'barber_brml': 'Bayesian Reasoning and Machine Learning',
-  'bishop_prml': 'Pattern Recognition and Machine Learning',
-  'shalev-shwartz_uml': 'Understanding Machine Learning',
-  'hastie_esl': 'The Elements of Statistical Learning',
-  'murphy_pml1': 'Probabilistic Machine Learning: An Introduction',
-  'murphy_pml2': 'Probabilistic Machine Learning: Advanced Topics',
-  'deisenroth_mml': 'Mathematics for Machine Learning',
-  'jurafsky_slp3': 'Speech and Language Processing',
-  'sutton_rl': 'Reinforcement Learning: An Introduction',
-  'goodfellow_dl': 'Deep Learning',
-}
+import { getBookTitle, getBookAuthor } from '../utils/bookMeta'
 
 export default function SourceCard({ group, index, onViewPdf, activeChunkId }) {
   const [expanded, setExpanded] = useState(index === 0)
@@ -22,17 +10,8 @@ export default function SourceCard({ group, index, onViewPdf, activeChunkId }) {
     setImgError(false)
   }, [group.book_id])
   
-  const formatBookName = (id) => {
-    if (KNOWN_BOOKS[id]) return KNOWN_BOOKS[id];
-    const parts = id.split('_');
-    if (parts.length === 2) {
-      const author = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
-      const title = parts[1].toUpperCase();
-      return `${title} (${author})`;
-    }
-    return id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-  }
-  const bookName = formatBookName(group.book_id);
+  const bookName = getBookTitle(group.book_id)
+  const authorName = getBookAuthor(group.book_id)
   
   // Calculate best score and check if any item is active
   const bestScore = Math.max(...group.items.map(s => s.score || 0))
@@ -64,7 +43,7 @@ export default function SourceCard({ group, index, onViewPdf, activeChunkId }) {
         <div className="flex-1 min-w-0 py-0.5">
           <div className="text-[13px] font-bold text-neutral-800 truncate" title={bookName}>{bookName}</div>
           <div className="text-[10px] text-neutral-400 truncate mt-0.5 flex items-center gap-1.5">
-            <span className="font-medium text-neutral-600">{group.book_id.split('_')[0].toUpperCase()}</span>
+            <span className="font-medium text-neutral-600">{authorName}</span>
             <span className="w-0.5 h-0.5 rounded-full bg-neutral-300"></span>
             <span>{group.items.length} match{group.items.length > 1 ? 'es' : ''}</span>
             <span className="w-0.5 h-0.5 rounded-full bg-neutral-300"></span>
@@ -87,7 +66,7 @@ export default function SourceCard({ group, index, onViewPdf, activeChunkId }) {
             return (
               <div key={source.chunk_id || idx} className="pl-2 border-l-2 border-neutral-100 mt-2 block">
                 <div className="flex items-center gap-2 text-[10px] text-neutral-400 mb-1.5">
-                  <span className="font-semibold text-neutral-500 whitespace-nowrap">Page {source.page_idx}</span>
+                  <span className="font-semibold text-neutral-500 whitespace-nowrap">Page {source.page_idx + 1}</span>
                   {source.chapter && <span className="truncate max-w-[150px]">· {source.chapter}</span>}
                   <span className="ml-auto flex items-center gap-1.5 flex-shrink-0">
                     <span className="px-1.5 py-0.5 rounded text-[8px] font-semibold bg-neutral-100 text-neutral-400">
@@ -121,7 +100,7 @@ export default function SourceCard({ group, index, onViewPdf, activeChunkId }) {
                         d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                       />
                     </svg>
-                    View PDF (p.{source.page_idx})
+                    View PDF (p.{source.page_idx + 1})
                   </button>
                 )}
               </div>

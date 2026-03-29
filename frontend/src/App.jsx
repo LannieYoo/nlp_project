@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import Sidebar from './components/Sidebar'
 import SearchPanel from './components/SearchPanel'
+import LibraryPanel from './components/LibraryPanel'
 import PdfViewer from './components/PdfViewer'
 import { useSearch } from './hooks/useSearch'
 
@@ -17,6 +18,7 @@ export default function App() {
   const [pdfState, setPdfState] = useState({ bookId: null, pageIdx: null, highlight: null })
   const [activeSource, setActiveSource] = useState(null)
   const [showPdfMobile, setShowPdfMobile] = useState(false)
+  const [activeView, setActiveView] = useState('search')  // 'search' | 'library'
 
   const { search, result, loading, error } = useSearch()
 
@@ -36,6 +38,12 @@ export default function App() {
     setShowPdfMobile(false)
   }, [])
 
+  const handleOpenBook = useCallback((bookId) => {
+    setPdfState({ bookId, pageIdx: 0, highlight: null })
+    setActiveSource(null)
+    setShowPdfMobile(true)
+  }, [])
+
   const sidebarWidth = sidebarCollapsed ? 'lg:pl-14' : 'pl-0 lg:pl-60'
 
   return (
@@ -52,6 +60,8 @@ export default function App() {
           onSettingsChange={setSettings}
           collapsed={sidebarCollapsed}
           onToggle={() => setSidebarCollapsed(c => !c)}
+          activeView={activeView}
+          onViewChange={setActiveView}
         />
 
         {/* Main content area */}
@@ -66,20 +76,24 @@ export default function App() {
             </svg>
           </button>
 
-          {/* Q&A panel */}
+          {/* Main Panel — Search or Library */}
           <div className={`
             flex-1 min-w-0 border-r border-neutral-100
             ${pdfState.bookId ? 'lg:w-1/2 lg:flex-none' : 'w-full'}
           `}>
-            <SearchPanel
-              result={result}
-              loading={loading}
-              error={error}
-              onSearch={search}
-              settings={settings}
-              onViewPdf={handleViewPdf}
-              activeSource={activeSource}
-            />
+            {activeView === 'search' ? (
+              <SearchPanel
+                result={result}
+                loading={loading}
+                error={error}
+                onSearch={search}
+                settings={settings}
+                onViewPdf={handleViewPdf}
+                activeSource={activeSource}
+              />
+            ) : (
+              <LibraryPanel onOpenBook={handleOpenBook} />
+            )}
           </div>
 
           {/* PDF Viewer — right half on desktop */}

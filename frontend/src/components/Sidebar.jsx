@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { fetchStats } from '../hooks/useSearch'
+import { fetchStats, fetchBooks } from '../hooks/useSearch'
+import { getBookTitle } from '../utils/bookMeta'
 
 const METHODS = [
   { key: 'fts',      label: 'BM25 Keyword',    icon: 'search' },
@@ -34,11 +35,16 @@ const MethodIcon = ({ type, className = "w-3.5 h-3.5" }) => {
   return icons[type] || null
 }
 
-export default function Sidebar({ settings, onSettingsChange, collapsed, onToggle }) {
+export default function Sidebar({ settings, onSettingsChange, collapsed, onToggle, activeView, onViewChange }) {
   const [stats, setStats] = useState(null)
+  const [books, setBooks] = useState([])
+  const [showBookFilter, setShowBookFilter] = useState(false)
+  const [selectedBooks, setSelectedBooks] = useState([])  // empty = all books
+  const [bookSearchTerm, setBookSearchTerm] = useState('')
 
   useEffect(() => {
     fetchStats().then(s => s && setStats(s))
+    fetchBooks().then(b => b && setBooks(b))
   }, [])
 
   const update = (key, val) => onSettingsChange({ ...settings, [key]: val })
@@ -49,6 +55,29 @@ export default function Sidebar({ settings, onSettingsChange, collapsed, onToggl
       : [...settings.methods, key]
     update('methods', m)
   }
+
+  const toggleBookSelection = (bookId) => {
+    setSelectedBooks(prev => {
+      const next = prev.includes(bookId)
+        ? prev.filter(b => b !== bookId)
+        : [...prev, bookId]
+      // Update settings.bookFilter as comma-separated
+      const filterVal = next.length > 0 ? next.join(',') : ''
+      update('bookFilter', filterVal)
+      return next
+    })
+  }
+
+  const clearBookSelection = () => {
+    setSelectedBooks([])
+    update('bookFilter', '')
+  }
+
+  const filteredBooks = books.filter(b => {
+    if (!bookSearchTerm.trim()) return true
+    const q = bookSearchTerm.toLowerCase()
+    return b.book_id.toLowerCase().includes(q) || getBookTitle(b.book_id).toLowerCase().includes(q)
+  })
 
   return (
     <aside className={`
@@ -73,6 +102,37 @@ export default function Sidebar({ settings, onSettingsChange, collapsed, onToggl
           </svg>
         </button>
       </div>
+
+      {/* Navigation Tabs */}
+      {!collapsed && (
+        <div className="flex border-b border-neutral-100">
+          <button
+            onClick={() => onViewChange('search')}
+            className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs font-semibold transition-all border-b-2
+              ${activeView === 'search'
+                ? 'text-accent-600 border-accent-500 bg-accent-50/50'
+                : 'text-neutral-400 border-transparent hover:text-neutral-600 hover:bg-neutral-50'}`}
+          >
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            Search
+          </button>
+          <button
+            onClick={() => onViewChange('library')}
+            className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs font-semibold transition-all border-b-2
+              ${activeView === 'library'
+                ? 'text-accent-600 border-accent-500 bg-accent-50/50'
+                : 'text-neutral-400 border-transparent hover:text-neutral-600 hover:bg-neutral-50'}`}
+          >
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+              <path strokeLinecap="round" strokeLinejoin="round"
+                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+            Library
+          </button>
+        </div>
+      )}
 
       {!collapsed && (
         <div className="flex-1 overflow-y-auto px-3 py-3 space-y-4">
@@ -134,18 +194,77 @@ export default function Sidebar({ settings, onSettingsChange, collapsed, onToggl
             </div>
           </div>
 
-          {/* Book filter */}
+          {/* Book Filter — Toggle Section */}
           <div>
-            <label className="text-[10px] font-semibold text-neutral-400 uppercase tracking-wider">Book Filter</label>
-            <input
-              type="text"
-              value={settings.bookFilter}
-              onChange={e => update('bookFilter', e.target.value)}
-              placeholder="e.g. jurafsky_slp3"
-              className="mt-1 w-full px-2.5 py-1.5 bg-neutral-50 rounded-lg border border-neutral-200 text-xs text-neutral-700
-                         placeholder:text-neutral-300
-                         focus:outline-none focus:border-accent-400 focus:ring-2 focus:ring-accent-100 transition-all"
-            />
+            <button
+              onClick={() => setShowBookFilter(!showBookFilter)}
+              className="w-full flex items-center gap-1.5 text-[10px] font-semibold text-neutral-400 uppercase tracking-wider hover:text-neutral-600 transition-colors"
+            >
+              <svg className={`w-3 h-3 transition-transform ${showBookFilter ? 'rotate-90' : ''}`}
+                fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+              Book Filter
+              {selectedBooks.length > 0 && (
+                <span className="ml-auto px-1.5 py-0.5 rounded-full bg-accent-100 text-accent-600 text-[9px] font-bold normal-case">
+                  {selectedBooks.length}
+                </span>
+              )}
+            </button>
+
+            {showBookFilter && (
+              <div className="mt-2 space-y-1.5 animate-fade-in">
+                {/* Quick search */}
+                <input
+                  type="text"
+                  value={bookSearchTerm}
+                  onChange={e => setBookSearchTerm(e.target.value)}
+                  placeholder="Filter books…"
+                  className="w-full px-2 py-1 bg-neutral-50 rounded-md border border-neutral-200 text-[11px] text-neutral-700
+                             placeholder:text-neutral-300 focus:outline-none focus:border-accent-400 transition-all"
+                />
+
+                {/* Select All / Clear */}
+                <div className="flex justify-between px-0.5">
+                  <button
+                    onClick={clearBookSelection}
+                    className="text-[9px] text-accent-500 hover:text-accent-700 font-semibold transition-colors"
+                  >
+                    All Books (default)
+                  </button>
+                  {selectedBooks.length > 0 && (
+                    <button
+                      onClick={clearBookSelection}
+                      className="text-[9px] text-red-400 hover:text-red-600 font-semibold transition-colors"
+                    >
+                      Clear
+                    </button>
+                  )}
+                </div>
+
+                {/* Book list */}
+                <div className="max-h-40 overflow-y-auto space-y-0.5 pr-0.5 scrollbar-thin">
+                  {filteredBooks.map(book => {
+                    const checked = selectedBooks.includes(book.book_id)
+                    return (
+                      <label
+                        key={book.book_id}
+                        className={`flex items-center gap-2 px-2 py-1 rounded-md cursor-pointer text-[11px] transition-all
+                          ${checked ? 'bg-accent-50 text-accent-700' : 'text-neutral-500 hover:bg-neutral-50'}`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={checked}
+                          onChange={() => toggleBookSelection(book.book_id)}
+                          className="w-3 h-3 rounded border-neutral-300 text-accent-600 focus:ring-accent-400 focus:ring-1 flex-shrink-0"
+                        />
+                        <span className="truncate">{getBookTitle(book.book_id)}</span>
+                      </label>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -169,12 +288,30 @@ export default function Sidebar({ settings, onSettingsChange, collapsed, onToggl
       {/* Collapsed icon strip */}
       {collapsed && (
         <div className="hidden lg:flex flex-col items-center gap-3 mt-4 px-2">
-          <div className="w-7 h-7 rounded-lg bg-accent-50 flex items-center justify-center">
-            <svg className="w-3.5 h-3.5 text-accent-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <button
+            onClick={() => { onToggle(); onViewChange('search') }}
+            className={`w-7 h-7 rounded-lg flex items-center justify-center transition-colors
+              ${activeView === 'search' ? 'bg-accent-50' : 'hover:bg-neutral-100'}`}
+            title="Search"
+          >
+            <svg className={`w-3.5 h-3.5 ${activeView === 'search' ? 'text-accent-500' : 'text-neutral-400'}`}
+              fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
+          <button
+            onClick={() => { onToggle(); onViewChange('library') }}
+            className={`w-7 h-7 rounded-lg flex items-center justify-center transition-colors
+              ${activeView === 'library' ? 'bg-accent-50' : 'hover:bg-neutral-100'}`}
+            title="Library"
+          >
+            <svg className={`w-3.5 h-3.5 ${activeView === 'library' ? 'text-accent-500' : 'text-neutral-400'}`}
+              fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
                 d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
             </svg>
-          </div>
+          </button>
         </div>
       )}
     </aside>
