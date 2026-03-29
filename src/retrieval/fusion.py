@@ -15,6 +15,14 @@ from collections import defaultdict
 class RRFFusion:
     """Reciprocal Rank Fusion for combining multiple retrieval results."""
 
+    # Weights for each method — higher = more influence on ranking
+    METHOD_WEIGHTS = {
+        "fts_bm25": 2.0,       # keyword match is strong signal
+        "vector_semantic": 2.0, # semantic similarity is strong signal
+        "tree_search": 1.0,     # TOC-based, supplementary
+        "metadata_filter": 1.0, # structured filter, supplementary
+    }
+
     def __init__(self, k: int = 60):
         """
         Args:
@@ -25,7 +33,7 @@ class RRFFusion:
 
     def fuse(self, result_lists: List[List[dict]], top_k: int = 10) -> List[dict]:
         """
-        Fuse multiple ranked lists using RRF.
+        Fuse multiple ranked lists using weighted RRF.
 
         Args:
             result_lists: List of result lists from different methods.
@@ -35,16 +43,17 @@ class RRFFusion:
         Returns:
             Combined ranked list with RRF scores.
         """
-        # Accumulate RRF scores per chunk_id
+        # Accumulate weighted RRF scores per chunk_id
         scores: Dict[str, float] = defaultdict(float)
         chunk_data: Dict[str, dict] = {}
         method_ranks: Dict[str, Dict[str, int]] = defaultdict(dict)
 
         for method_idx, results in enumerate(result_lists):
             method_name = results[0].get("method", f"method_{method_idx}") if results else ""
+            weight = self.METHOD_WEIGHTS.get(method_name, 1.0)
             for rank, result in enumerate(results):
                 chunk_id = result["chunk_id"]
-                rrf_score = 1.0 / (self.k + rank + 1)
+                rrf_score = weight * (1.0 / (self.k + rank + 1))
                 scores[chunk_id] += rrf_score
 
                 # Keep the richest metadata

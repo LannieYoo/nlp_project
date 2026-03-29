@@ -96,15 +96,21 @@ with st.sidebar:
 
     st.markdown("---")
 
-    # Show stats
+    # Show stats directly from SQLite (no need to load full engine)
     try:
-        engine = get_engine()
-        stats = engine.retriever.fts_searcher.indexer.get_stats()
+        import sqlite3
+        _conn = sqlite3.connect("data/chunks.db")
+        _cur = _conn.cursor()
+        _cur.execute("SELECT COUNT(*) FROM chunks")
+        _total_chunks = _cur.fetchone()[0]
+        _cur.execute("SELECT COUNT(DISTINCT book_id) FROM chunks")
+        _total_books = _cur.fetchone()[0]
+        _conn.close()
         col1, col2 = st.columns(2)
         with col1:
-            st.metric("Books", stats["total_books"])
+            st.metric("Books", _total_books)
         with col2:
-            st.metric("Chunks", f"{stats['total_chunks']:,}")
+            st.metric("Chunks", f"{_total_chunks:,}")
     except Exception:
         st.info("Index not loaded yet. Run batch_process first.")
 
@@ -137,7 +143,7 @@ if use_metadata:
     methods.append("metadata")
 
 # Search button
-if st.button("Search", type="primary", use_container_width=True) and query:
+if st.button("Search", type="primary", width="stretch") and query:
     if not methods:
         st.warning("Please select at least one retrieval method.")
     else:
@@ -234,7 +240,7 @@ if response:
                         st.image(
                             img_data,
                             caption=f"{book_name} - Page {page} (highlighted region)",
-                            use_container_width=True,
+                            width="stretch",
                         )
                     else:
                         st.warning(
