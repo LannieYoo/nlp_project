@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { fetchBooks } from '../hooks/useSearch'
 import { getBookMeta } from '../utils/bookMeta'
 
-export default function LibraryPanel({ onOpenBook }) {
+export default function LibraryPanel({ onOpenBook, activeBookId }) {
   const [books, setBooks] = useState([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
@@ -113,7 +113,7 @@ export default function LibraryPanel({ onOpenBook }) {
         ) : (
           <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4">
             {filtered.map(book => (
-              <BookCard key={book.book_id} book={book} onOpen={onOpenBook} />
+              <BookCard key={book.book_id} book={book} onOpen={onOpenBook} isActive={activeBookId === book.book_id} />
             ))}
           </div>
         )}
@@ -128,16 +128,25 @@ export default function LibraryPanel({ onOpenBook }) {
   )
 }
 
-function BookCard({ book, onOpen }) {
+function BookCard({ book, onOpen, isActive }) {
   const meta = getBookMeta(book.book_id)
   const [imgError, setImgError] = useState(false)
+  const cardRef = useRef(null)
+
+  useEffect(() => {
+    if (isActive && cardRef.current) {
+      cardRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+  }, [isActive])
 
   return (
     <button
+      ref={cardRef}
       onClick={() => onOpen(book.book_id)}
-      className="group flex gap-3.5 p-3 bg-white rounded-xl border border-neutral-100 shadow-soft
-                 hover:shadow-md hover:border-accent-200 hover:bg-accent-50/30
-                 transition-all text-left w-full"
+      className={`group flex gap-3.5 p-3 rounded-xl border transition-all text-left w-full
+                 ${isActive 
+                   ? 'bg-accent-50/40 border-accent-500 shadow-md ring-4 ring-accent-50' 
+                   : 'bg-white border-neutral-100 shadow-soft hover:shadow-md hover:border-accent-200 hover:bg-neutral-50/80'}`}
     >
       {/* Cover */}
       <div className="relative w-14 h-[76px] rounded-md shadow-md flex-shrink-0 bg-neutral-200 overflow-hidden border border-neutral-200">

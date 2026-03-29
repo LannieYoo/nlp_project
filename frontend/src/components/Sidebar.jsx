@@ -35,7 +35,7 @@ const MethodIcon = ({ type, className = "w-3.5 h-3.5" }) => {
   return icons[type] || null
 }
 
-export default function Sidebar({ settings, onSettingsChange, collapsed, onToggle, activeView, onViewChange }) {
+export default function Sidebar({ settings, onSettingsChange, collapsed, onToggle, activeView, onViewChange, onOpenBook, activeBookId }) {
   const [stats, setStats] = useState(null)
   const [books, setBooks] = useState([])
   const [showBookFilter, setShowBookFilter] = useState(true)
@@ -148,27 +148,27 @@ export default function Sidebar({ settings, onSettingsChange, collapsed, onToggl
 
       {/* Navigation Tabs */}
       {!collapsed && (
-        <div className="flex border-b border-neutral-100">
+        <div className="flex border-b border-neutral-100 bg-neutral-50/50">
           <button
             onClick={() => onViewChange('search')}
-            className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs font-semibold transition-all border-b-2
+            className={`flex-1 flex items-center justify-center gap-2 py-3.5 text-[13px] font-bold transition-all tracking-wide
               ${activeView === 'search'
-                ? 'text-accent-600 border-accent-500 bg-accent-50/50'
-                : 'text-neutral-400 border-transparent hover:text-neutral-600 hover:bg-neutral-50'}`}
+                ? 'text-accent-600 border-b-[3px] border-accent-500 bg-white shadow-[0_-4px_10px_-6px_rgba(0,0,0,0.1)]'
+                : 'text-neutral-400 border-b-[3px] border-transparent hover:text-neutral-600 hover:bg-neutral-50/80'}`}
           >
-            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
             Search
           </button>
           <button
             onClick={() => onViewChange('library')}
-            className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs font-semibold transition-all border-b-2
+            className={`flex-1 flex items-center justify-center gap-2 py-3.5 text-[13px] font-bold transition-all tracking-wide
               ${activeView === 'library'
-                ? 'text-accent-600 border-accent-500 bg-accent-50/50'
-                : 'text-neutral-400 border-transparent hover:text-neutral-600 hover:bg-neutral-50'}`}
+                ? 'text-accent-600 border-b-[3px] border-accent-500 bg-white shadow-[0_-4px_10px_-6px_rgba(0,0,0,0.1)]'
+                : 'text-neutral-400 border-b-[3px] border-transparent hover:text-neutral-600 hover:bg-neutral-50/80'}`}
           >
-            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round"
                 d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
             </svg>
@@ -176,8 +176,8 @@ export default function Sidebar({ settings, onSettingsChange, collapsed, onToggl
           </button>
         </div>
       )}
-
-      {!collapsed && (
+      {/* Dynamic Content based on activeView */}
+      {!collapsed && activeView === 'search' && (
         <div className="flex-1 overflow-y-auto px-3 py-3 space-y-4">
           {/* Model */}
           <div>
@@ -332,6 +332,37 @@ export default function Sidebar({ settings, onSettingsChange, collapsed, onToggl
               </div>
             )}
           </div>
+        </div>
+      )}
+
+      {/* Library View */}
+      {!collapsed && activeView === 'library' && (
+        <div className="flex-1 overflow-y-auto px-2 py-3 space-y-0.5 scrollbar-thin">
+          <div className="px-2 mb-2 text-[10px] font-bold text-neutral-400 uppercase tracking-widest">
+            Available Books
+          </div>
+          {books.map(book => {
+            const isActive = activeBookId === book.book_id
+            return (
+              <button 
+                key={book.book_id}
+                onClick={() => onOpenBook(book.book_id)}
+                className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-left transition-colors group
+                  ${isActive ? 'bg-accent-50 text-accent-700 font-bold' : 'hover:bg-neutral-100 text-neutral-600 font-medium'}`}
+              >
+                <div className={`w-6 h-6 rounded flex items-center justify-center flex-shrink-0 transition-colors border
+                  ${isActive ? 'bg-accent-100 text-accent-600 border-accent-200' : 'bg-accent-50 text-accent-500 border-transparent group-hover:bg-accent-100 group-hover:text-accent-600 group-hover:border-accent-200'}`}>
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" 
+                      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                  </svg>
+                </div>
+                <span className={`text-[11px] truncate transition-colors ${isActive ? 'text-accent-700' : 'group-hover:text-neutral-900'}`}>
+                  {getBookTitle(book.book_id)}
+                </span>
+              </button>
+            )
+          })}
         </div>
       )}
 

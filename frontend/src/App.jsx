@@ -81,6 +81,8 @@ export default function App() {
           onToggle={() => setSidebarCollapsed(c => !c)}
           activeView={activeView}
           onViewChange={setActiveView}
+          onOpenBook={handleOpenBook}
+          activeBookId={pdfState.bookId}
         />
 
         {/* Main content area */}
@@ -111,7 +113,7 @@ export default function App() {
                 activeSource={activeSource}
               />
             ) : (
-              <LibraryPanel onOpenBook={handleOpenBook} />
+              <LibraryPanel onOpenBook={handleOpenBook} activeBookId={pdfState.bookId} />
             )}
           </div>
 
