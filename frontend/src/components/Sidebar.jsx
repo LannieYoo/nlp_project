@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { fetchStats, fetchBooks } from '../hooks/useSearch'
 import { getBookTitle, getBookMeta } from '../utils/bookMeta'
 
@@ -96,11 +96,7 @@ export default function Sidebar({ settings, onSettingsChange, collapsed, onToggl
     }
   }
 
-  const filteredBooks = books.filter(b => {
-    if (!bookSearchTerm.trim()) return true
-    const q = bookSearchTerm.toLowerCase()
-    return b.book_id.toLowerCase().includes(q) || getBookTitle(b.book_id).toLowerCase().includes(q)
-  }).sort((a, b) => {
+  const sortedBooks = [...books].sort((a, b) => {
     const metaA = getBookMeta(a.book_id)
     const metaB = getBookMeta(b.book_id)
     
@@ -113,6 +109,12 @@ export default function Sidebar({ settings, onSettingsChange, collapsed, onToggl
     return 0
   })
 
+  const filteredBooks = sortedBooks.filter(b => {
+    if (!bookSearchTerm.trim()) return true
+    const q = bookSearchTerm.toLowerCase()
+    return b.book_id.toLowerCase().includes(q) || getBookTitle(b.book_id).toLowerCase().includes(q)
+  })
+
   return (
     <aside className={`
       fixed left-0 top-0 h-full z-30 sidebar-bg
@@ -122,19 +124,23 @@ export default function Sidebar({ settings, onSettingsChange, collapsed, onToggl
       {/* Header */}
       <div className="flex items-center gap-2.5 px-4 py-4 border-b border-neutral-150 relative">
         {!collapsed && (
-          <>
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-500 to-accent-600 flex items-center justify-center shadow-lg shadow-accent-500/20 text-white flex-shrink-0">
+          <div 
+            onClick={() => onViewChange('search')}
+            className="cursor-pointer group flex items-center gap-2.5 flex-1 min-w-0"
+            title="Go to Search"
+          >
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-500 to-accent-600 flex items-center justify-center shadow-lg shadow-accent-500/20 text-white flex-shrink-0 group-hover:opacity-90 transition-opacity">
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
                 <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
                 <circle cx="12" cy="12" r="3" fill="currentColor" stroke="none" className="text-accent-200"></circle>
               </svg>
             </div>
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 group-hover:opacity-80 transition-opacity">
               <h1 className="text-[13px] font-bold text-neutral-800 truncate tracking-tight">AI Textbook Q&A</h1>
               <p className="text-[10px] font-medium text-neutral-400 mt-0.5 tracking-wide">RAG PIPELINE</p>
             </div>
-          </>
+          </div>
         )}
         <button
           onClick={onToggle}
@@ -238,7 +244,7 @@ export default function Sidebar({ settings, onSettingsChange, collapsed, onToggl
           </div>
 
           {/* Book Filter — Toggle Section */}
-          <div>
+          <div className="pt-4 mt-2 border-t border-neutral-100/50">
             <button
               onClick={() => setShowBookFilter(!showBookFilter)}
               className="w-full flex items-center gap-1.5 text-[10px] font-semibold text-neutral-400 uppercase tracking-wider hover:text-neutral-600 transition-colors"
@@ -338,31 +344,32 @@ export default function Sidebar({ settings, onSettingsChange, collapsed, onToggl
       {/* Library View */}
       {!collapsed && activeView === 'library' && (
         <div className="flex-1 overflow-y-auto px-2 py-3 space-y-0.5 scrollbar-thin">
-          <div className="px-2 mb-2 text-[10px] font-bold text-neutral-400 uppercase tracking-widest">
-            Available Books
-          </div>
-          {books.map(book => {
-            const isActive = activeBookId === book.book_id
-            return (
-              <button 
-                key={book.book_id}
-                onClick={() => onOpenBook(book.book_id)}
-                className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-left transition-colors group
-                  ${isActive ? 'bg-accent-50 text-accent-700 font-bold' : 'hover:bg-neutral-100 text-neutral-600 font-medium'}`}
-              >
-                <div className={`w-6 h-6 rounded flex items-center justify-center flex-shrink-0 transition-colors border
-                  ${isActive ? 'bg-accent-100 text-accent-600 border-accent-200' : 'bg-accent-50 text-accent-500 border-transparent group-hover:bg-accent-100 group-hover:text-accent-600 group-hover:border-accent-200'}`}>
-                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" 
-                      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                  </svg>
-                </div>
-                <span className={`text-[11px] truncate transition-colors ${isActive ? 'text-accent-700' : 'group-hover:text-neutral-900'}`}>
-                  {getBookTitle(book.book_id)}
-                </span>
+          <div className="flex items-center justify-end px-2 mb-2">
+            <div className="flex items-center gap-2">
+              <button onClick={() => setSortConfig(s => ({ key: 'title', order: s.key === 'title' && s.order === 'asc' ? 'desc' : 'asc' }))} 
+                className={`flex items-center gap-0.5 text-[9px] uppercase tracking-widest transition-colors ${sortConfig.key === 'title' ? 'text-accent-600 font-bold' : 'text-neutral-400 hover:text-neutral-600'}`}>
+                Title
+                <svg className={`w-3 h-3 transition-transform ${sortConfig.key === 'title' && sortConfig.order === 'desc' ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 15l7-7 7 7"/>
+                </svg>
               </button>
-            )
-          })}
+              <button onClick={() => setSortConfig(s => ({ key: 'year', order: s.key === 'year' && s.order === 'asc' ? 'desc' : 'asc' }))}
+                className={`flex items-center gap-0.5 text-[9px] uppercase tracking-widest transition-colors ${sortConfig.key === 'year' ? 'text-accent-600 font-bold' : 'text-neutral-400 hover:text-neutral-600'}`}>
+                Year
+                <svg className={`w-3 h-3 transition-transform ${sortConfig.key === 'year' && sortConfig.order === 'desc' ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 15l7-7 7 7"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          {sortedBooks.map(book => (
+            <SidebarBookItem 
+              key={book.book_id} 
+              book={book} 
+              onOpenBook={onOpenBook} 
+              isActive={activeBookId === book.book_id} 
+            />
+          ))}
         </div>
       )}
 
@@ -412,5 +419,35 @@ export default function Sidebar({ settings, onSettingsChange, collapsed, onToggl
         </div>
       )}
     </aside>
+  )
+}
+
+function SidebarBookItem({ book, isActive, onOpenBook }) {
+  const itemRef = useRef(null)
+
+  useEffect(() => {
+    if (isActive && itemRef.current) {
+      itemRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+  }, [isActive])
+
+  return (
+    <button
+      ref={itemRef}
+      onClick={() => onOpenBook(book.book_id)}
+      className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-left transition-all group
+        ${isActive ? 'bg-accent-50 text-accent-700 font-bold shadow-soft' : 'hover:bg-neutral-100 text-neutral-600 font-medium'}`}
+    >
+      <div className={`w-6 h-6 rounded flex items-center justify-center flex-shrink-0 transition-colors border
+        ${isActive ? 'bg-accent-100 text-accent-600 border-accent-200' : 'bg-accent-50 text-accent-500 border-transparent group-hover:bg-accent-100 group-hover:text-accent-600 group-hover:border-accent-200'}`}>
+        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" 
+            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+      </div>
+      <span className={`text-[11px] truncate transition-colors ${isActive ? 'text-accent-700' : 'group-hover:text-neutral-900'}`}>
+        {getBookTitle(book.book_id)}
+      </span>
+    </button>
   )
 }

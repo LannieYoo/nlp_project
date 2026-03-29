@@ -63,6 +63,13 @@ export default function App() {
     setShowPdfMobile(true)
   }, [])
 
+  const handleViewChange = useCallback((view) => {
+    setActiveView(view)
+    if (view === 'search') {
+      handleClosePdf()
+    }
+  }, [handleClosePdf])
+
   const sidebarWidth = sidebarCollapsed ? 'lg:pl-14' : 'pl-0 lg:pl-60'
 
   return (
@@ -80,7 +87,7 @@ export default function App() {
           collapsed={sidebarCollapsed}
           onToggle={() => setSidebarCollapsed(c => !c)}
           activeView={activeView}
-          onViewChange={setActiveView}
+          onViewChange={handleViewChange}
           onOpenBook={handleOpenBook}
           activeBookId={pdfState.bookId}
         />
