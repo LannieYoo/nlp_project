@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "question": "What is the transformer architecture and how does self-attention work?",
+    "expected_answer": "The Transformer uses self-attention to process all positions in parallel, computing attention weights between all pairs of tokens."
+  },
+  {
+    "id": 2,
+    "question": "Explain the difference between supervised and unsupervised learning.",
+    "expected_answer": "Supervised learning uses labeled data to learn a mapping from inputs to outputs. Unsupervised learning finds patterns in unlabeled data."
+  },
+  {
+    "id": 3,
+    "question": "What is Byte-Pair Encoding (BPE) and how is it used in tokenization?",
+    "expected_answer": "BPE iteratively merges the most frequent pairs of adjacent tokens to build a vocabulary of subword units."
+  },
+  {
+    "id": 4,
+    "question": "Describe the backpropagation algorithm for training neural networks.",
+    "expected_answer": "Backpropagation computes gradients of the loss with respect to weights by applying the chain rule backwards through the network."
+  },
+  {
+    "id": 5,
+    "question": "What is Retrieval-Augmented Generation (RAG)?",
+    "expected_answer": "RAG combines a retriever that finds relevant documents with a generator that produces answers conditioned on those documents."
+  },
+  {
+    "id": 6,
+    "question": "Explain the concept of word embeddings and Word2Vec.",
+    "expected_answer": "Word embeddings represent words as dense vectors. Word2Vec learns embeddings by predicting context words (Skip-gram) or target words (CBOW)."
+  },
+  {
+    "id": 7,
+    "question": "What is the bias-variance tradeoff in machine learning?",
+    "expected_answer": "Bias is error from simplifying assumptions; variance is error from sensitivity to training data. The tradeoff balances underfitting vs overfitting."
+  },
+  {
+    "id": 8,
+    "question": "How does BERT differ from GPT in terms of architecture?",
+    "expected_answer": "BERT uses bidirectional (masked) training with an encoder, while GPT uses autoregressive (left-to-right) training with a decoder."
+  },
+  {
+    "id": 9,
+    "question": "What is gradient descent and what are its variants?",
+    "expected_answer": "Gradient descent minimizes a loss function by updating parameters in the direction of the negative gradient. Variants include SGD, mini-batch GD, Adam."
+  },
+  {
+    "id": 10,
+    "question": "Explain the concept of regularization and why it is important.",
+    "expected_answer": "Regularization adds a penalty term to prevent overfitting. L1 produces sparse models, L2 shrinks weights toward zero."
+  },
+  {
+    "id": 11,
+    "question": "What is the attention mechanism in neural networks?",
+    "expected_answer": "Attention computes weighted sums of value vectors based on the similarity between query and key vectors, allowing focus on relevant parts."
+  },
+  {
+    "id": 12,
+    "question": "Describe the TF-IDF weighting scheme in information retrieval.",
+    "expected_answer": "TF-IDF weights terms by their frequency in a document (TF) multiplied by the inverse of their frequency across documents (IDF)."
+  },
+  {
+    "id": 13,
+    "question": "What is cross-entropy loss and when is it used?",
+    "expected_answer": "Cross-entropy measures the difference between predicted and true probability distributions. It is used for classification tasks."
+  },
+  {
+    "id": 14,
+    "question": "Explain the concept of convolutional neural networks (CNNs).",
+    "expected_answer": "CNNs use convolutional filters to detect local patterns in data, pooling to reduce dimensionality, and are widely used in image processing."
+  },
+  {
+    "id": 15,
+    "question": "What is the difference between precision and recall?",
+    "expected_answer": "Precision is the fraction of predicted positives that are correct. Recall is the fraction of actual positives that are correctly identified."
+  },
+  {
+    "id": 16,
+    "question": "How does the LSTM solve the vanishing gradient problem?",
+    "expected_answer": "LSTM uses gating mechanisms (forget, input, output gates) to control information flow, allowing gradients to persist over long sequences."
+  },
+  {
+    "id": 17,
+    "question": "What is reinforcement learning and how does it differ from supervised learning?",
+    "expected_answer": "RL learns by interacting with an environment and receiving rewards, rather than learning from labeled examples as in supervised learning."
+  },
+  {
+    "id": 18,
+    "question": "Explain the concept of perplexity in language models.",
+    "expected_answer": "Perplexity measures how well a language model predicts a test set. Lower perplexity means better prediction. It is 2^(cross-entropy)."
+  },
+  {
+    "id": 19,
+    "question": "What is named entity recognition (NER)?",
+    "expected_answer": "NER is the task of identifying and classifying named entities (persons, organizations, locations, etc.) in text."
+  },
+  {
+    "id": 20,
+    "question": "Describe the concept of convex optimization and why it matters in machine learning.",
+    "expected_answer": "Convex optimization deals with minimizing convex functions over convex sets, guaranteeing global optima. Many ML objectives are convex or nearly convex."
+  }
+]

@@ -1,31 +1,39 @@
 # Large data files
 mineru_output/
-mineru_output.zip
 *.zip
+
+# Generated indexes (can be regenerated)
+data/chunks.db
+data/chroma/
+data/toc_trees/
 
 # Python
 __pycache__/
-*.pyc
-*.pyo
-.env
+*.py[cod]
+*$py.class
 *.egg-info/
 dist/
 build/
-venv/
+*.egg
+
+# Environment
+.env
 .venv/
+venv/
+env/
 
 # IDE
 .vscode/
 .idea/
+*.swp
+*.swo
 
 # OS
 .DS_Store
 Thumbs.db
+desktop.ini
 
-# Temporary extraction files
-guide/*_raw.txt
-
-# Agent files
-.agent/
-.agents/
-.gemini/
+# Temp files
+*.tmp
+*.log
+test_phase1.py
