@@ -226,6 +226,7 @@ def get_page_image(
     hl_y: Optional[float] = Query(default=None),
     hl_w: Optional[float] = Query(default=None),
     hl_h: Optional[float] = Query(default=None),
+    sq: Optional[str] = Query(default=None),
 ):
     """
     Render a PDF page as a PNG image.
@@ -242,6 +243,7 @@ def get_page_image(
         page_idx=page_idx,
         scale=scale,
         highlight_rect=highlight_rect,
+        search_query=sq,
     )
 
     if png_data is None:

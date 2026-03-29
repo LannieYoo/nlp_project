@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { fetchBooks } from '../hooks/useSearch'
 import { getBookMeta } from '../utils/bookMeta'
 
@@ -6,6 +6,9 @@ export default function LibraryPanel({ onOpenBook }) {
   const [books, setBooks] = useState([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
+  const [showSuggestions, setShowSuggestions] = useState(false)
+  const inputRef = useRef(null)
+  const suggestionsRef = useRef(null)
 
   useEffect(() => {
     fetchBooks().then(data => {
@@ -13,6 +16,33 @@ export default function LibraryPanel({ onOpenBook }) {
       setLoading(false)
     })
   }, [])
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (suggestionsRef.current && !suggestionsRef.current.contains(e.target) && !inputRef.current.contains(e.target)) {
+        setShowSuggestions(false)
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
+  // Highlight matching text in suggestion
+  const highlightMatch = (text, q) => {
+    if (!q.trim()) return text
+    const idx = text.toLowerCase().indexOf(q.toLowerCase())
+    if (idx === -1) return text
+    const before = text.slice(0, idx)
+    const match = text.slice(idx, idx + q.length)
+    const after = text.slice(idx + q.length)
+    return (
+      <>
+        {before}
+        <span className="font-bold text-accent-600">{match}</span>
+        {after}
+      </>
+    )
+  }
 
   const filtered = books.filter(b => {
     if (!search.trim()) return true
@@ -25,6 +55,11 @@ export default function LibraryPanel({ onOpenBook }) {
     )
   })
 
+  // Get unique titles that match the query
+  const suggestions = search.trim().length >= 2
+    ? Array.from(new Set(filtered.map(b => getBookMeta(b.book_id).title))).slice(0, 5)
+    : []
+
   return (
     <div className="h-full flex flex-col overflow-hidden bg-surface-100">
       {/* Header */}
@@ -33,9 +68,11 @@ export default function LibraryPanel({ onOpenBook }) {
         <p className="text-xs text-neutral-400 mb-4">{books.length} textbooks in collection</p>
         <div className="relative">
           <input
+            ref={inputRef}
             type="text"
             value={search}
-            onChange={e => setSearch(e.target.value)}
+            onChange={e => { setSearch(e.target.value); setShowSuggestions(true); }}
+            onFocus={() => setShowSuggestions(true)}
             placeholder="Search by title, author, or keyword…"
             className="w-full px-4 py-2.5 bg-neutral-50 rounded-xl border border-neutral-200 text-sm text-neutral-700
                        placeholder:text-neutral-300
@@ -47,6 +84,22 @@ export default function LibraryPanel({ onOpenBook }) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
               d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
+
+          {/* Autocomplete dropdown */}
+          {showSuggestions && suggestions.length > 0 && (
+            <div ref={suggestionsRef}
+              className="absolute left-0 right-0 top-full mt-1 bg-white rounded-xl border border-neutral-200 shadow-lg z-20 overflow-hidden animate-fade-in">
+              {suggestions.map((s, i) => (
+                <button key={i} onClick={() => { setSearch(s); setShowSuggestions(false); inputRef.current?.blur(); }}
+                  className="w-full px-4 py-2 text-left text-sm text-neutral-600 hover:bg-accent-50 hover:text-accent-700 transition-colors flex items-center gap-2">
+                  <svg className="w-3.5 h-3.5 text-neutral-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253" />
+                  </svg>
+                  <span>{highlightMatch(s, search)}</span>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
@@ -58,7 +111,7 @@ export default function LibraryPanel({ onOpenBook }) {
             <span className="ml-2 text-sm text-neutral-400">Loading books…</span>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4">
             {filtered.map(book => (
               <BookCard key={book.book_id} book={book} onOpen={onOpenBook} />
             ))}

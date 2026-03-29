@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { fetchStats, fetchBooks } from '../hooks/useSearch'
-import { getBookTitle } from '../utils/bookMeta'
+import { getBookTitle, getBookMeta } from '../utils/bookMeta'
 
 const METHODS = [
   { key: 'fts',      label: 'BM25 Keyword',    icon: 'search' },
@@ -38,9 +38,18 @@ const MethodIcon = ({ type, className = "w-3.5 h-3.5" }) => {
 export default function Sidebar({ settings, onSettingsChange, collapsed, onToggle, activeView, onViewChange }) {
   const [stats, setStats] = useState(null)
   const [books, setBooks] = useState([])
-  const [showBookFilter, setShowBookFilter] = useState(false)
-  const [selectedBooks, setSelectedBooks] = useState([])  // empty = all books
+  const [showBookFilter, setShowBookFilter] = useState(true)
+  const [allBooksSelected, setAllBooksSelected] = useState(true)
+  const [selectedBooks, setSelectedBooks] = useState([])  // when allBooksSelected=false, track individual picks
   const [bookSearchTerm, setBookSearchTerm] = useState('')
+  const [sortConfig, setSortConfig] = useState({ key: 'title', order: 'asc' })
+
+  // Initialize selectedBooks with all book_ids once loaded
+  useEffect(() => {
+    if (books.length > 0 && selectedBooks.length === 0 && allBooksSelected) {
+      setSelectedBooks(books.map(b => b.book_id))
+    }
+  }, [books])
 
   useEffect(() => {
     fetchStats().then(s => s && setStats(s))
@@ -61,22 +70,47 @@ export default function Sidebar({ settings, onSettingsChange, collapsed, onToggl
       const next = prev.includes(bookId)
         ? prev.filter(b => b !== bookId)
         : [...prev, bookId]
-      // Update settings.bookFilter as comma-separated
-      const filterVal = next.length > 0 ? next.join(',') : ''
-      update('bookFilter', filterVal)
+      // If all are selected again, set allBooksSelected
+      if (next.length === books.length) {
+        setAllBooksSelected(true)
+        update('bookFilter', '')
+      } else {
+        setAllBooksSelected(false)
+        update('bookFilter', next.length > 0 ? next.join(',') : '')
+      }
       return next
     })
   }
 
-  const clearBookSelection = () => {
-    setSelectedBooks([])
-    update('bookFilter', '')
+  const toggleAll = () => {
+    if (allBooksSelected) {
+      // Deselect all
+      setAllBooksSelected(false)
+      setSelectedBooks([])
+      update('bookFilter', '__none__')  // special value meaning no books
+    } else {
+      // Select all
+      setAllBooksSelected(true)
+      setSelectedBooks(books.map(b => b.book_id))
+      update('bookFilter', '')
+    }
   }
 
   const filteredBooks = books.filter(b => {
     if (!bookSearchTerm.trim()) return true
     const q = bookSearchTerm.toLowerCase()
     return b.book_id.toLowerCase().includes(q) || getBookTitle(b.book_id).toLowerCase().includes(q)
+  }).sort((a, b) => {
+    const metaA = getBookMeta(a.book_id)
+    const metaB = getBookMeta(b.book_id)
+    
+    // Sort logic
+    const valA = sortConfig.key === 'title' ? metaA.title?.toLowerCase() : (metaA.year || 0)
+    const valB = sortConfig.key === 'title' ? metaB.title?.toLowerCase() : (metaB.year || 0)
+    
+    if (valA < valB) return sortConfig.order === 'asc' ? -1 : 1
+    if (valA > valB) return sortConfig.order === 'asc' ? 1 : -1
+    return 0
   })
 
   return (
@@ -86,12 +120,21 @@ export default function Sidebar({ settings, onSettingsChange, collapsed, onToggl
       ${collapsed ? 'w-0 -translate-x-full lg:w-14 lg:translate-x-0' : 'w-60'}
     `}>
       {/* Header */}
-      <div className="flex items-center gap-2 px-4 py-4 border-b border-neutral-150">
+      <div className="flex items-center gap-2.5 px-4 py-4 border-b border-neutral-150 relative">
         {!collapsed && (
-          <div className="flex-1 min-w-0">
-            <h1 className="text-sm font-semibold text-neutral-800 truncate tracking-tight">AI Textbook Q&A</h1>
-            <p className="text-[10px] text-neutral-400 mt-0.5">RAG Source Tracing</p>
-          </div>
+          <>
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-500 to-accent-600 flex items-center justify-center shadow-lg shadow-accent-500/20 text-white flex-shrink-0">
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                <circle cx="12" cy="12" r="3" fill="currentColor" stroke="none" className="text-accent-200"></circle>
+              </svg>
+            </div>
+            <div className="flex-1 min-w-0">
+              <h1 className="text-[13px] font-bold text-neutral-800 truncate tracking-tight">AI Textbook Q&A</h1>
+              <p className="text-[10px] font-medium text-neutral-400 mt-0.5 tracking-wide">RAG PIPELINE</p>
+            </div>
+          </>
         )}
         <button
           onClick={onToggle}
@@ -204,61 +247,84 @@ export default function Sidebar({ settings, onSettingsChange, collapsed, onToggl
                 fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
               </svg>
-              Book Filter
-              {selectedBooks.length > 0 && (
-                <span className="ml-auto px-1.5 py-0.5 rounded-full bg-accent-100 text-accent-600 text-[9px] font-bold normal-case">
-                  {selectedBooks.length}
-                </span>
-              )}
+              Library Collection
             </button>
 
             {showBookFilter && (
-              <div className="mt-2 space-y-1.5 animate-fade-in">
+              <div className="mt-2 space-y-2 animate-fade-in">
                 {/* Quick search */}
                 <input
                   type="text"
                   value={bookSearchTerm}
                   onChange={e => setBookSearchTerm(e.target.value)}
                   placeholder="Filter books…"
-                  className="w-full px-2 py-1 bg-neutral-50 rounded-md border border-neutral-200 text-[11px] text-neutral-700
+                  className="w-full px-2.5 py-1.5 bg-neutral-50 rounded-lg border border-neutral-200 text-[11px] text-neutral-700
                              placeholder:text-neutral-300 focus:outline-none focus:border-accent-400 transition-all"
                 />
 
-                {/* Select All / Clear */}
-                <div className="flex justify-between px-0.5">
-                  <button
-                    onClick={clearBookSelection}
-                    className="text-[9px] text-accent-500 hover:text-accent-700 font-semibold transition-colors"
-                  >
-                    All Books (default)
-                  </button>
-                  {selectedBooks.length > 0 && (
-                    <button
-                      onClick={clearBookSelection}
-                      className="text-[9px] text-red-400 hover:text-red-600 font-semibold transition-colors"
-                    >
-                      Clear
+                {/* Header row: Toggle, Count, and Sort */}
+                <div className="flex items-center justify-between px-1 pb-1 border-b border-neutral-100/50">
+                  <div className="flex items-center gap-2.5">
+                    <label className="flex items-center gap-1.5 cursor-pointer group hover:opacity-80 transition-opacity">
+                      <div
+                        onClick={toggleAll}
+                        className={`relative w-7 h-[14px] rounded-full transition-colors cursor-pointer ${allBooksSelected ? 'bg-accent-500' : 'bg-neutral-300'}`}
+                      >
+                        <div className={`absolute top-[1.5px] w-[11px] h-[11px] bg-white rounded-full shadow transition-transform ${allBooksSelected ? 'translate-x-[15px]' : 'translate-x-[1.5px]'}`} />
+                      </div>
+                      <span className="text-[10px] font-semibold text-neutral-600">All</span>
+                    </label>
+                    <span className="text-[9px] px-1.5 py-[1px] rounded bg-neutral-100 text-neutral-500 font-bold tracking-tight">
+                      {selectedBooks.length}/{books.length}
+                    </span>
+                  </div>
+
+                  {/* Sort toggles */}
+                  <div className="flex items-center gap-2.5">
+                    <button onClick={() => setSortConfig(s => ({ key: 'title', order: s.key === 'title' && s.order === 'asc' ? 'desc' : 'asc' }))} 
+                      className={`flex items-center gap-0.5 text-[9px] uppercase tracking-widest transition-colors ${sortConfig.key === 'title' ? 'text-accent-600 font-bold' : 'text-neutral-400 hover:text-neutral-600'}`}>
+                      Title
+                      <svg className={`w-3 h-3 transition-transform ${sortConfig.key === 'title' && sortConfig.order === 'desc' ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 15l7-7 7 7"/>
+                      </svg>
                     </button>
-                  )}
+                    <button onClick={() => setSortConfig(s => ({ key: 'year', order: s.key === 'year' && s.order === 'asc' ? 'desc' : 'asc' }))}
+                      className={`flex items-center gap-0.5 text-[9px] uppercase tracking-widest transition-colors ${sortConfig.key === 'year' ? 'text-accent-600 font-bold' : 'text-neutral-400 hover:text-neutral-600'}`}>
+                      Year
+                      <svg className={`w-3 h-3 transition-transform ${sortConfig.key === 'year' && sortConfig.order === 'desc' ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 15l7-7 7 7"/>
+                      </svg>
+                    </button>
+                  </div>
                 </div>
 
                 {/* Book list */}
-                <div className="max-h-40 overflow-y-auto space-y-0.5 pr-0.5 scrollbar-thin">
+                <div className="max-h-48 overflow-y-auto space-y-0.5 pr-0.5 scrollbar-thin">
                   {filteredBooks.map(book => {
                     const checked = selectedBooks.includes(book.book_id)
                     return (
                       <label
                         key={book.book_id}
-                        className={`flex items-center gap-2 px-2 py-1 rounded-md cursor-pointer text-[11px] transition-all
-                          ${checked ? 'bg-accent-50 text-accent-700' : 'text-neutral-500 hover:bg-neutral-50'}`}
+                        className={`group flex items-start gap-2.5 px-2 py-1.5 rounded-md cursor-pointer text-[11px] transition-all
+                          ${checked
+                            ? 'text-neutral-800 font-medium hover:bg-neutral-50/70'
+                            : 'text-neutral-500 hover:bg-neutral-50/70'}`}
                       >
+                        <div className={`mt-[2px] w-[14px] h-[14px] rounded flex items-center justify-center flex-shrink-0 border transition-all
+                          ${checked ? 'bg-accent-500 border-accent-500' : 'bg-white border-neutral-300 group-hover:border-accent-300'}`}>
+                          {checked && (
+                            <svg className="w-[10px] h-[10px] text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                          )}
+                        </div>
                         <input
                           type="checkbox"
                           checked={checked}
                           onChange={() => toggleBookSelection(book.book_id)}
-                          className="w-3 h-3 rounded border-neutral-300 text-accent-600 focus:ring-accent-400 focus:ring-1 flex-shrink-0"
+                          className="hidden"
                         />
-                        <span className="truncate">{getBookTitle(book.book_id)}</span>
+                        <span className="leading-tight">{getBookTitle(book.book_id)}</span>
                       </label>
                     )
                   })}

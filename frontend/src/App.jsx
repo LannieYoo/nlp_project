@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import Sidebar from './components/Sidebar'
 import SearchPanel from './components/SearchPanel'
 import LibraryPanel from './components/LibraryPanel'
@@ -19,6 +19,25 @@ export default function App() {
   const [activeSource, setActiveSource] = useState(null)
   const [showPdfMobile, setShowPdfMobile] = useState(false)
   const [activeView, setActiveView] = useState('search')  // 'search' | 'library'
+  const [pdfWidth, setPdfWidth] = useState(50) // percentage
+  const [isDragging, setIsDragging] = useState(false)
+
+  useEffect(() => {
+    if (!isDragging) return
+    const handleMouseMove = (e) => {
+      const availWidth = window.innerWidth
+      let newWidth = ((availWidth - e.clientX) / availWidth) * 100
+      newWidth = Math.max(30, Math.min(newWidth, 70))
+      setPdfWidth(newWidth)
+    }
+    const handleMouseUp = () => setIsDragging(false)
+    document.addEventListener('mousemove', handleMouseMove)
+    document.addEventListener('mouseup', handleMouseUp)
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('mouseup', handleMouseUp)
+    }
+  }, [isDragging])
 
   const { search, result, loading, error } = useSearch()
 
@@ -77,10 +96,10 @@ export default function App() {
           </button>
 
           {/* Main Panel — Search or Library */}
-          <div className={`
-            flex-1 min-w-0 border-r border-neutral-100
-            ${pdfState.bookId ? 'lg:w-1/2 lg:flex-none' : 'w-full'}
-          `}>
+          <div 
+            className="flex-1 min-w-0 border-r border-neutral-100"
+            style={{ width: pdfState.bookId ? `${100 - pdfWidth}%` : '100%', flex: 'none' }}
+          >
             {activeView === 'search' ? (
               <SearchPanel
                 result={result}
@@ -96,10 +115,19 @@ export default function App() {
             )}
           </div>
 
-          {/* PDF Viewer — right half on desktop */}
+          {/* PDF Viewer — right panel */}
           {pdfState.bookId && (
             <>
-              <div className="hidden lg:block lg:w-1/2 lg:flex-none bg-neutral-100">
+              {/* Drag Handle */}
+              <div 
+                className="hidden lg:block w-1.5 cursor-col-resize hover:bg-accent-400 active:bg-accent-500 z-10 transition-colors bg-neutral-200"
+                onMouseDown={(e) => { e.preventDefault(); setIsDragging(true); }}
+              />
+
+              <div 
+                className="hidden lg:block bg-neutral-100 flex-none"
+                style={{ width: `calc(${pdfWidth}% - 6px)` }}
+              >
                 <PdfViewer
                   bookId={pdfState.bookId}
                   pageIdx={pdfState.pageIdx}

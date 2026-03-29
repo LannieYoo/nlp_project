@@ -99,8 +99,11 @@ export default function PdfViewer({ bookId, pageIdx, highlight, onClose }) {
     if (withHighlight && highlight && page === pageIdx) {
       url += `&hl_x=${highlight.x}&hl_y=${highlight.y}&hl_w=${highlight.width}&hl_h=${highlight.height}`
     }
+    if (searchOpen && searchQuery.trim().length > 0) {
+      url += `&sq=${encodeURIComponent(searchQuery.trim())}`
+    }
     return url
-  }, [bookId, scale, highlight, pageIdx])
+  }, [bookId, scale, highlight, pageIdx, searchOpen, searchQuery])
 
   const goToPage = (p) => {
     const pg = Math.max(0, Math.min(p, (numPages || 1) - 1))
@@ -165,6 +168,23 @@ export default function PdfViewer({ bookId, pageIdx, highlight, onClose }) {
         <p className="text-sm font-semibold text-neutral-500 mb-1">No PDF Selected</p>
         <p className="text-xs text-neutral-400">Click "View PDF" on a source to open the book here</p>
       </div>
+    )
+  }
+
+  // Highlight matched terms in the search snippet
+  const highlightMatch = (text, q) => {
+    if (!q || !q.trim()) return text
+    const idx = text.toLowerCase().indexOf(q.toLowerCase())
+    if (idx === -1) return text
+    const before = text.slice(0, idx)
+    const match = text.slice(idx, idx + q.length)
+    const after = text.slice(idx + q.length)
+    return (
+      <>
+        {before}
+        <strong className="text-accent-700 bg-accent-100 rounded px-0.5 border-b-[2px] border-accent-400">{match}</strong>
+        {after}
+      </>
     )
   }
 
@@ -286,7 +306,7 @@ export default function PdfViewer({ bookId, pageIdx, highlight, onClose }) {
                             ? 'bg-accent-50 text-accent-800 border-l-[3px] border-l-accent-500'
                             : 'hover:bg-blue-50/50 text-neutral-600 border-l-[3px] border-l-transparent hover:border-l-accent-200'}`}>
                         <span className="font-bold text-accent-500 w-8 flex-shrink-0 mt-0.5">p.{r.page_idx + 1}</span>
-                        <span className="leading-relaxed">{r.snippet}</span>
+                        <span className="leading-relaxed">{highlightMatch(r.snippet, searchResults.query)}</span>
                       </button>
                     ))}
                   </div>
@@ -332,7 +352,7 @@ export default function PdfViewer({ bookId, pageIdx, highlight, onClose }) {
             </button>
           </div>
         ) : (
-          <div key={`${bookId}-${currentPage}-${scale}`} className="my-4 relative inline-block">
+          <div key={`${bookId}-${currentPage}-${scale}-${searchOpen ? searchQuery : ''}`} className="my-4 relative inline-block">
             <img
               ref={imgRef}
               src={buildImageUrl(currentPage)}

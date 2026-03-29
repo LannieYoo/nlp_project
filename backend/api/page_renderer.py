@@ -47,6 +47,7 @@ class PageRenderer:
         page_idx: int,
         scale: float = 2.0,
         highlight_rect: Optional[Tuple[float, float, float, float]] = None,
+        search_query: Optional[str] = None,
     ) -> Optional[bytes]:
         """
         Render a PDF page as a PNG image.
@@ -70,22 +71,22 @@ class PageRenderer:
             bitmap = page.render(scale=scale)
             pil_image = bitmap.to_pil()
 
-            # Draw highlight overlay if given
-            if highlight_rect:
-                x, y, w, h = highlight_rect
-                draw_img = Image.new("RGBA", pil_image.size, (0, 0, 0, 0))
-                draw = ImageDraw.Draw(draw_img)
+            # Create overlay image for highlights
+            draw_img = None
+            draw = None
+            sx = pil_image.width / page.get_width()
+            sy = pil_image.height / page.get_height()
 
-                # Convert PDF points to pixel coordinates
-                sx = pil_image.width / page.get_width()
-                sy = pil_image.height / page.get_height()
+            def _init_draw():
+                nonlocal draw_img, draw
+                if not draw_img:
+                    draw_img = Image.new("RGBA", pil_image.size, (0, 0, 0, 0))
+                    draw = ImageDraw.Draw(draw_img)
 
-                px = int(x * sx)
-                py = int(y * sy)
-                pw = int(w * sx)
-                ph = int(h * sy)
-
-                # Draw filled rect
+            def _draw_rect(x, y, w, h):
+                _init_draw()
+                px, py = int(x * sx), int(y * sy)
+                pw, ph = int(w * sx), int(h * sy)
                 draw.rectangle(
                     [px, py, px + pw, py + ph],
                     fill=self.HIGHLIGHT_COLOR,
@@ -93,7 +94,39 @@ class PageRenderer:
                     width=3,
                 )
 
-                # Composite
+            # 1. Draw single highlight_rect if given
+            if highlight_rect:
+                x, y, w, h = highlight_rect
+                _draw_rect(x, y, w, h)
+
+            # 2. Draw search_query occurrences if given
+            if search_query:
+                try:
+                    textpage = page.get_textpage()
+                    searcher = textpage.search(search_query)
+                    while True:
+                        try:
+                            res = searcher.get_next()
+                            if not res:
+                                break
+                            count = textpage.count_rects(res[0], res[1])
+                            for i in range(count):
+                                r = textpage.get_rect(i)
+                                page_height = page.get_height()
+                                x = r[0]
+                                w = r[2] - r[0]
+                                y = page_height - r[3]
+                                h = r[3] - r[1]
+                                _draw_rect(x, y, w, h)
+                        except Exception as ex:
+                            print(f"pdf search rects error: {ex}")
+                            break
+                    textpage.close()
+                except Exception as ex:
+                    print(f"pdf search_query error (skipped): {ex}")
+
+            # Composite if any highlights were drawn
+            if draw_img:
                 pil_image = pil_image.convert("RGBA")
                 pil_image = Image.alpha_composite(pil_image, draw_img)
                 pil_image = pil_image.convert("RGB")
