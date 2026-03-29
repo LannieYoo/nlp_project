@@ -53,6 +53,7 @@ export default function SearchPanel({ result, loading, error, onSearch, settings
   const handleSearch = () => {
     if (!query.trim()) return
     setShowSuggestions(false)
+    inputRef.current?.blur()
     onSearch({
       query: query.trim(),
       topK: settings.topK,
@@ -69,7 +70,15 @@ export default function SearchPanel({ result, loading, error, onSearch, settings
   const selectSuggestion = (s) => {
     setQuery(s)
     setShowSuggestions(false)
-    inputRef.current?.focus()
+    inputRef.current?.blur()
+    // Autostart search when selecting a suggestion
+    onSearch({
+      query: s,
+      topK: settings.topK,
+      model: settings.model,
+      bookFilter: settings.bookFilter,
+      methods: settings.methods,
+    })
   }
 
   // Highlight matching text in suggestion
@@ -94,16 +103,15 @@ export default function SearchPanel({ result, loading, error, onSearch, settings
   return (
     <div className="h-full flex flex-col bg-surface-100 relative overflow-hidden">
       
-      {/* Background that turns white when active */}
-      <div className={`absolute top-0 left-0 right-0 h-[124px] bg-white border-b border-neutral-100 shadow-soft transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] z-0
-        ${isSearchActive ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'}`} />
+      {/* Spacer that smoothly pushes the search down when inactive */}
+      <div className={`transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${isSearchActive ? 'h-0' : 'h-[25vh] min-h-[100px]'}`} />
 
-      {/* The Search Header (animates from center to top) */}
+      {/* The Search Header (hugs content tightly so background adjusts automatically) */}
       <div className={`
-        relative z-10 w-full transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] px-6
+        relative z-10 w-full px-6 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]
         ${isSearchActive 
-          ? 'pt-6 pb-5' 
-          : 'pt-[28vh]'}
+          ? 'pt-6 pb-5 bg-white border-b border-neutral-100 shadow-soft' 
+          : 'pt-0 pb-0 bg-transparent border-transparent'}
       `}>
         <div className={`mx-auto transition-all duration-700 w-full flex flex-col ${isSearchActive ? 'max-w-full items-start' : 'max-w-3xl items-center text-center'}`}>
           
@@ -115,11 +123,11 @@ export default function SearchPanel({ result, loading, error, onSearch, settings
           </p>
 
           <div className={`flex gap-3 w-full transition-all duration-700 ${isSearchActive ? 'scale-100' : 'scale-[1.02]'}`}>
-            <div className={`flex-1 relative transition-all duration-700 ${isSearchActive ? 'shadow-none' : 'shadow-lg hover:shadow-xl rounded-full'}`}>
+            <div className={`flex-1 relative transition-all duration-700 ${isSearchActive ? 'shadow-none' : 'shadow-lg hover:shadow-xl rounded-2xl'}`}>
               
               {/* Left Search Icon */}
               <svg
-                className={`absolute left-5 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none transition-all duration-700 ${isSearchActive ? 'w-4 h-4 left-3.5' : 'w-5 h-5 left-5 text-accent-400/70'}`}
+                className={`absolute top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none transition-all duration-700 ${isSearchActive ? 'w-4 h-4 left-3.5' : 'w-5 h-5 left-5 text-accent-400/70'}`}
                 fill="none" viewBox="0 0 24 24" stroke="currentColor"
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -136,7 +144,7 @@ export default function SearchPanel({ result, loading, error, onSearch, settings
                 className={`w-full bg-white border-2 text-neutral-700 placeholder:text-neutral-400 focus:outline-none focus:border-accent-500 focus:ring-4 focus:ring-accent-500/15 transition-all duration-700
                   ${isSearchActive 
                     ? 'pl-10 pr-4 py-2.5 rounded-xl border-neutral-200 text-sm' 
-                    : 'pl-14 pr-6 py-4 rounded-full border-transparent focus:border-accent-500 hover:border-neutral-200 text-base'
+                    : 'pl-14 pr-6 py-4 rounded-2xl border-transparent focus:border-accent-500 hover:border-neutral-200 text-base'
                   }`}
               />
 
@@ -161,7 +169,7 @@ export default function SearchPanel({ result, loading, error, onSearch, settings
               onClick={handleSearch}
               disabled={loading || !query.trim()}
               className={`btn-primary font-bold active:scale-[0.98] transition-all duration-700 shadow-sm flex items-center justify-center
-                ${isSearchActive ? 'px-6 py-2.5 text-sm rounded-xl' : 'px-8 py-3 text-base shadow-md hover:shadow-lg rounded-full'}`}
+                ${isSearchActive ? 'px-6 py-2.5 text-sm rounded-xl' : 'px-8 py-3 text-base shadow-md hover:shadow-lg rounded-2xl'}`}
             >
             {loading ? (
               <div className="flex items-center gap-2">
@@ -178,15 +186,31 @@ export default function SearchPanel({ result, loading, error, onSearch, settings
       <div className={`flex-1 relative z-0 overflow-y-auto px-6 py-4 space-y-4 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] scrollbar-thin
         ${isSearchActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12 pointer-events-none absolute left-0 right-0'}`}>
         
+        {/* Prominent Center Loading State */}
+        {loading && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center z-10 bg-white animate-fade-in">
+            <div className="w-16 h-16 relative flex items-center justify-center mb-6">
+              <div className="absolute inset-0 rounded-full border-4 border-accent-100 opacity-20"></div>
+              <div className="absolute inset-0 rounded-full border-4 border-accent-600 border-t-transparent animate-spin"></div>
+              <div className="absolute inset-2 rounded-full border-4 border-accent-400 border-b-transparent animate-spin-slow opacity-80"></div>
+              <svg className="w-5 h-5 text-accent-600 absolute" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <p className="text-base font-bold text-neutral-800 tracking-tight">Searching Textbooks...</p>
+            <p className="text-xs text-neutral-400 mt-2">Retrieving and reading relevant sources</p>
+          </div>
+        )}
+
         {/* Error */}
-        {error && (
+        {!loading && error && (
           <div className="p-3.5 rounded-xl bg-red-50 border border-red-100 text-red-600 text-sm animate-fade-in">
             {error}
           </div>
         )}
 
         {/* Answer */}
-        {result?.answer && (
+        {!loading && result?.answer && (
           <div className="animate-slide-up">
             <h3 className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider mb-2">Answer</h3>
             <div className="answer-box px-5 py-4 rounded-r-xl bg-white shadow-soft">
@@ -198,7 +222,7 @@ export default function SearchPanel({ result, loading, error, onSearch, settings
         )}
 
         {/* Sources */}
-        {result?.sources?.length > 0 && (() => {
+        {!loading && result?.sources?.length > 0 && (() => {
           // Group sources by book_id
           const groupedSources = []
           const map = new Map()
