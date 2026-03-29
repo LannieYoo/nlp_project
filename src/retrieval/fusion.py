@@ -189,7 +189,19 @@ class HybridRetriever:
         if len(result_lists) == 1:
             return result_lists[0][:top_k]
 
-        return self.fusion.fuse(result_lists, top_k=top_k)
+        fused = self.fusion.fuse(result_lists, top_k=top_k * 2)
+
+        # Post-filter: prioritize results confirmed by multiple methods
+        multi_method = [r for r in fused if len(r.get("method_ranks", {})) >= 2]
+        single_method = [r for r in fused if len(r.get("method_ranks", {})) < 2]
+
+        # If we have enough multi-method results, use them first
+        if len(multi_method) >= top_k:
+            return multi_method[:top_k]
+
+        # Otherwise fill with single-method results
+        combined = multi_method + single_method
+        return combined[:top_k]
 
     def close(self):
         if self._fts:

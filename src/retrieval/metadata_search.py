@@ -10,6 +10,13 @@ from typing import List, Optional
 class MetadataSearcher:
     """Structured search by metadata fields."""
 
+    STOP_WORDS = {
+        "what", "is", "the", "a", "an", "of", "in", "for",
+        "how", "does", "do", "are", "was", "were", "been",
+        "be", "to", "and", "or", "it", "this", "that",
+        "can", "you", "explain", "describe", "define",
+    }
+
     def __init__(self, db_path: str):
         self.db_path = db_path
 
@@ -24,7 +31,7 @@ class MetadataSearcher:
     ) -> List[dict]:
         """
         Filter chunks by metadata fields.
-        Optionally also does simple text LIKE matching on query.
+        Uses keyword extraction for text matching.
         """
         conn = sqlite3.connect(self.db_path)
         conn.row_factory = sqlite3.Row
@@ -49,8 +56,16 @@ class MetadataSearcher:
             params.extend(page_range)
 
         if query:
-            conditions.append("text LIKE ?")
-            params.append(f"%{query}%")
+            # Extract meaningful keywords from query
+            keywords = self._extract_keywords(query)
+            if keywords:
+                # Each keyword must appear in either text or chapter
+                kw_conditions = []
+                for kw in keywords:
+                    kw_conditions.append("(text LIKE ? OR chapter LIKE ?)")
+                    params.append(f"%{kw}%")
+                    params.append(f"%{kw}%")
+                conditions.append("(" + " AND ".join(kw_conditions) + ")")
 
         where = " AND ".join(conditions) if conditions else "1=1"
         sql = f"""
@@ -83,6 +98,16 @@ class MetadataSearcher:
 
         conn.close()
         return results
+
+    def _extract_keywords(self, query: str) -> List[str]:
+        """Extract meaningful keywords from a query, skipping stop words."""
+        import re
+        # Remove punctuation except hyphens
+        clean = re.sub(r'[^\w\s-]', ' ', query)
+        words = clean.lower().split()
+        # Filter stop words and very short words
+        keywords = [w for w in words if w not in self.STOP_WORDS and len(w) >= 2]
+        return keywords
 
     def get_books(self) -> List[dict]:
         """List all books."""

@@ -121,20 +121,8 @@ class RAGEngine:
         except Exception as e:
             answer = f"Error generating answer: {e}"
 
-        # 5. Format sources for tracing
-        sources = []
-        for c in chunks:
-            sources.append({
-                "chunk_id": c.get("chunk_id", ""),
-                "book_id": c.get("book_id", ""),
-                "page_idx": c.get("page_idx", 0),
-                "bbox": c.get("bbox", [0, 0, 0, 0]),
-                "chapter": c.get("chapter", ""),
-                "section": c.get("section", ""),
-                "text_preview": c.get("text", "")[:200],
-                "score": c.get("rrf_score", c.get("normalized_score", 0)),
-                "method": c.get("method", ""),
-            })
+        # 5. Format sources for tracing with merged bboxes
+        sources = self._format_sources(chunks)
 
         return RAGResponse(
             answer=answer,
@@ -142,6 +130,87 @@ class RAGEngine:
             query=query,
             model=self.model,
         )
+
+    def _get_page_bbox(self, book_id: str, page_idx: int, chunk_bbox) -> list:
+        """
+        Get a merged bbox for the relevant content on a page.
+        Combines the chunk's bbox with adjacent chunks on the same page
+        to create a larger, more visible highlight region.
+        """
+        import sqlite3
+        try:
+            conn = sqlite3.connect(self.db_path)
+            conn.row_factory = sqlite3.Row
+            cur = conn.cursor()
+            # Get all chunks on this page for this book
+            cur.execute("""
+                SELECT bbox_x1, bbox_y1, bbox_x2, bbox_y2
+                FROM chunks
+                WHERE book_id = ? AND page_idx = ?
+            """, (book_id, page_idx))
+            rows = cur.fetchall()
+            conn.close()
+
+            if not rows:
+                return chunk_bbox if isinstance(chunk_bbox, list) else [0, 0, 0, 0]
+
+            # Parse the target chunk bbox
+            if isinstance(chunk_bbox, str):
+                import ast
+                chunk_bbox = ast.literal_eval(chunk_bbox)
+            if not isinstance(chunk_bbox, list) or len(chunk_bbox) != 4:
+                chunk_bbox = [0, 0, 0, 0]
+
+            # Find chunks that vertically overlap or are adjacent to our chunk
+            target_y1, target_y2 = chunk_bbox[1], chunk_bbox[3]
+            margin = 50  # pixel margin for "nearby" chunks
+
+            nearby = []
+            for r in rows:
+                ry1, ry2 = r['bbox_y1'], r['bbox_y2']
+                # Check if this chunk is vertically close to our target
+                if (ry1 <= target_y2 + margin and ry2 >= target_y1 - margin):
+                    nearby.append([r['bbox_x1'], r['bbox_y1'],
+                                   r['bbox_x2'], r['bbox_y2']])
+
+            if not nearby:
+                return chunk_bbox
+
+            # Merge: take the bounding rectangle of all nearby chunks
+            merged = [
+                min(b[0] for b in nearby),
+                min(b[1] for b in nearby),
+                max(b[2] for b in nearby),
+                max(b[3] for b in nearby),
+            ]
+            return merged
+
+        except Exception:
+            return chunk_bbox if isinstance(chunk_bbox, list) else [0, 0, 0, 0]
+
+    def _format_sources(self, chunks: List[dict]) -> List[dict]:
+        """Format chunks into source references with merged bboxes."""
+        sources = []
+        for c in chunks:
+            bbox = c.get("bbox", [0, 0, 0, 0])
+            # Merge bbox with nearby chunks on same page for better visibility
+            merged_bbox = self._get_page_bbox(
+                c.get("book_id", ""),
+                c.get("page_idx", 0),
+                bbox,
+            )
+            sources.append({
+                "chunk_id": c.get("chunk_id", ""),
+                "book_id": c.get("book_id", ""),
+                "page_idx": c.get("page_idx", 0),
+                "bbox": merged_bbox,
+                "chapter": c.get("chapter", ""),
+                "section": c.get("section", ""),
+                "text_preview": c.get("text", "")[:200],
+                "score": c.get("rrf_score", c.get("normalized_score", 0)),
+                "method": c.get("method", ""),
+            })
+        return sources
 
     def _build_context(self, chunks: List[dict]) -> str:
         """Format retrieved chunks into context text for the LLM."""
