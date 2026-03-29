@@ -86,24 +86,42 @@ export default function SearchPanel({ result, loading, error, onSearch, settings
         )}
 
         {/* Sources */}
-        {result?.sources?.length > 0 && (
-          <div className="animate-slide-up" style={{ animationDelay: '80ms' }}>
-            <h3 className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider mb-2">
-              Source Documents ({result.sources.length})
-            </h3>
-            <div className="space-y-2">
-              {result.sources.map((src, i) => (
-                <SourceCard
-                  key={src.chunk_id || i}
-                  source={src}
-                  index={i}
-                  onViewPdf={onViewPdf}
-                  isActive={activeSource?.chunk_id === src.chunk_id}
-                />
-              ))}
+        {result?.sources?.length > 0 && (() => {
+          // Group sources by book_id
+          const groupedSources = []
+          const map = new Map()
+          result.sources.forEach(src => {
+            if (!map.has(src.book_id)) {
+              map.set(src.book_id, { book_id: src.book_id, items: [] })
+              groupedSources.push(map.get(src.book_id)) // preserve ranking order
+            }
+            map.get(src.book_id).items.push(src)
+          })
+          
+          // Sort items within each book by score descending
+          groupedSources.forEach(group => {
+            group.items.sort((a, b) => (b.score || 0) - (a.score || 0))
+          })
+
+          return (
+            <div className="animate-slide-up" style={{ animationDelay: '80ms' }}>
+              <h3 className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider mb-2">
+                Source Books ({groupedSources.length})
+              </h3>
+              <div className="space-y-2">
+                {groupedSources.map((group, i) => (
+                  <SourceCard
+                    key={group.book_id}
+                    group={group}
+                    index={i}
+                    onViewPdf={onViewPdf}
+                    activeChunkId={activeSource?.chunk_id}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )
+        })()}
 
         {/* Empty state */}
         {!loading && !result && !error && (

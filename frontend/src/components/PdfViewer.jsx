@@ -1,5 +1,18 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 
+const KNOWN_BOOKS = {
+  'barber_brml': 'Bayesian Reasoning and Machine Learning',
+  'bishop_prml': 'Pattern Recognition and Machine Learning',
+  'shalev-shwartz_uml': 'Understanding Machine Learning',
+  'hastie_esl': 'The Elements of Statistical Learning',
+  'murphy_pml1': 'Probabilistic Machine Learning: An Introduction',
+  'murphy_pml2': 'Probabilistic Machine Learning: Advanced Topics',
+  'deisenroth_mml': 'Mathematics for Machine Learning',
+  'jurafsky_slp3': 'Speech and Language Processing',
+  'sutton_rl': 'Reinforcement Learning: An Introduction',
+  'goodfellow_dl': 'Deep Learning',
+}
+
 export default function PdfViewer({ bookId, pageIdx, highlight, onClose }) {
   const [numPages, setNumPages] = useState(null)
   const [currentPage, setCurrentPage] = useState(pageIdx || 0)
@@ -73,14 +86,15 @@ export default function PdfViewer({ bookId, pageIdx, highlight, onClose }) {
     <div className="h-full flex flex-col">
       {/* Toolbar */}
       <div className="flex items-center gap-2 px-3 py-2 toolbar-bg flex-shrink-0">
-        {/* Close on mobile */}
+        {/* Close on mobile & desktop */}
         {onClose && (
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg hover:bg-neutral-100 text-neutral-400 hover:text-neutral-600 transition-colors"
+            className="p-1.5 mr-1 rounded-lg hover:bg-neutral-200 bg-neutral-100 text-neutral-500 hover:text-neutral-700 transition-colors"
+            title="Close PDF Viewer"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         )}
@@ -88,7 +102,7 @@ export default function PdfViewer({ bookId, pageIdx, highlight, onClose }) {
         {/* Book info */}
         <div className="flex-1 min-w-0">
           <span className="text-xs font-semibold text-neutral-600 truncate block">
-            {bookId.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+            {KNOWN_BOOKS[bookId] || bookId.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
           </span>
         </div>
 

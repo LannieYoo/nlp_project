@@ -30,6 +30,12 @@ export default function App() {
     setShowPdfMobile(true)
   }, [])
 
+  const handleClosePdf = useCallback(() => {
+    setPdfState({ bookId: null, pageIdx: null, highlight: null })
+    setActiveSource(null)
+    setShowPdfMobile(false)
+  }, [])
+
   const sidebarWidth = sidebarCollapsed ? 'lg:pl-14' : 'pl-0 lg:pl-60'
 
   return (
@@ -84,6 +90,7 @@ export default function App() {
                   bookId={pdfState.bookId}
                   pageIdx={pdfState.pageIdx}
                   highlight={pdfState.highlight}
+                  onClose={handleClosePdf}
                 />
               </div>
 
@@ -94,7 +101,7 @@ export default function App() {
                     bookId={pdfState.bookId}
                     pageIdx={pdfState.pageIdx}
                     highlight={pdfState.highlight}
-                    onClose={() => setShowPdfMobile(false)}
+                    onClose={handleClosePdf}
                   />
                 </div>
               )}

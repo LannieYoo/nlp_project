@@ -214,7 +214,7 @@ def search(req: SearchRequest):
 def get_page_image(
     book_id: str,
     page_idx: int,
-    scale: float = Query(default=2.0, ge=0.5, le=4.0),
+    scale: float = Query(default=2.0, ge=0.1, le=4.0),
     hl_x: Optional[float] = Query(default=None),
     hl_y: Optional[float] = Query(default=None),
     hl_w: Optional[float] = Query(default=None),
