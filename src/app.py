@@ -43,27 +43,6 @@ st.markdown("""
         color: #888;
         margin-bottom: 2rem;
     }
-    .source-card {
-        background: #1a1a2e;
-        border: 1px solid #333;
-        border-radius: 10px;
-        padding: 1rem;
-        margin: 0.5rem 0;
-        transition: all 0.2s ease;
-    }
-    .source-card:hover {
-        border-color: #667eea;
-        box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
-    }
-    .source-badge {
-        display: inline-block;
-        background: #667eea;
-        color: white;
-        padding: 2px 8px;
-        border-radius: 12px;
-        font-size: 0.75rem;
-        margin-right: 5px;
-    }
     .answer-box {
         background: #0e1117;
         border-left: 4px solid #667eea;
@@ -71,13 +50,6 @@ st.markdown("""
         border-radius: 0 10px 10px 0;
         margin: 1rem 0;
         line-height: 1.8;
-    }
-    .metric-card {
-        text-align: center;
-        padding: 1rem;
-        background: #1a1a2e;
-        border-radius: 10px;
-        border: 1px solid #333;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -88,10 +60,12 @@ if "engine" not in st.session_state:
     st.session_state.engine = None
 if "viewer" not in st.session_state:
     st.session_state.viewer = PDFViewer()
-if "history" not in st.session_state:
-    st.session_state.history = []
-if "show_pdf" not in st.session_state:
-    st.session_state.show_pdf = None
+if "last_response" not in st.session_state:
+    st.session_state.last_response = None
+if "last_query" not in st.session_state:
+    st.session_state.last_query = ""
+if "pdf_views" not in st.session_state:
+    st.session_state.pdf_views = {}  # {source_idx: png_bytes}
 
 
 def get_engine():
@@ -122,7 +96,7 @@ with st.sidebar:
 
     st.markdown("---")
 
-    # Show stats if engine loaded
+    # Show stats
     try:
         engine = get_engine()
         stats = engine.retriever.fts_searcher.indexer.get_stats()
@@ -151,18 +125,19 @@ query = st.text_input(
     key="query_input",
 )
 
+# Build methods list
+methods = []
+if use_fts:
+    methods.append("fts")
+if use_vector:
+    methods.append("vector")
+if use_tree:
+    methods.append("tree")
+if use_metadata:
+    methods.append("metadata")
+
 # Search button
 if st.button("Search", type="primary", use_container_width=True) and query:
-    methods = []
-    if use_fts:
-        methods.append("fts")
-    if use_vector:
-        methods.append("vector")
-    if use_tree:
-        methods.append("tree")
-    if use_metadata:
-        methods.append("metadata")
-
     if not methods:
         st.warning("Please select at least one retrieval method.")
     else:
@@ -177,90 +152,92 @@ if st.button("Search", type="primary", use_container_width=True) and query:
                 methods=methods,
             )
 
-        # Store in history
-        st.session_state.history.append({
-            "query": query,
-            "response": response,
-        })
+        # Store in session state (persists across re-runs)
+        st.session_state.last_response = response
+        st.session_state.last_query = query
+        st.session_state.pdf_views = {}  # reset PDF views for new search
 
-        # Display answer
-        st.markdown("### Answer")
-        st.markdown(
-            f'<div class="answer-box">{response.answer}</div>',
-            unsafe_allow_html=True,
-        )
 
-        # Display sources
-        if response.sources:
-            st.markdown(f"### Source Documents ({len(response.sources)} references)")
+# ---------- Display Results (from session state) ----------
+response = st.session_state.last_response
+if response:
+    # Display answer
+    st.markdown("### Answer")
+    st.markdown(
+        f'<div class="answer-box">{response.answer}</div>',
+        unsafe_allow_html=True,
+    )
 
-            for i, src in enumerate(response.sources):
-                book_name = src["book_id"].replace("_", " ").title()
-                page = src["page_idx"]
-                chapter = src.get("chapter", "")
-                section = src.get("section", "")
-                preview = src.get("text_preview", "")
-                score = src.get("score", 0)
-                method = src.get("method", "")
+    # Display sources
+    if response.sources:
+        st.markdown(f"### Source Documents ({len(response.sources)} references)")
 
-                with st.expander(
-                    f"[{i+1}] {book_name} - p.{page} | {chapter[:50]}",
-                    expanded=(i == 0),
+        for i, src in enumerate(response.sources):
+            book_name = src["book_id"].replace("_", " ").title()
+            page = src["page_idx"]
+            chapter = src.get("chapter", "")
+            section = src.get("section", "")
+            preview = src.get("text_preview", "")
+            score = src.get("score", 0)
+            method = src.get("method", "")
+
+            with st.expander(
+                f"[{i+1}] {book_name} - p.{page} | {chapter[:50]}",
+                expanded=(i == 0),
+            ):
+                col1, col2, col3 = st.columns([2, 1, 1])
+                with col1:
+                    st.markdown(f"**Book:** {book_name}")
+                    if chapter:
+                        st.markdown(f"**Chapter:** {chapter[:80]}")
+                    if section:
+                        st.markdown(f"**Section:** {section[:80]}")
+                with col2:
+                    st.markdown(f"**Page:** {page}")
+                    st.markdown(f"**Score:** {score:.3f}")
+                with col3:
+                    st.markdown(f"**Method:** {method}")
+
+                st.markdown("**Preview:**")
+                st.text(preview)
+
+                # PDF View button — uses session_state to persist image
+                bbox = src.get("bbox", [0, 0, 0, 0])
+                if isinstance(bbox, str):
+                    try:
+                        bbox = ast.literal_eval(bbox)
+                    except Exception:
+                        bbox = [0, 0, 0, 0]
+
+                btn_key = f"pdf_{i}"
+                if st.button(
+                    f"View PDF Page (p.{page})",
+                    key=btn_key,
                 ):
-                    col1, col2, col3 = st.columns([2, 1, 1])
-                    with col1:
-                        st.markdown(f"**Book:** {book_name}")
-                        if chapter:
-                            st.markdown(f"**Chapter:** {chapter[:80]}")
-                        if section:
-                            st.markdown(f"**Section:** {section[:80]}")
-                    with col2:
-                        st.markdown(f"**Page:** {page}")
-                        st.markdown(f"**Score:** {score:.3f}")
-                    with col3:
-                        st.markdown(f"**Method:** {method}")
+                    with st.spinner("Rendering PDF page..."):
+                        viewer = st.session_state.viewer
+                        img_data = viewer.render_page(
+                            book_id=src["book_id"],
+                            page_idx=page,
+                            bbox=bbox,
+                            zoom=1.5,
+                        )
+                        if img_data:
+                            st.session_state.pdf_views[i] = img_data
+                        else:
+                            st.session_state.pdf_views[i] = None
 
-                    st.markdown("**Preview:**")
-                    st.text(preview)
-
-                    # PDF View button
-                    bbox = src.get("bbox", [0, 0, 0, 0])
-                    if isinstance(bbox, str):
-                        try:
-                            bbox = ast.literal_eval(bbox)
-                        except Exception:
-                            bbox = [0, 0, 0, 0]
-
-                    if st.button(
-                        f"View PDF Page (p.{page})",
-                        key=f"pdf_{i}_{src['chunk_id']}",
-                    ):
-                        with st.spinner("Rendering PDF page..."):
-                            viewer = st.session_state.viewer
-                            img_data = viewer.render_page(
-                                book_id=src["book_id"],
-                                page_idx=page,
-                                bbox=bbox,
-                                zoom=1.5,
-                            )
-                            if img_data:
-                                st.image(
-                                    img_data,
-                                    caption=f"{book_name} - Page {page} "
-                                            f"(highlighted region)",
-                                    use_container_width=True,
-                                )
-                            else:
-                                st.warning(
-                                    f"Could not render PDF page. "
-                                    f"Ensure the PDF exists at the expected path."
-                                )
-
-# ---------- History ----------
-if st.session_state.history:
-    st.markdown("---")
-    st.markdown("### Previous Questions")
-    for item in reversed(st.session_state.history[:-1] if len(st.session_state.history) > 1 else []):
-        with st.expander(f"Q: {item['query'][:80]}"):
-            st.markdown(item["response"].answer)
-            st.caption(f"Sources: {len(item['response'].sources)} references")
+                # Display PDF image if already rendered (persists across re-runs)
+                if i in st.session_state.pdf_views:
+                    img_data = st.session_state.pdf_views[i]
+                    if img_data:
+                        st.image(
+                            img_data,
+                            caption=f"{book_name} - Page {page} (highlighted region)",
+                            use_container_width=True,
+                        )
+                    else:
+                        st.warning(
+                            "Could not render PDF page. "
+                            "Ensure the PDF exists at the expected path."
+                        )
