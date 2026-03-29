@@ -226,6 +226,7 @@ if response:
                             book_id=src["book_id"],
                             page_idx=page,
                             bbox=bbox,
+                            text_preview=preview,
                             zoom=1.5,
                         )
                         if img_data:
