@@ -54,7 +54,7 @@ class RAGEngine:
     @property
     def retriever(self):
         if self._retriever is None:
-            from src.retrieval.fusion import HybridRetriever
+            from backend.retrieval.fusion import HybridRetriever
             self._retriever = HybridRetriever(
                 db_path=self.db_path,
                 chroma_dir=self.chroma_dir,

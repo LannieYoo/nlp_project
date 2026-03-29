@@ -1,0 +1,151 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Override Tailwind's base layer defaults */
+@layer base {
+  html { background-color: #0c0c0c; color-scheme: dark; }
+  body { background-color: #0c0c0c; }
+}
+
+/* ─── Base ─── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-family: 'Inter', system-ui, sans-serif; background: #0c0c0c !important; color-scheme: dark; }
+body { overflow: hidden; height: 100vh; background: #0c0c0c !important; color: #d4d4d4; }
+#root { height: 100vh; overflow: hidden; background: #0c0c0c !important; }
+
+/* Scrollbar – steel gray */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.06); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.12); }
+
+/* ─── Steel glass effect ─── */
+.glass {
+  background: linear-gradient(
+    145deg,
+    rgba(21, 21, 21, 0.85),
+    rgba(28, 28, 28, 0.7)
+  );
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.glass-card {
+  background: linear-gradient(
+    160deg,
+    rgba(30, 30, 30, 0.6),
+    rgba(21, 21, 21, 0.8)
+  );
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* ─── Steel gradient text ─── */
+.gradient-text {
+  background: linear-gradient(135deg, #e5e5e5 0%, #a3a3a3 50%, #d4d4d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Answer box – mint left bar ─── */
+.answer-box {
+  background: linear-gradient(135deg, rgba(0, 255, 204, 0.05), rgba(0, 255, 204, 0.015));
+  border-left: 3px solid #00ffcc;
+}
+
+/* ─── Sidebar gradient ─── */
+.sidebar-bg {
+  background: linear-gradient(
+    180deg,
+    #151515 0%,
+    #111111 50%,
+    #0e0e0e 100%
+  );
+}
+
+/* ─── Method button when active ─── */
+.method-btn-active {
+  background: linear-gradient(135deg, rgba(0, 255, 204, 0.08), rgba(0, 255, 204, 0.03));
+  border-color: rgba(0, 255, 204, 0.12);
+}
+
+/* ─── Search button gradient ─── */
+.btn-primary {
+  background: linear-gradient(135deg, #00ffcc 0%, #00d4aa 100%);
+  box-shadow: 0 2px 12px rgba(0, 255, 204, 0.15);
+  color: #0c0c0c !important;
+  transition: all 0.2s;
+}
+.btn-primary:hover {
+  box-shadow: 0 4px 20px rgba(0, 255, 204, 0.3);
+  filter: brightness(1.05);
+}
+.btn-primary:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ─── Source card hover glow ─── */
+.source-card {
+  background: linear-gradient(160deg, rgba(30, 30, 30, 0.5), rgba(20, 20, 20, 0.8));
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  transition: all 0.2s;
+}
+.source-card:hover {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: linear-gradient(160deg, rgba(35, 35, 35, 0.6), rgba(25, 25, 25, 0.8));
+}
+.source-card.active {
+  border-color: rgba(0, 255, 204, 0.15);
+  background: linear-gradient(160deg, rgba(0, 255, 204, 0.03), rgba(20, 20, 20, 0.8));
+}
+
+/* ─── PDF highlight overlay ─── */
+.pdf-highlight {
+  position: absolute;
+  background: rgba(250, 204, 21, 0.22);
+  border: 2px solid rgba(250, 204, 21, 0.55);
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 10;
+  animation: highlightPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes highlightPulse {
+  0%, 100% { background: rgba(250, 204, 21, 0.22); }
+  50% { background: rgba(250, 204, 21, 0.32); }
+}
+
+/* ─── Loading spinner (mint) ─── */
+.spinner {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(255,255,255,0.06);
+  border-top: 2px solid #00ffcc;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ─── Steel toolbar ─── */
+.toolbar-bg {
+  background: linear-gradient(180deg, #181818 0%, #141414 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* react-pdf page styling */
+.react-pdf__Page__canvas {
+  display: block !important;
+  margin: 0 auto;
+}
+.react-pdf__Page__textContent,
+.react-pdf__Page__annotations {
+  display: none !important;
+}

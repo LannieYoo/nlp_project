@@ -4,7 +4,7 @@ Method ② in the 4-method hybrid retrieval architecture.
 """
 
 from typing import List, Optional
-from src.pipeline.indexer import ChromaIndexer
+from backend.pipeline.indexer import ChromaIndexer
 
 
 class VectorSearcher:

@@ -98,28 +98,28 @@ class HybridRetriever:
     @property
     def fts_searcher(self):
         if self._fts is None:
-            from src.retrieval.fts_search import FTSSearcher
+            from backend.retrieval.fts_search import FTSSearcher
             self._fts = FTSSearcher(self.db_path)
         return self._fts
 
     @property
     def vector_searcher(self):
         if self._vector is None:
-            from src.retrieval.vector_search import VectorSearcher
+            from backend.retrieval.vector_search import VectorSearcher
             self._vector = VectorSearcher(self.chroma_dir)
         return self._vector
 
     @property
     def tree_searcher(self):
         if self._tree is None:
-            from src.retrieval.tree_search import TreeSearcher
+            from backend.retrieval.tree_search import TreeSearcher
             self._tree = TreeSearcher(self.toc_dir, self.db_path)
         return self._tree
 
     @property
     def metadata_searcher(self):
         if self._metadata is None:
-            from src.retrieval.metadata_search import MetadataSearcher
+            from backend.retrieval.metadata_search import MetadataSearcher
             self._metadata = MetadataSearcher(self.db_path)
         return self._metadata
 

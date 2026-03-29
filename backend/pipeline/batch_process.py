@@ -16,9 +16,9 @@ from typing import Optional
 
 from tqdm import tqdm
 
-from src.pipeline.chunker import ContentListChunker, find_content_list, find_origin_pdf
-from src.pipeline.indexer import SQLiteIndexer, ChromaIndexer
-from src.pipeline.toc_builder import TOCBuilder
+from backend.pipeline.chunker import ContentListChunker, find_content_list, find_origin_pdf
+from backend.pipeline.indexer import SQLiteIndexer, ChromaIndexer
+from backend.pipeline.toc_builder import TOCBuilder
 
 
 # Default paths

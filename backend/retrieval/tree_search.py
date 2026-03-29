@@ -11,7 +11,7 @@ import json
 import sqlite3
 from typing import List, Optional, Dict
 
-from src.pipeline.toc_builder import TOCBuilder
+from backend.pipeline.toc_builder import TOCBuilder
 
 
 class TreeSearcher:

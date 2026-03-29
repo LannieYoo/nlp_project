@@ -4,7 +4,7 @@ Method ① in the 4-method hybrid retrieval architecture.
 """
 
 from typing import List, Optional
-from src.pipeline.indexer import SQLiteIndexer
+from backend.pipeline.indexer import SQLiteIndexer
 
 
 class FTSSearcher:

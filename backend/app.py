@@ -15,8 +15,8 @@ import streamlit as st
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src.rag.engine import RAGEngine
-from src.ui.pdf_viewer import PDFViewer
+from backend.rag.engine import RAGEngine
+from backend.ui.pdf_viewer import PDFViewer
 
 
 # ---------- Page Config ----------

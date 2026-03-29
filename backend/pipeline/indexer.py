@@ -7,7 +7,7 @@ import os
 import sqlite3
 from typing import List, Optional
 
-from src.pipeline.chunker import Chunk
+from backend.pipeline.chunker import Chunk
 
 
 # ---------------------------------------------------------------------------
