@@ -45,34 +45,87 @@ class PDFViewer:
     ) -> List[pymupdf.Rect]:
         """
         Search for the chunk's text on the PDF page.
-        Returns a list of Rects covering the found text.
+        Uses multiple strategies to find the best match:
+          1. Try the longest plain-text segments (between LaTeX blocks)
+          2. Try progressively shorter substrings
+          3. Try individual sentences
         """
         if not text_preview or len(text_preview.strip()) < 10:
             return []
 
-        # Clean the text: remove LaTeX/markdown, keep plain words
-        clean = self._clean_text_for_search(text_preview)
-        if not clean or len(clean) < 10:
-            return []
-
-        # Try progressively shorter substrings until we find a match
-        # Start with first ~80 chars, then shorten
-        for length in [80, 60, 40, 25]:
-            snippet = clean[:length].strip()
-            if len(snippet) < 10:
+        # Strategy 1: Extract plain text segments between LaTeX blocks
+        # and try the longest ones first (most distinctive)
+        segments = self._extract_plain_segments(text_preview)
+        for seg in segments:
+            if len(seg) < 15:
                 continue
-            rects = page.search_for(snippet)
-            if rects:
-                return rects
+            # Try the segment, progressively shorter
+            for length in [min(len(seg), 80), min(len(seg), 60),
+                           min(len(seg), 40)]:
+                snippet = seg[:length].strip()
+                if len(snippet) < 12:
+                    continue
+                rects = page.search_for(snippet)
+                if rects:
+                    return rects
 
-        # Try the first sentence
-        first_sentence = clean.split('.')[0].strip()
-        if len(first_sentence) >= 15:
-            rects = page.search_for(first_sentence[:60])
-            if rects:
-                return rects
+        # Strategy 2: Try cleaned full text (fallback)
+        clean = self._clean_text_for_search(text_preview)
+        if clean and len(clean) >= 15:
+            for length in [80, 60, 40, 25]:
+                snippet = clean[:length].strip()
+                if len(snippet) < 10:
+                    continue
+                rects = page.search_for(snippet)
+                if rects:
+                    return rects
 
         return []
+
+    @staticmethod
+    def _extract_plain_segments(text: str) -> List[str]:
+        """
+        Extract continuous runs of plain English text from LaTeX-heavy content.
+        Instead of splitting on $ (which has pairing issues), we find
+        sequences of 3+ consecutive English words as searchable segments.
+        """
+        # First: remove all $...$ math blocks by replacing $ and content
+        # between matched $ pairs with spaces
+        clean = text
+        # Remove $$...$$ blocks
+        clean = re.sub(r'\$\$[^$]+\$\$', ' ', clean)
+        # Remove inline $...$ — but handle carefully by tokenizing
+        # Instead of regex on $, just remove everything that looks like math
+        # Remove LaTeX commands first
+        clean = re.sub(r'\\[a-zA-Z]+\{[^}]*\}', ' ', clean)
+        clean = re.sub(r'\\[a-zA-Z]+', ' ', clean)
+        # Remove $ signs and math symbols
+        clean = re.sub(r'[${}_\\^~|]', ' ', clean)
+        # Remove standalone math-like tokens: single letters/numbers
+        # between operators
+        clean = re.sub(r'\s[<>=+\-*/]\s', ' ', clean)
+
+        # Now find continuous runs of English words (3+ words)
+        # A "word" is 2+ lowercase/uppercase letters (not just single chars)
+        words = clean.split()
+        segments = []
+        current = []
+
+        for w in words:
+            # Check if this looks like an English word (not math notation)
+            if re.match(r'^[A-Za-z][A-Za-z,.\-;:()\']{1,}$', w):
+                current.append(w)
+            else:
+                if len(current) >= 3:
+                    segments.append(' '.join(current))
+                current = []
+
+        if len(current) >= 3:
+            segments.append(' '.join(current))
+
+        # Sort by length descending — longest segments are most distinctive
+        segments.sort(key=len, reverse=True)
+        return segments
 
     @staticmethod
     def _clean_text_for_search(text: str) -> str:
@@ -80,17 +133,11 @@ class PDFViewer:
         Remove LaTeX, markdown formatting, and special chars
         to produce plain text suitable for PDF text search.
         """
-        # Remove LaTeX math: $...$ and $$...$$
-        clean = re.sub(r'\$\$.*?\$\$', ' ', text, flags=re.DOTALL)
-        clean = re.sub(r'\$.*?\$', ' ', clean)
-        # Remove LaTeX commands: \cmd{...}
+        clean = text
+        clean = re.sub(r'\$\$[^$]+\$\$', ' ', clean)
         clean = re.sub(r'\\[a-zA-Z]+\{[^}]*\}', ' ', clean)
         clean = re.sub(r'\\[a-zA-Z]+', ' ', clean)
-        # Remove markdown formatting
-        clean = re.sub(r'[*_`#]', '', clean)
-        # Remove special chars but keep basic punctuation
-        clean = re.sub(r'[{}|\\^~]', ' ', clean)
-        # Collapse whitespace
+        clean = re.sub(r'[*_`#${}|\\^~]', ' ', clean)
         clean = ' '.join(clean.split())
         return clean.strip()
 
