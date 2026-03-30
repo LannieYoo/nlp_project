@@ -38,7 +38,7 @@ const MethodIcon = ({ type, className = "w-3.5 h-3.5" }) => {
 export default function Sidebar({ settings, onSettingsChange, collapsed, onToggle, activeView, onViewChange, onOpenBook, activeBookId, onGoHome }) {
   const [stats, setStats] = useState(null)
   const [books, setBooks] = useState([])
-  const [showBookFilter, setShowBookFilter] = useState(true)
+  const [showBookFilter, setShowBookFilter] = useState(() => typeof window !== 'undefined' ? window.innerWidth >= 1024 : true)
   const [allBooksSelected, setAllBooksSelected] = useState(true)
   const [selectedBooks, setSelectedBooks] = useState([])  // when allBooksSelected=false, track individual picks
   const [bookSearchTerm, setBookSearchTerm] = useState('')

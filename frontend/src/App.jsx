@@ -14,7 +14,7 @@ const DEFAULT_SETTINGS = {
 
 export default function App() {
   const [settings, setSettings] = useState(DEFAULT_SETTINGS)
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 1024 : false)
   const [pdfState, setPdfState] = useState({ bookId: null, pageIdx: null, highlight: null })
   const [activeSource, setActiveSource] = useState(null)
   const [showPdfMobile, setShowPdfMobile] = useState(false)
@@ -22,6 +22,21 @@ export default function App() {
   const [searchKey, setSearchKey] = useState(0)
   const [pdfWidth, setPdfWidth] = useState(50) // percentage
   const [isDragging, setIsDragging] = useState(false)
+
+  useEffect(() => {
+    let wasMobile = window.innerWidth < 1024;
+    const handleResize = () => {
+      const isMobile = window.innerWidth < 1024;
+      if (isMobile && !wasMobile) {
+        setSidebarCollapsed(true);
+      } else if (!isMobile && wasMobile) {
+        setSidebarCollapsed(false);
+      }
+      wasMobile = isMobile;
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     if (!isDragging) return
@@ -78,7 +93,7 @@ export default function App() {
     setSearchKey(k => k + 1)
   }, [handleClosePdf, resetSearch])
 
-  const sidebarWidth = sidebarCollapsed ? 'lg:pl-14' : 'pl-0 lg:pl-60'
+  const sidebarWidth = sidebarCollapsed ? 'pl-0 lg:pl-14' : 'pl-60'
 
   return (
     <div className="h-screen flex flex-col" style={{ background: '#f8f8f8' }}>
@@ -106,9 +121,9 @@ export default function App() {
           {/* Mobile sidebar toggle */}
           <button
             onClick={() => setSidebarCollapsed(c => !c)}
-            className="lg:hidden fixed top-3 left-3 z-40 p-2 rounded-xl bg-white border border-neutral-200 shadow-soft text-neutral-500 hover:text-neutral-700 transition-colors"
+            className="lg:hidden fixed top-3 left-3 z-40 p-2.5 rounded-xl bg-white border border-neutral-200 shadow-soft text-neutral-500 hover:text-neutral-700 transition-colors"
           >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>

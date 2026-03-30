@@ -497,10 +497,10 @@ export default function SearchPanel({ result, loading, error, onSearch, settings
 
       {/* The Search Header (hugs content tightly so background adjusts automatically) */}
       <div className={`
-        relative z-10 w-full px-6 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]
+        relative z-10 w-full transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]
         ${isSearchActive 
-          ? 'pt-6 pb-5 bg-white border-b border-neutral-100 shadow-soft' 
-          : 'pt-0 pb-0 bg-transparent border-transparent'}
+          ? 'pr-6 pl-16 lg:px-6 pt-6 pb-5 bg-white border-b border-neutral-100 shadow-soft' 
+          : 'px-6 pt-0 pb-0 bg-transparent border-transparent'}
       `}>
         <div className={`mx-auto transition-all duration-700 w-full flex flex-col ${isSearchActive ? 'max-w-full items-start' : 'max-w-3xl items-center text-center'}`}>
           
@@ -511,7 +511,7 @@ export default function SearchPanel({ result, loading, error, onSearch, settings
             Search across 46 AI/ML textbooks with source tracing
           </p>
 
-          <div className={`flex gap-3 w-full transition-all duration-700 ${isSearchActive ? 'scale-100' : 'scale-[1.02]'}`}>
+          <div className={`flex flex-col sm:flex-row gap-3 w-full transition-all duration-700 ${isSearchActive ? 'scale-100' : 'scale-[1.02]'}`}>
             <div className={`flex-1 relative transition-all duration-700 ${isSearchActive ? 'shadow-none' : 'shadow-lg hover:shadow-xl rounded-2xl'}`}>
               
               {/* Left Search Icon */}
@@ -557,7 +557,7 @@ export default function SearchPanel({ result, loading, error, onSearch, settings
             <button
               onClick={handleSearch}
               disabled={loading || !query.trim()}
-              className={`btn-primary font-bold active:scale-[0.98] transition-all duration-700 shadow-sm flex items-center justify-center
+              className={`btn-primary font-bold active:scale-[0.98] transition-all duration-700 shadow-sm flex items-center justify-center w-full sm:w-auto
                 ${isSearchActive ? 'px-6 py-2.5 text-sm rounded-xl' : 'px-8 py-3 text-base shadow-md hover:shadow-lg rounded-2xl'}`}
             >
             {loading ? (

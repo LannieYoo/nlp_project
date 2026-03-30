@@ -63,7 +63,7 @@ export default function LibraryPanel({ onOpenBook, activeBookId }) {
   return (
     <div className="h-full flex flex-col overflow-hidden bg-surface-100">
       {/* Header */}
-      <div className="px-6 pt-6 pb-5 bg-white border-b border-neutral-100 shadow-soft">
+      <div className="pr-6 pl-16 lg:px-6 pt-6 pb-5 bg-white border-b border-neutral-100 shadow-soft">
         <h2 className="text-xl font-bold text-neutral-800 mb-0.5">Library</h2>
         <p className="text-xs text-neutral-400 mb-4">{books.length} textbooks in collection</p>
         <div className="relative">
