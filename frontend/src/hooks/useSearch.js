@@ -32,7 +32,13 @@ export function useSearch() {
     }
   }, [])
 
-  return { search, result, loading, error }
+  const resetSearch = useCallback(() => {
+    setResult(null)
+    setError(null)
+    setLoading(false)
+  }, [])
+
+  return { search, result, loading, error, resetSearch }
 }
 
 export async function fetchStats() {

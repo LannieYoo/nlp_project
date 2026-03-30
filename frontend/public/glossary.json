@@ -1,0 +1,4437 @@
+{
+  "categories": [
+    "AI Math",
+    "Machine Learning",
+    "Deep Learning",
+    "NLP",
+    "Machine Vision",
+    "Statistics",
+    "Optimization"
+  ],
+  "terms": [
+    {
+      "id": "gradient",
+      "term_en": "Gradient",
+      "term_ko": "기울기 / 그래디언트",
+      "category": "AI Math",
+      "definition_en": "A vector of partial derivatives indicating the direction and rate of steepest ascent of a function.",
+      "definition_ko": "함수의 가장 가파른 상승 방향과 비율을 나타내는 편미분 벡터."
+    },
+    {
+      "id": "gradient_descent",
+      "term_en": "Gradient Descent",
+      "term_ko": "경사 하강법",
+      "category": "AI Math",
+      "definition_en": "An optimization algorithm that iteratively moves in the direction of steepest descent to minimize a loss function.",
+      "definition_ko": "손실 함수를 최소화하기 위해 가장 가파른 하강 방향으로 반복적으로 이동하는 최적화 알고리즘."
+    },
+    {
+      "id": "learning_rate",
+      "term_en": "Learning Rate",
+      "term_ko": "학습률",
+      "category": "AI Math",
+      "definition_en": "A hyperparameter controlling the step size during gradient descent optimization.",
+      "definition_ko": "경사 하강법 최적화 시 스텝 크기를 제어하는 하이퍼파라미터."
+    },
+    {
+      "id": "partial_derivative",
+      "term_en": "Partial Derivative",
+      "term_ko": "편미분",
+      "category": "AI Math",
+      "definition_en": "The derivative of a multivariable function with respect to one variable while holding others constant.",
+      "definition_ko": "다변수 함수에서 다른 변수를 고정한 채 하나의 변수에 대해 미분한 값."
+    },
+    {
+      "id": "chain_rule",
+      "term_en": "Chain Rule",
+      "term_ko": "연쇄 법칙",
+      "category": "AI Math",
+      "definition_en": "A rule for computing the derivative of a composite function; fundamental to backpropagation.",
+      "definition_ko": "합성 함수의 도함수를 계산하는 규칙으로, 역전파의 핵심 원리."
+    },
+    {
+      "id": "jacobian",
+      "term_en": "Jacobian Matrix",
+      "term_ko": "야코비 행렬",
+      "category": "AI Math",
+      "definition_en": "A matrix of all first-order partial derivatives of a vector-valued function.",
+      "definition_ko": "벡터 값 함수의 모든 1차 편미분으로 구성된 행렬."
+    },
+    {
+      "id": "hessian",
+      "term_en": "Hessian Matrix",
+      "term_ko": "헤시안 행렬",
+      "category": "AI Math",
+      "definition_en": "A square matrix of second-order partial derivatives describing the local curvature of a function.",
+      "definition_ko": "함수의 국소 곡률을 설명하는 2차 편미분의 정방 행렬."
+    },
+    {
+      "id": "eigenvalue",
+      "term_en": "Eigenvalue / Eigenvector",
+      "term_ko": "고유값 / 고유벡터",
+      "category": "AI Math",
+      "definition_en": "Scalar and vector pairs where Av = λv; used in PCA, spectral methods, and stability analysis.",
+      "definition_ko": "Av = λv를 만족하는 스칼라와 벡터 쌍으로, PCA·스펙트럼 방법·안정성 분석에 사용."
+    },
+    {
+      "id": "dot_product",
+      "term_en": "Dot Product",
+      "term_ko": "내적",
+      "category": "AI Math",
+      "definition_en": "The sum of element-wise products of two vectors; measures similarity in direction.",
+      "definition_ko": "두 벡터의 원소별 곱의 합으로, 방향 유사도를 측정."
+    },
+    {
+      "id": "matrix_multiplication",
+      "term_en": "Matrix Multiplication",
+      "term_ko": "행렬 곱셈",
+      "category": "AI Math",
+      "definition_en": "An operation producing a new matrix by computing dot products of rows and columns.",
+      "definition_ko": "행과 열의 내적을 계산하여 새로운 행렬을 만드는 연산."
+    },
+    {
+      "id": "tensor",
+      "term_en": "Tensor",
+      "term_ko": "텐서",
+      "category": "AI Math",
+      "definition_en": "A multi-dimensional array generalizing scalars, vectors, and matrices to higher dimensions.",
+      "definition_ko": "스칼라, 벡터, 행렬을 고차원으로 일반화한 다차원 배열."
+    },
+    {
+      "id": "norm",
+      "term_en": "Norm (L1, L2)",
+      "term_ko": "노름 (L1, L2)",
+      "category": "AI Math",
+      "definition_en": "A measure of vector magnitude; L1 is the sum of absolute values, L2 is the Euclidean length.",
+      "definition_ko": "벡터의 크기를 측정하는 함수. L1은 절대값 합, L2는 유클리드 거리."
+    },
+    {
+      "id": "softmax",
+      "term_en": "Softmax Function",
+      "term_ko": "소프트맥스 함수",
+      "category": "AI Math",
+      "definition_en": "Converts a vector of real numbers into a probability distribution by exponentiating and normalizing.",
+      "definition_ko": "실수 벡터를 지수화 및 정규화하여 확률 분포로 변환하는 함수."
+    },
+    {
+      "id": "sigmoid",
+      "term_en": "Sigmoid Function",
+      "term_ko": "시그모이드 함수",
+      "category": "AI Math",
+      "definition_en": "An S-shaped activation function mapping any real value to (0, 1).",
+      "definition_ko": "임의의 실수를 (0, 1) 범위로 매핑하는 S자 형태의 활성화 함수."
+    },
+    {
+      "id": "cross_entropy",
+      "term_en": "Cross-Entropy",
+      "term_ko": "교차 엔트로피",
+      "category": "AI Math",
+      "definition_en": "A loss function measuring the difference between predicted probability distribution and the true distribution.",
+      "definition_ko": "예측 확률 분포와 실제 분포 간의 차이를 측정하는 손실 함수."
+    },
+    {
+      "id": "kl_divergence",
+      "term_en": "KL Divergence",
+      "term_ko": "KL 발산",
+      "category": "AI Math",
+      "definition_en": "A measure of how one probability distribution diverges from a second reference distribution.",
+      "definition_ko": "하나의 확률 분포가 기준 분포와 얼마나 다른지를 측정하는 지표."
+    },
+    {
+      "id": "convex_optimization",
+      "term_en": "Convex Optimization",
+      "term_ko": "볼록 최적화",
+      "category": "Optimization",
+      "definition_en": "Optimization over convex sets and functions guaranteeing a global optimum.",
+      "definition_ko": "볼록 집합과 함수에 대한 최적화로 전역 최적해가 보장됨."
+    },
+    {
+      "id": "sgd",
+      "term_en": "Stochastic Gradient Descent (SGD)",
+      "term_ko": "확률적 경사 하강법",
+      "category": "Optimization",
+      "definition_en": "A variant of gradient descent using random mini-batches to estimate the gradient.",
+      "definition_ko": "무작위 미니배치로 기울기를 추정하는 경사 하강법의 변형."
+    },
+    {
+      "id": "adam",
+      "term_en": "Adam Optimizer",
+      "term_ko": "아담 옵티마이저",
+      "category": "Optimization",
+      "definition_en": "An adaptive learning rate optimizer combining momentum and RMSProp.",
+      "definition_ko": "모멘텀과 RMSProp을 결합한 적응형 학습률 옵티마이저."
+    },
+    {
+      "id": "momentum",
+      "term_en": "Momentum",
+      "term_ko": "모멘텀",
+      "category": "Optimization",
+      "definition_en": "An acceleration technique that accumulates past gradients to smooth optimization trajectories.",
+      "definition_ko": "과거 기울기를 누적하여 최적화 궤적을 부드럽게 하는 가속 기법."
+    },
+    {
+      "id": "loss_function",
+      "term_en": "Loss Function",
+      "term_ko": "손실 함수",
+      "category": "Machine Learning",
+      "definition_en": "A function that quantifies the error between a model's predictions and the true labels.",
+      "definition_ko": "모델 예측과 실제 값 사이의 오차를 수치화하는 함수."
+    },
+    {
+      "id": "overfitting",
+      "term_en": "Overfitting",
+      "term_ko": "과적합",
+      "category": "Machine Learning",
+      "definition_en": "When a model learns noise in training data and performs poorly on unseen data.",
+      "definition_ko": "모델이 학습 데이터의 노이즈까지 학습하여 새 데이터에서 성능이 떨어지는 현상."
+    },
+    {
+      "id": "underfitting",
+      "term_en": "Underfitting",
+      "term_ko": "과소적합",
+      "category": "Machine Learning",
+      "definition_en": "When a model is too simple to capture the underlying patterns in the data.",
+      "definition_ko": "모델이 너무 단순하여 데이터의 기본 패턴을 포착하지 못하는 현상."
+    },
+    {
+      "id": "regularization",
+      "term_en": "Regularization",
+      "term_ko": "정규화",
+      "category": "Machine Learning",
+      "definition_en": "Techniques (L1, L2, Dropout) to prevent overfitting by penalizing model complexity.",
+      "definition_ko": "모델 복잡도에 패널티를 부여하여 과적합을 방지하는 기법 (L1, L2, 드롭아웃)."
+    },
+    {
+      "id": "bias_variance",
+      "term_en": "Bias-Variance Tradeoff",
+      "term_ko": "편향-분산 트레이드오프",
+      "category": "Machine Learning",
+      "definition_en": "The balance between underfitting (high bias) and overfitting (high variance).",
+      "definition_ko": "과소적합(높은 편향)과 과적합(높은 분산) 사이의 균형."
+    },
+    {
+      "id": "cross_validation",
+      "term_en": "Cross-Validation",
+      "term_ko": "교차 검증",
+      "category": "Machine Learning",
+      "definition_en": "A technique to evaluate model performance by partitioning data into training and validation sets multiple times.",
+      "definition_ko": "데이터를 여러 번 학습/검증 세트로 분할하여 모델 성능을 평가하는 기법."
+    },
+    {
+      "id": "hyperparameter",
+      "term_en": "Hyperparameter",
+      "term_ko": "하이퍼파라미터",
+      "category": "Machine Learning",
+      "definition_en": "Parameters set before training that control the learning process (e.g., learning rate, batch size).",
+      "definition_ko": "학습 전에 설정하여 학습 과정을 제어하는 매개변수 (예: 학습률, 배치 크기)."
+    },
+    {
+      "id": "feature_engineering",
+      "term_en": "Feature Engineering",
+      "term_ko": "특성 공학",
+      "category": "Machine Learning",
+      "definition_en": "The process of creating and selecting informative features from raw data.",
+      "definition_ko": "원시 데이터로부터 유용한 특성을 생성·선택하는 과정."
+    },
+    {
+      "id": "ensemble",
+      "term_en": "Ensemble Learning",
+      "term_ko": "앙상블 학습",
+      "category": "Machine Learning",
+      "definition_en": "Combining multiple models (bagging, boosting, stacking) to improve prediction.",
+      "definition_ko": "여러 모델을 결합(배깅, 부스팅, 스태킹)하여 예측 성능을 향상시키는 방법."
+    },
+    {
+      "id": "random_forest",
+      "term_en": "Random Forest",
+      "term_ko": "랜덤 포레스트",
+      "category": "Machine Learning",
+      "definition_en": "An ensemble of decision trees trained on random subsets of data and features.",
+      "definition_ko": "데이터와 특성의 무작위 부분집합으로 학습된 결정 트리의 앙상블."
+    },
+    {
+      "id": "svm",
+      "term_en": "Support Vector Machine (SVM)",
+      "term_ko": "서포트 벡터 머신",
+      "category": "Machine Learning",
+      "definition_en": "A classifier that finds the optimal hyperplane maximizing the margin between classes.",
+      "definition_ko": "클래스 간 마진을 최대화하는 최적 초평면을 찾는 분류기."
+    },
+    {
+      "id": "knn",
+      "term_en": "K-Nearest Neighbors (KNN)",
+      "term_ko": "K-최근접 이웃",
+      "category": "Machine Learning",
+      "definition_en": "A non-parametric algorithm classifying data points by majority vote of their K nearest neighbors.",
+      "definition_ko": "K개의 가장 가까운 이웃의 다수결로 분류하는 비모수 알고리즘."
+    },
+    {
+      "id": "pca",
+      "term_en": "Principal Component Analysis (PCA)",
+      "term_ko": "주성분 분석",
+      "category": "Machine Learning",
+      "definition_en": "A dimensionality reduction method projecting data onto directions of maximum variance.",
+      "definition_ko": "최대 분산 방향으로 데이터를 투영하는 차원 축소 방법."
+    },
+    {
+      "id": "clustering",
+      "term_en": "Clustering (K-Means, DBSCAN)",
+      "term_ko": "클러스터링",
+      "category": "Machine Learning",
+      "definition_en": "Unsupervised grouping of data points based on similarity.",
+      "definition_ko": "유사도 기반으로 데이터 포인트를 비지도 그룹화하는 방법."
+    },
+    {
+      "id": "precision_recall",
+      "term_en": "Precision / Recall / F1",
+      "term_ko": "정밀도 / 재현율 / F1",
+      "category": "Machine Learning",
+      "definition_en": "Classification metrics: precision measures exactness, recall measures completeness, F1 is their harmonic mean.",
+      "definition_ko": "분류 지표: 정밀도는 정확성, 재현율은 완전성, F1은 둘의 조화 평균."
+    },
+    {
+      "id": "roc_auc",
+      "term_en": "ROC Curve / AUC",
+      "term_ko": "ROC 곡선 / AUC",
+      "category": "Machine Learning",
+      "definition_en": "ROC plots True Positive Rate vs False Positive Rate; AUC summarizes overall classifier performance.",
+      "definition_ko": "ROC는 참양성률 대 거짓양성률을 그래프로 표시; AUC는 전체 분류기 성능을 요약."
+    },
+    {
+      "id": "gradient_boosting",
+      "term_en": "Gradient Boosting (XGBoost, LightGBM)",
+      "term_ko": "그래디언트 부스팅",
+      "category": "Machine Learning",
+      "definition_en": "An ensemble method that builds trees sequentially, each correcting the errors of the previous.",
+      "definition_ko": "트리를 순차적으로 구축하여 이전 트리의 오류를 수정하는 앙상블 방법."
+    },
+    {
+      "id": "transfer_learning",
+      "term_en": "Transfer Learning",
+      "term_ko": "전이 학습",
+      "category": "Deep Learning",
+      "definition_en": "Reusing a pre-trained model on a new, related task to reduce training time and data requirements.",
+      "definition_ko": "사전 학습된 모델을 새로운 관련 작업에 재사용하여 학습 시간과 데이터 요구량을 줄이는 기법."
+    },
+    {
+      "id": "backpropagation",
+      "term_en": "Backpropagation",
+      "term_ko": "역전파",
+      "category": "Deep Learning",
+      "definition_en": "An algorithm computing gradients layer-by-layer using the chain rule to update weights.",
+      "definition_ko": "연쇄 법칙을 사용하여 층별로 기울기를 계산하고 가중치를 업데이트하는 알고리즘."
+    },
+    {
+      "id": "batch_normalization",
+      "term_en": "Batch Normalization",
+      "term_ko": "배치 정규화",
+      "category": "Deep Learning",
+      "definition_en": "Normalizing layer inputs within mini-batches to stabilize and accelerate training.",
+      "definition_ko": "미니배치 내에서 층 입력을 정규화하여 학습을 안정화하고 가속화하는 기법."
+    },
+    {
+      "id": "dropout",
+      "term_en": "Dropout",
+      "term_ko": "드롭아웃",
+      "category": "Deep Learning",
+      "definition_en": "Randomly deactivating neurons during training to prevent co-adaptation and overfitting.",
+      "definition_ko": "학습 중 뉴런을 무작위로 비활성화하여 공동 적응과 과적합을 방지."
+    },
+    {
+      "id": "activation_function",
+      "term_en": "Activation Function (ReLU, GELU, Tanh)",
+      "term_ko": "활성화 함수",
+      "category": "Deep Learning",
+      "definition_en": "Non-linear functions applied to neuron outputs to enable learning complex patterns.",
+      "definition_ko": "뉴런 출력에 적용하는 비선형 함수로, 복잡한 패턴 학습을 가능하게 함."
+    },
+    {
+      "id": "cnn",
+      "term_en": "Convolutional Neural Network (CNN)",
+      "term_ko": "합성곱 신경망",
+      "category": "Deep Learning",
+      "definition_en": "A neural network using convolutional layers to detect spatial patterns in grid-like data (images).",
+      "definition_ko": "합성곱 층을 사용하여 이미지 등 격자형 데이터의 공간적 패턴을 감지하는 신경망."
+    },
+    {
+      "id": "rnn",
+      "term_en": "Recurrent Neural Network (RNN)",
+      "term_ko": "순환 신경망",
+      "category": "Deep Learning",
+      "definition_en": "A neural network with loops allowing information to persist, designed for sequential data.",
+      "definition_ko": "정보가 유지되는 루프가 있는 신경망으로, 순차 데이터용으로 설계됨."
+    },
+    {
+      "id": "lstm",
+      "term_en": "LSTM (Long Short-Term Memory)",
+      "term_ko": "장단기 메모리",
+      "category": "Deep Learning",
+      "definition_en": "An RNN variant with gating mechanisms to capture long-range dependencies.",
+      "definition_ko": "게이팅 메커니즘을 통해 장기 의존성을 포착하는 RNN 변형."
+    },
+    {
+      "id": "gan",
+      "term_en": "GAN (Generative Adversarial Network)",
+      "term_ko": "생성적 적대 신경망",
+      "category": "Deep Learning",
+      "definition_en": "Two networks (generator and discriminator) trained adversarially to generate realistic data.",
+      "definition_ko": "생성자와 판별자 두 네트워크가 적대적으로 학습하여 사실적 데이터를 생성."
+    },
+    {
+      "id": "vae",
+      "term_en": "VAE (Variational Autoencoder)",
+      "term_ko": "변이형 오토인코더",
+      "category": "Deep Learning",
+      "definition_en": "A generative model learning latent representations via an encoder-decoder with a probabilistic latent space.",
+      "definition_ko": "확률적 잠재 공간을 가진 인코더-디코더를 통해 잠재 표현을 학습하는 생성 모델."
+    },
+    {
+      "id": "transformer",
+      "term_en": "Transformer",
+      "term_ko": "트랜스포머",
+      "category": "Deep Learning",
+      "definition_en": "An architecture based on self-attention mechanisms, replacing recurrence for parallelizable sequence modeling.",
+      "definition_ko": "자기 주의 메커니즘 기반 아키텍처로, 순환을 대체하여 병렬화 가능한 시퀀스 모델링."
+    },
+    {
+      "id": "attention",
+      "term_en": "Attention Mechanism",
+      "term_ko": "어텐션 메커니즘",
+      "category": "Deep Learning",
+      "definition_en": "A mechanism allowing models to focus on relevant parts of the input when producing output.",
+      "definition_ko": "출력 생성 시 입력의 관련 부분에 집중할 수 있게 하는 메커니즘."
+    },
+    {
+      "id": "self_attention",
+      "term_en": "Self-Attention (Scaled Dot-Product)",
+      "term_ko": "자기 주의 (스케일드 닷프로덕트)",
+      "category": "Deep Learning",
+      "definition_en": "Attention where queries, keys, and values come from the same sequence; core of Transformers.",
+      "definition_ko": "쿼리, 키, 밸류가 같은 시퀀스에서 오는 주의 메커니즘; 트랜스포머의 핵심."
+    },
+    {
+      "id": "multi_head_attention",
+      "term_en": "Multi-Head Attention",
+      "term_ko": "멀티헤드 어텐션",
+      "category": "Deep Learning",
+      "definition_en": "Running multiple attention heads in parallel to capture different aspects of relationships.",
+      "definition_ko": "여러 어텐션 헤드를 병렬로 실행하여 관계의 다양한 측면을 포착."
+    },
+    {
+      "id": "positional_encoding",
+      "term_en": "Positional Encoding",
+      "term_ko": "위치 인코딩",
+      "category": "Deep Learning",
+      "definition_en": "Injecting position information into embeddings since Transformers lack inherent sequence order.",
+      "definition_ko": "트랜스포머에 고유한 순서 정보가 없으므로 임베딩에 위치 정보를 주입."
+    },
+    {
+      "id": "tokenization",
+      "term_en": "Tokenization",
+      "term_ko": "토큰화",
+      "category": "NLP",
+      "definition_en": "Splitting text into sub-units (words, subwords, characters) for model processing.",
+      "definition_ko": "텍스트를 모델 처리를 위한 하위 단위(단어, 서브워드, 문자)로 분할."
+    },
+    {
+      "id": "bpe",
+      "term_en": "Byte-Pair Encoding (BPE)",
+      "term_ko": "바이트 페어 인코딩",
+      "category": "NLP",
+      "definition_en": "A subword tokenization algorithm that iteratively merges the most frequent character pairs.",
+      "definition_ko": "가장 빈번한 문자 쌍을 반복적으로 병합하는 서브워드 토큰화 알고리즘."
+    },
+    {
+      "id": "embedding",
+      "term_en": "Word Embedding (Word2Vec, GloVe)",
+      "term_ko": "단어 임베딩",
+      "category": "NLP",
+      "definition_en": "Dense vector representations of words capturing semantic relationships.",
+      "definition_ko": "의미적 관계를 포착하는 단어의 밀집 벡터 표현."
+    },
+    {
+      "id": "tfidf",
+      "term_en": "TF-IDF",
+      "term_ko": "TF-IDF",
+      "category": "NLP",
+      "definition_en": "A weighting scheme reflecting how important a word is to a document in a corpus.",
+      "definition_ko": "단어가 코퍼스 내 문서에 얼마나 중요한지를 반영하는 가중치 체계."
+    },
+    {
+      "id": "bert",
+      "term_en": "BERT",
+      "term_ko": "BERT",
+      "category": "NLP",
+      "definition_en": "Bidirectional Encoder Representations from Transformers; pre-trained for language understanding.",
+      "definition_ko": "트랜스포머 기반 양방향 인코더 표현; 언어 이해를 위해 사전 학습."
+    },
+    {
+      "id": "gpt",
+      "term_en": "GPT (Generative Pre-trained Transformer)",
+      "term_ko": "GPT",
+      "category": "NLP",
+      "definition_en": "An autoregressive language model pre-trained on next-token prediction for text generation.",
+      "definition_ko": "다음 토큰 예측으로 사전 학습된 자기회귀 언어 모델."
+    },
+    {
+      "id": "ner",
+      "term_en": "Named Entity Recognition (NER)",
+      "term_ko": "개체명 인식",
+      "category": "NLP",
+      "definition_en": "Identifying and classifying named entities (person, location, org) in text.",
+      "definition_ko": "텍스트에서 개체명(인물, 장소, 조직)을 식별하고 분류하는 작업."
+    },
+    {
+      "id": "pos_tagging",
+      "term_en": "POS Tagging",
+      "term_ko": "품사 태깅",
+      "category": "NLP",
+      "definition_en": "Assigning part-of-speech labels (noun, verb, adjective) to each word in a sentence.",
+      "definition_ko": "문장의 각 단어에 품사 레이블(명사, 동사, 형용사)을 할당하는 작업."
+    },
+    {
+      "id": "seq2seq",
+      "term_en": "Sequence-to-Sequence (Seq2Seq)",
+      "term_ko": "시퀀스 투 시퀀스",
+      "category": "NLP",
+      "definition_en": "An encoder-decoder model mapping an input sequence to an output sequence (translation, summarization).",
+      "definition_ko": "입력 시퀀스를 출력 시퀀스로 매핑하는 인코더-디코더 모델 (번역, 요약)."
+    },
+    {
+      "id": "rag",
+      "term_en": "RAG (Retrieval-Augmented Generation)",
+      "term_ko": "검색 증강 생성",
+      "category": "NLP",
+      "definition_en": "Combining retrieval of relevant documents with generative models for more accurate answers.",
+      "definition_ko": "관련 문서 검색을 생성 모델과 결합하여 더 정확한 답변을 제공."
+    },
+    {
+      "id": "fine_tuning",
+      "term_en": "Fine-Tuning",
+      "term_ko": "미세 조정",
+      "category": "NLP",
+      "definition_en": "Continuing training of a pre-trained model on a smaller, task-specific dataset.",
+      "definition_ko": "사전 학습된 모델을 더 작은 특정 작업 데이터셋으로 계속 학습."
+    },
+    {
+      "id": "cosine_similarity",
+      "term_en": "Cosine Similarity",
+      "term_ko": "코사인 유사도",
+      "category": "NLP",
+      "definition_en": "A similarity metric between two vectors based on the cosine of the angle between them.",
+      "definition_ko": "두 벡터 사이의 각도의 코사인에 기반한 유사도 지표."
+    },
+    {
+      "id": "perplexity",
+      "term_en": "Perplexity",
+      "term_ko": "퍼플렉시티",
+      "category": "NLP",
+      "definition_en": "A metric for language models measuring how well they predict a sample; lower is better.",
+      "definition_ko": "언어 모델이 샘플을 얼마나 잘 예측하는지 측정하는 지표; 낮을수록 좋음."
+    },
+    {
+      "id": "bleu",
+      "term_en": "BLEU Score",
+      "term_ko": "BLEU 점수",
+      "category": "NLP",
+      "definition_en": "An evaluation metric for machine translation measuring n-gram overlap with reference translations.",
+      "definition_ko": "참조 번역과의 n-gram 겹침을 측정하는 기계 번역 평가 지표."
+    },
+    {
+      "id": "lora",
+      "term_en": "LoRA (Low-Rank Adaptation)",
+      "term_ko": "로라",
+      "category": "NLP",
+      "definition_en": "An efficient fine-tuning method that adds low-rank matrices to frozen pre-trained weights.",
+      "definition_ko": "고정된 사전 학습 가중치에 저랭크 행렬을 추가하는 효율적 미세 조정 방법."
+    },
+    {
+      "id": "prompt_engineering",
+      "term_en": "Prompt Engineering",
+      "term_ko": "프롬프트 엔지니어링",
+      "category": "NLP",
+      "definition_en": "Designing input prompts to guide LLM behavior toward desired outputs.",
+      "definition_ko": "원하는 출력을 위해 LLM의 행동을 유도하는 입력 프롬프트를 설계하는 기법."
+    },
+    {
+      "id": "convolution",
+      "term_en": "Convolution Operation",
+      "term_ko": "합성곱 연산",
+      "category": "Machine Vision",
+      "definition_en": "Sliding a kernel over an image to extract local features like edges and textures.",
+      "definition_ko": "커널을 이미지 위에 슬라이딩하여 엣지, 텍스처 등 국소 특징을 추출하는 연산."
+    },
+    {
+      "id": "pooling",
+      "term_en": "Pooling (Max, Average)",
+      "term_ko": "풀링",
+      "category": "Machine Vision",
+      "definition_en": "Downsampling feature maps by taking max or average values in local regions.",
+      "definition_ko": "국소 영역의 최댓값 또는 평균값을 취하여 특징 맵을 다운샘플링."
+    },
+    {
+      "id": "object_detection",
+      "term_en": "Object Detection",
+      "term_ko": "객체 검출",
+      "category": "Machine Vision",
+      "definition_en": "Localizing and classifying objects within an image using bounding boxes.",
+      "definition_ko": "바운딩 박스를 사용하여 이미지 내 객체를 위치 파악하고 분류."
+    },
+    {
+      "id": "yolo",
+      "term_en": "YOLO (You Only Look Once)",
+      "term_ko": "YOLO",
+      "category": "Machine Vision",
+      "definition_en": "A real-time object detection model that predicts bounding boxes and classes in a single pass.",
+      "definition_ko": "단일 패스로 바운딩 박스와 클래스를 예측하는 실시간 객체 검출 모델."
+    },
+    {
+      "id": "resnet",
+      "term_en": "ResNet (Residual Network)",
+      "term_ko": "레즈넷",
+      "category": "Machine Vision",
+      "definition_en": "A deep CNN using skip connections (residual blocks) to train very deep networks.",
+      "definition_ko": "스킵 연결(잔차 블록)을 사용하여 매우 깊은 네트워크를 학습하는 CNN."
+    },
+    {
+      "id": "semantic_segmentation",
+      "term_en": "Semantic Segmentation",
+      "term_ko": "의미론적 분할",
+      "category": "Machine Vision",
+      "definition_en": "Classifying every pixel in an image into a predefined category.",
+      "definition_ko": "이미지의 모든 픽셀을 미리 정의된 카테고리로 분류."
+    },
+    {
+      "id": "instance_segmentation",
+      "term_en": "Instance Segmentation",
+      "term_ko": "인스턴스 분할",
+      "category": "Machine Vision",
+      "definition_en": "Detecting and delineating each individual object instance at pixel level.",
+      "definition_ko": "픽셀 수준에서 각 개별 객체 인스턴스를 감지하고 경계를 구분."
+    },
+    {
+      "id": "iou",
+      "term_en": "IoU (Intersection over Union)",
+      "term_ko": "IoU (교집합/합집합)",
+      "category": "Machine Vision",
+      "definition_en": "A metric measuring overlap between predicted and ground-truth bounding boxes.",
+      "definition_ko": "예측 바운딩 박스와 정답 바운딩 박스의 겹침을 측정하는 지표."
+    },
+    {
+      "id": "nms",
+      "term_en": "Non-Maximum Suppression (NMS)",
+      "term_ko": "비최대 억제",
+      "category": "Machine Vision",
+      "definition_en": "Filtering overlapping detections to keep only the highest-confidence bounding box.",
+      "definition_ko": "겹치는 검출 결과 중 가장 높은 신뢰도의 바운딩 박스만 유지하는 필터링."
+    },
+    {
+      "id": "anchor_box",
+      "term_en": "Anchor Box",
+      "term_ko": "앵커 박스",
+      "category": "Machine Vision",
+      "definition_en": "Predefined bounding box templates of various sizes and aspect ratios used in detection models.",
+      "definition_ko": "검출 모델에서 사용하는 다양한 크기와 종횡비의 사전 정의된 바운딩 박스 템플릿."
+    },
+    {
+      "id": "feature_pyramid",
+      "term_en": "Feature Pyramid Network (FPN)",
+      "term_ko": "특징 피라미드 네트워크",
+      "category": "Machine Vision",
+      "definition_en": "A multi-scale feature extraction architecture for detecting objects at different sizes.",
+      "definition_ko": "다양한 크기의 객체를 검출하기 위한 다중 스케일 특징 추출 아키텍처."
+    },
+    {
+      "id": "data_augmentation",
+      "term_en": "Data Augmentation",
+      "term_ko": "데이터 증강",
+      "category": "Machine Vision",
+      "definition_en": "Applying transformations (rotation, flip, crop, color jitter) to training images to increase data diversity.",
+      "definition_ko": "학습 이미지에 변환(회전, 뒤집기, 자르기, 색상 변화)을 적용하여 데이터 다양성을 증가."
+    },
+    {
+      "id": "optical_flow",
+      "term_en": "Optical Flow",
+      "term_ko": "옵티컬 플로우",
+      "category": "Machine Vision",
+      "definition_en": "Estimating per-pixel motion between consecutive video frames.",
+      "definition_ko": "연속 비디오 프레임 간의 픽셀별 움직임을 추정."
+    },
+    {
+      "id": "object_tracking",
+      "term_en": "Object Tracking",
+      "term_ko": "객체 추적",
+      "category": "Machine Vision",
+      "definition_en": "Following a specific object across video frames over time.",
+      "definition_ko": "시간의 흐름에 따라 비디오 프레임에서 특정 객체를 추적."
+    },
+    {
+      "id": "image_classification",
+      "term_en": "Image Classification",
+      "term_ko": "이미지 분류",
+      "category": "Machine Vision",
+      "definition_en": "Assigning a categorical label to an entire image.",
+      "definition_ko": "전체 이미지에 범주형 레이블을 할당하는 작업."
+    },
+    {
+      "id": "feature_map",
+      "term_en": "Feature Map",
+      "term_ko": "특징 맵",
+      "category": "Machine Vision",
+      "definition_en": "The output of a convolutional layer representing detected features at each spatial location.",
+      "definition_ko": "합성곱 층의 출력으로, 각 공간적 위치에서 감지된 특징을 나타냄."
+    },
+    {
+      "id": "receptive_field",
+      "term_en": "Receptive Field",
+      "term_ko": "수용 영역",
+      "category": "Machine Vision",
+      "definition_en": "The region in the input image that influences a particular neuron in a later layer.",
+      "definition_ko": "이후 층의 특정 뉴런에 영향을 미치는 입력 이미지의 영역."
+    },
+    {
+      "id": "map",
+      "term_en": "mAP (Mean Average Precision)",
+      "term_ko": "평균 정밀도 평균",
+      "category": "Machine Vision",
+      "definition_en": "The primary metric for object detection averaging precision across all classes and IoU thresholds.",
+      "definition_ko": "모든 클래스와 IoU 임계값에 걸쳐 정밀도를 평균한 객체 검출의 주요 지표."
+    },
+    {
+      "id": "depth_estimation",
+      "term_en": "Depth Estimation",
+      "term_ko": "깊이 추정",
+      "category": "Machine Vision",
+      "definition_en": "Predicting the distance of each pixel from the camera, using monocular or stereo methods.",
+      "definition_ko": "단안 또는 스테레오 방법을 사용하여 카메라로부터 각 픽셀의 거리를 예측."
+    },
+    {
+      "id": "image_generation",
+      "term_en": "Image Generation (Diffusion Models)",
+      "term_ko": "이미지 생성 (확산 모델)",
+      "category": "Machine Vision",
+      "definition_en": "Creating images from noise through iterative denoising; used in DALL-E, Stable Diffusion.",
+      "definition_ko": "반복적 노이즈 제거를 통해 노이즈에서 이미지를 생성; DALL-E, Stable Diffusion에서 사용."
+    },
+    {
+      "id": "vit",
+      "term_en": "Vision Transformer (ViT)",
+      "term_ko": "비전 트랜스포머",
+      "category": "Machine Vision",
+      "definition_en": "Applying the Transformer architecture directly to image patches for visual recognition.",
+      "definition_ko": "이미지 패치에 트랜스포머 아키텍처를 직접 적용하여 시각적 인식을 수행."
+    },
+    {
+      "id": "bayes_theorem",
+      "term_en": "Bayes' Theorem",
+      "term_ko": "베이즈 정리",
+      "category": "Statistics",
+      "definition_en": "P(A|B) = P(B|A)P(A)/P(B); fundamental for probabilistic inference and ML.",
+      "definition_ko": "P(A|B) = P(B|A)P(A)/P(B); 확률적 추론과 ML의 기본."
+    },
+    {
+      "id": "mle",
+      "term_en": "Maximum Likelihood Estimation (MLE)",
+      "term_ko": "최대 우도 추정",
+      "category": "Statistics",
+      "definition_en": "Estimating model parameters by maximizing the likelihood of observed data.",
+      "definition_ko": "관측 데이터의 우도를 최대화하여 모델 파라미터를 추정."
+    },
+    {
+      "id": "map_estimate",
+      "term_en": "MAP Estimation",
+      "term_ko": "최대 사후 추정",
+      "category": "Statistics",
+      "definition_en": "Parameter estimation incorporating prior beliefs via Bayes' theorem.",
+      "definition_ko": "베이즈 정리를 통해 사전 지식을 결합한 파라미터 추정."
+    },
+    {
+      "id": "gaussian",
+      "term_en": "Gaussian (Normal) Distribution",
+      "term_ko": "가우시안 (정규) 분포",
+      "category": "Statistics",
+      "definition_en": "A symmetric bell-shaped distribution defined by mean and standard deviation.",
+      "definition_ko": "평균과 표준편차로 정의되는 대칭 종 모양의 분포."
+    },
+    {
+      "id": "covariance",
+      "term_en": "Covariance / Correlation",
+      "term_ko": "공분산 / 상관관계",
+      "category": "Statistics",
+      "definition_en": "Measures of how two variables change together; correlation normalizes covariance to [-1, 1].",
+      "definition_ko": "두 변수가 함께 변하는 정도를 측정; 상관관계는 공분산을 [-1, 1]로 정규화."
+    },
+    {
+      "id": "expectation",
+      "term_en": "Expectation (Expected Value)",
+      "term_ko": "기대값",
+      "category": "Statistics",
+      "definition_en": "The weighted average of all possible values of a random variable.",
+      "definition_ko": "확률 변수의 모든 가능한 값의 가중 평균."
+    },
+    {
+      "id": "information_theory",
+      "term_en": "Entropy (Information Theory)",
+      "term_ko": "엔트로피 (정보 이론)",
+      "category": "Statistics",
+      "definition_en": "A measure of uncertainty or information content in a probability distribution.",
+      "definition_ko": "확률 분포의 불확실성 또는 정보 함유량을 측정하는 지표."
+    },
+    {
+      "id": "outlier",
+      "term_en": "Outlier",
+      "term_ko": "이상치",
+      "category": "Statistics",
+      "definition_en": "A data point significantly different from the majority of observations.",
+      "definition_ko": "대다수 관측치와 크게 다른 데이터 포인트."
+    },
+    {
+      "id": "anomaly_detection",
+      "term_en": "Anomaly Detection",
+      "term_ko": "이상 탐지",
+      "category": "Machine Learning",
+      "definition_en": "Identifying rare items or observations that deviate significantly from the norm.",
+      "definition_ko": "정상 범위에서 크게 벗어난 희귀 항목이나 관측치를 식별."
+    },
+    {
+      "id": "confusion_matrix",
+      "term_en": "Confusion Matrix",
+      "term_ko": "혼동 행렬",
+      "category": "Machine Learning",
+      "definition_en": "A table showing TP, FP, TN, FN counts to evaluate classification performance.",
+      "definition_ko": "TP, FP, TN, FN 수를 보여주는 분류 성능 평가 표."
+    },
+    {
+      "id": "feature_scaling",
+      "term_en": "Feature Scaling (Normalization / Standardization)",
+      "term_ko": "특성 스케일링",
+      "category": "Machine Learning",
+      "definition_en": "Transforming features to a common scale (min-max or z-score) for better model convergence.",
+      "definition_ko": "더 나은 모델 수렴을 위해 특성을 공통 스케일(min-max 또는 z-score)로 변환."
+    },
+    {
+      "id": "decision_tree",
+      "term_en": "Decision Tree",
+      "term_ko": "결정 트리",
+      "category": "Machine Learning",
+      "definition_en": "A tree-structured model making predictions by splitting data on feature thresholds.",
+      "definition_ko": "특성 임계값으로 데이터를 분할하여 예측하는 트리 구조 모델."
+    },
+    {
+      "id": "naive_bayes",
+      "term_en": "Naive Bayes",
+      "term_ko": "나이브 베이즈",
+      "category": "Machine Learning",
+      "definition_en": "A probabilistic classifier assuming feature independence based on Bayes' theorem.",
+      "definition_ko": "베이즈 정리에 기반하여 특성 독립을 가정하는 확률적 분류기."
+    },
+    {
+      "id": "logistic_regression",
+      "term_en": "Logistic Regression",
+      "term_ko": "로지스틱 회귀",
+      "category": "Machine Learning",
+      "definition_en": "A linear model for binary classification using the sigmoid function.",
+      "definition_ko": "시그모이드 함수를 사용한 이진 분류 선형 모델."
+    },
+    {
+      "id": "linear_regression",
+      "term_en": "Linear Regression",
+      "term_ko": "선형 회귀",
+      "category": "Machine Learning",
+      "definition_en": "A model predicting a continuous target as a linear combination of features.",
+      "definition_ko": "특성의 선형 결합으로 연속형 타겟을 예측하는 모델."
+    },
+    {
+      "id": "dimensionality_reduction",
+      "term_en": "Dimensionality Reduction",
+      "term_ko": "차원 축소",
+      "category": "Machine Learning",
+      "definition_en": "Reducing the number of features while preserving essential information (PCA, t-SNE, UMAP).",
+      "definition_ko": "핵심 정보를 보존하면서 특성 수를 줄이는 기법 (PCA, t-SNE, UMAP)."
+    },
+    {
+      "id": "tsne",
+      "term_en": "t-SNE",
+      "term_ko": "t-SNE",
+      "category": "Machine Learning",
+      "definition_en": "A nonlinear dimensionality reduction technique for visualizing high-dimensional data.",
+      "definition_ko": "고차원 데이터를 시각화하기 위한 비선형 차원 축소 기법."
+    },
+    {
+      "id": "umap",
+      "term_en": "UMAP",
+      "term_ko": "UMAP",
+      "category": "Machine Learning",
+      "definition_en": "Uniform Manifold Approximation and Projection; a fast dimensionality reduction method.",
+      "definition_ko": "균일 다양체 근사 및 투영; 빠른 차원 축소 방법."
+    },
+    {
+      "id": "bagging",
+      "term_en": "Bagging (Bootstrap Aggregating)",
+      "term_ko": "배깅",
+      "category": "Machine Learning",
+      "definition_en": "Training multiple models on bootstrap samples and averaging predictions.",
+      "definition_ko": "부트스트랩 샘플로 여러 모델을 학습하고 예측을 평균화."
+    },
+    {
+      "id": "boosting",
+      "term_en": "Boosting (AdaBoost)",
+      "term_ko": "부스팅",
+      "category": "Machine Learning",
+      "definition_en": "Sequentially training weak learners, each focusing on previous errors.",
+      "definition_ko": "이전 오류에 집중하여 약한 학습기를 순차적으로 학습."
+    },
+    {
+      "id": "stacking",
+      "term_en": "Stacking",
+      "term_ko": "스태킹",
+      "category": "Machine Learning",
+      "definition_en": "Training a meta-model on the outputs of multiple base models.",
+      "definition_ko": "여러 기본 모델의 출력으로 메타 모델을 학습."
+    },
+    {
+      "id": "grid_search",
+      "term_en": "Grid Search / Random Search",
+      "term_ko": "그리드 서치 / 랜덤 서치",
+      "category": "Machine Learning",
+      "definition_en": "Hyperparameter tuning by exhaustively or randomly searching parameter combinations.",
+      "definition_ko": "파라미터 조합을 전수 또는 무작위로 탐색하는 하이퍼파라미터 튜닝."
+    },
+    {
+      "id": "early_stopping",
+      "term_en": "Early Stopping",
+      "term_ko": "조기 종료",
+      "category": "Machine Learning",
+      "definition_en": "Halting training when validation performance stops improving to prevent overfitting.",
+      "definition_ko": "검증 성능 개선이 멈추면 학습을 중단하여 과적합을 방지."
+    },
+    {
+      "id": "class_imbalance",
+      "term_en": "Class Imbalance",
+      "term_ko": "클래스 불균형",
+      "category": "Machine Learning",
+      "definition_en": "When one class has significantly more samples than others, biasing the model.",
+      "definition_ko": "한 클래스의 샘플이 다른 클래스보다 현저히 많아 모델에 편향을 주는 현상."
+    },
+    {
+      "id": "smote",
+      "term_en": "SMOTE",
+      "term_ko": "SMOTE",
+      "category": "Machine Learning",
+      "definition_en": "Synthetic Minority Over-sampling Technique for handling class imbalance.",
+      "definition_ko": "클래스 불균형 처리를 위한 합성 소수 클래스 오버샘플링 기법."
+    },
+    {
+      "id": "curse_of_dimensionality",
+      "term_en": "Curse of Dimensionality",
+      "term_ko": "차원의 저주",
+      "category": "Machine Learning",
+      "definition_en": "Phenomena where high-dimensional spaces cause data sparsity and increased computation.",
+      "definition_ko": "고차원 공간에서 데이터 희소성과 계산량이 증가하는 현상."
+    },
+    {
+      "id": "semi_supervised",
+      "term_en": "Semi-Supervised Learning",
+      "term_ko": "준지도 학습",
+      "category": "Machine Learning",
+      "definition_en": "Learning from both labeled and unlabeled data.",
+      "definition_ko": "레이블이 있는 데이터와 없는 데이터를 모두 사용하여 학습."
+    },
+    {
+      "id": "self_supervised",
+      "term_en": "Self-Supervised Learning",
+      "term_ko": "자기 지도 학습",
+      "category": "Machine Learning",
+      "definition_en": "Learning representations from unlabeled data by creating pseudo-labels from the data itself.",
+      "definition_ko": "데이터 자체에서 의사 레이블을 생성하여 비레이블 데이터로 표현을 학습."
+    },
+    {
+      "id": "reinforcement_learning",
+      "term_en": "Reinforcement Learning",
+      "term_ko": "강화 학습",
+      "category": "Machine Learning",
+      "definition_en": "Learning through trial and error by maximizing cumulative rewards.",
+      "definition_ko": "누적 보상을 최대화하며 시행착오를 통해 학습."
+    },
+    {
+      "id": "reward_function",
+      "term_en": "Reward Function",
+      "term_ko": "보상 함수",
+      "category": "Machine Learning",
+      "definition_en": "A function defining the signal an RL agent receives for its actions.",
+      "definition_ko": "RL 에이전트가 행동에 대해 받는 신호를 정의하는 함수."
+    },
+    {
+      "id": "policy_gradient",
+      "term_en": "Policy Gradient",
+      "term_ko": "정책 기울기",
+      "category": "Machine Learning",
+      "definition_en": "Directly optimizing the policy function in reinforcement learning.",
+      "definition_ko": "강화 학습에서 정책 함수를 직접 최적화하는 방법."
+    },
+    {
+      "id": "q_learning",
+      "term_en": "Q-Learning / DQN",
+      "term_ko": "Q-학습 / DQN",
+      "category": "Machine Learning",
+      "definition_en": "Value-based RL estimating action-value functions; DQN uses deep networks.",
+      "definition_ko": "행동-가치 함수를 추정하는 가치 기반 RL; DQN은 딥네트워크 사용."
+    },
+    {
+      "id": "svd",
+      "term_en": "Singular Value Decomposition (SVD)",
+      "term_ko": "특이값 분해",
+      "category": "AI Math",
+      "definition_en": "Factorizing a matrix into U·Σ·Vᵀ; used in dimensionality reduction and recommender systems.",
+      "definition_ko": "행렬을 U·Σ·Vᵀ 로 분해; 차원 축소와 추천 시스템에 사용."
+    },
+    {
+      "id": "lagrange_multiplier",
+      "term_en": "Lagrange Multiplier",
+      "term_ko": "라그랑주 승수",
+      "category": "AI Math",
+      "definition_en": "A method for constrained optimization fundamental to SVM derivation.",
+      "definition_ko": "SVM 유도에 핵심적인 제약 조건 최적화 방법."
+    },
+    {
+      "id": "convexity",
+      "term_en": "Convexity / Non-Convexity",
+      "term_ko": "볼록성 / 비볼록성",
+      "category": "AI Math",
+      "definition_en": "A function is convex if local minima are global; neural nets have non-convex loss surfaces.",
+      "definition_ko": "국소 최솟값이 전역 최솟값이면 볼록; 신경망은 비볼록 손실 표면을 가짐."
+    },
+    {
+      "id": "taylor_expansion",
+      "term_en": "Taylor Expansion",
+      "term_ko": "테일러 전개",
+      "category": "AI Math",
+      "definition_en": "Approximating functions as infinite polynomial sums; used to analyze gradient methods.",
+      "definition_ko": "함수를 무한 다항식 합으로 근사; 기울기 방법 분석에 사용."
+    },
+    {
+      "id": "fourier_transform",
+      "term_en": "Fourier Transform",
+      "term_ko": "푸리에 변환",
+      "category": "AI Math",
+      "definition_en": "Decomposing signals into frequency components; used in image/signal processing.",
+      "definition_ko": "신호를 주파수 성분으로 분해; 이미지/신호 처리에 사용."
+    },
+    {
+      "id": "information_gain",
+      "term_en": "Information Gain",
+      "term_ko": "정보 이득",
+      "category": "AI Math",
+      "definition_en": "Reduction in entropy after splitting data on a feature; used in decision trees.",
+      "definition_ko": "특성으로 데이터를 분할한 후 엔트로피 감소; 결정 트리에서 사용."
+    },
+    {
+      "id": "gini_impurity",
+      "term_en": "Gini Impurity",
+      "term_ko": "지니 불순도",
+      "category": "AI Math",
+      "definition_en": "A measure of misclassification probability used for decision tree splits.",
+      "definition_ko": "결정 트리 분할에 사용되는 잘못 분류 확률 측정값."
+    },
+    {
+      "id": "log_likelihood",
+      "term_en": "Log-Likelihood",
+      "term_ko": "로그 우도",
+      "category": "AI Math",
+      "definition_en": "The logarithm of the likelihood function; simplifies optimization of products to sums.",
+      "definition_ko": "우도 함수의 로그; 곱의 최적화를 합으로 단순화."
+    },
+    {
+      "id": "monte_carlo",
+      "term_en": "Monte Carlo Method",
+      "term_ko": "몬테카를로 방법",
+      "category": "Statistics",
+      "definition_en": "Using random sampling to approximate numerical results.",
+      "definition_ko": "무작위 샘플링을 사용하여 수치 결과를 근사."
+    },
+    {
+      "id": "central_limit_theorem",
+      "term_en": "Central Limit Theorem",
+      "term_ko": "중심극한정리",
+      "category": "Statistics",
+      "definition_en": "Sample means converge to a normal distribution regardless of the population distribution.",
+      "definition_ko": "모집단 분포와 관계없이 표본 평균이 정규 분포로 수렴."
+    },
+    {
+      "id": "hypothesis_testing",
+      "term_en": "Hypothesis Testing",
+      "term_ko": "가설 검정",
+      "category": "Statistics",
+      "definition_en": "Using statistical tests (t-test, chi-square) to determine significance of results.",
+      "definition_ko": "통계적 검정(t-검정, 카이제곱)을 사용하여 결과의 유의성을 판단."
+    },
+    {
+      "id": "p_value",
+      "term_en": "P-Value",
+      "term_ko": "P-값",
+      "category": "Statistics",
+      "definition_en": "The probability of observing results as extreme as the test statistic under the null hypothesis.",
+      "definition_ko": "귀무가설 하에서 검정 통계량만큼 극단적인 결과를 관측할 확률."
+    },
+    {
+      "id": "confidence_interval",
+      "term_en": "Confidence Interval",
+      "term_ko": "신뢰 구간",
+      "category": "Statistics",
+      "definition_en": "A range of values likely to contain the true population parameter.",
+      "definition_ko": "실제 모집단 파라미터를 포함할 가능성이 높은 값의 범위."
+    },
+    {
+      "id": "joint_probability",
+      "term_en": "Joint / Marginal / Conditional Probability",
+      "term_ko": "결합 / 주변 / 조건부 확률",
+      "category": "Statistics",
+      "definition_en": "Fundamental probability concepts for multi-variable analysis and Bayesian reasoning.",
+      "definition_ko": "다변량 분석과 베이지안 추론의 기본 확률 개념."
+    },
+    {
+      "id": "sampling",
+      "term_en": "Sampling (Random, Stratified)",
+      "term_ko": "샘플링",
+      "category": "Statistics",
+      "definition_en": "Selecting subsets of data for training and evaluation; stratified preserves class proportions.",
+      "definition_ko": "학습과 평가를 위해 데이터 부분 집합을 선택; 층화는 클래스 비율을 보존."
+    },
+    {
+      "id": "lr_scheduler",
+      "term_en": "Learning Rate Scheduler",
+      "term_ko": "학습률 스케줄러",
+      "category": "Optimization",
+      "definition_en": "Adjusting the learning rate during training (step decay, cosine annealing, warm-up).",
+      "definition_ko": "학습 중 학습률을 조정 (스텝 감쇠, 코사인 어닐링, 웜업)."
+    },
+    {
+      "id": "rmsprop",
+      "term_en": "RMSProp",
+      "term_ko": "RMSProp",
+      "category": "Optimization",
+      "definition_en": "An adaptive optimizer dividing learning rate by running average of gradient magnitudes.",
+      "definition_ko": "기울기 크기의 이동 평균으로 학습률을 나누는 적응형 옵티마이저."
+    },
+    {
+      "id": "weight_decay",
+      "term_en": "Weight Decay",
+      "term_ko": "가중치 감쇠",
+      "category": "Optimization",
+      "definition_en": "Adding L2 penalty to weights during optimization to prevent overfitting.",
+      "definition_ko": "과적합 방지를 위해 최적화 중 가중치에 L2 패널티를 추가."
+    },
+    {
+      "id": "gradient_clipping",
+      "term_en": "Gradient Clipping",
+      "term_ko": "기울기 클리핑",
+      "category": "Optimization",
+      "definition_en": "Capping gradient values to prevent exploding gradients during training.",
+      "definition_ko": "학습 중 기울기 폭발을 방지하기 위해 기울기 값을 제한."
+    },
+    {
+      "id": "vanishing_gradient",
+      "term_en": "Vanishing / Exploding Gradient",
+      "term_ko": "기울기 소실 / 폭발",
+      "category": "Deep Learning",
+      "definition_en": "Gradients becoming too small or large during backpropagation in deep networks.",
+      "definition_ko": "깊은 네트워크의 역전파 중 기울기가 너무 작아지거나 커지는 현상."
+    },
+    {
+      "id": "residual_connection",
+      "term_en": "Residual (Skip) Connection",
+      "term_ko": "잔차 연결",
+      "category": "Deep Learning",
+      "definition_en": "Adding input directly to output of a layer block to ease training of deep networks.",
+      "definition_ko": "층 블록의 출력에 입력을 직접 더하여 깊은 네트워크 학습을 용이하게 함."
+    },
+    {
+      "id": "layer_normalization",
+      "term_en": "Layer Normalization",
+      "term_ko": "레이어 정규화",
+      "category": "Deep Learning",
+      "definition_en": "Normalizing across features within a single sample; preferred in Transformers.",
+      "definition_ko": "단일 샘플 내 특성에 걸쳐 정규화; 트랜스포머에서 선호."
+    },
+    {
+      "id": "knowledge_distillation",
+      "term_en": "Knowledge Distillation",
+      "term_ko": "지식 증류",
+      "category": "Deep Learning",
+      "definition_en": "Training a smaller student model to mimic a larger teacher model.",
+      "definition_ko": "큰 교사 모델을 모방하도록 작은 학생 모델을 학습."
+    },
+    {
+      "id": "mixed_precision",
+      "term_en": "Mixed Precision Training",
+      "term_ko": "혼합 정밀도 학습",
+      "category": "Deep Learning",
+      "definition_en": "Using FP16 and FP32 together to speed up training while maintaining accuracy.",
+      "definition_ko": "정확도를 유지하면서 학습을 가속화하기 위해 FP16과 FP32를 함께 사용."
+    },
+    {
+      "id": "autoencoder",
+      "term_en": "Autoencoder",
+      "term_ko": "오토인코더",
+      "category": "Deep Learning",
+      "definition_en": "A network trained to reconstruct its input, learning compressed representations.",
+      "definition_ko": "입력을 재구성하도록 학습하여 압축된 표현을 학습하는 네트워크."
+    },
+    {
+      "id": "contrastive_learning",
+      "term_en": "Contrastive Learning",
+      "term_ko": "대조 학습",
+      "category": "Deep Learning",
+      "definition_en": "Learning representations by pulling similar pairs close and pushing dissimilar pairs apart.",
+      "definition_ko": "유사한 쌍을 가깝게, 비유사한 쌍을 멀리하여 표현을 학습."
+    },
+    {
+      "id": "diffusion_model",
+      "term_en": "Diffusion Model",
+      "term_ko": "확산 모델",
+      "category": "Deep Learning",
+      "definition_en": "A generative model that learns to reverse a gradual noising process.",
+      "definition_ko": "점진적 노이즈 추가 과정을 역으로 학습하는 생성 모델."
+    },
+    {
+      "id": "cross_attention",
+      "term_en": "Cross-Attention",
+      "term_ko": "교차 어텐션",
+      "category": "Deep Learning",
+      "definition_en": "Attention where queries come from one sequence and keys/values from another.",
+      "definition_ko": "쿼리가 한 시퀀스에서, 키/밸류가 다른 시퀀스에서 오는 어텐션."
+    },
+    {
+      "id": "flash_attention",
+      "term_en": "Flash Attention",
+      "term_ko": "플래시 어텐션",
+      "category": "Deep Learning",
+      "definition_en": "An IO-aware exact attention algorithm that reduces memory usage and speeds up Transformers.",
+      "definition_ko": "메모리 사용을 줄이고 트랜스포머를 가속화하는 IO-인식 정확 어텐션 알고리즘."
+    },
+    {
+      "id": "gru",
+      "term_en": "GRU (Gated Recurrent Unit)",
+      "term_ko": "게이트 순환 유닛",
+      "category": "Deep Learning",
+      "definition_en": "A simplified RNN variant with reset and update gates, fewer parameters than LSTM.",
+      "definition_ko": "리셋 및 업데이트 게이트를 가진 간소화된 RNN 변형, LSTM보다 파라미터가 적음."
+    },
+    {
+      "id": "word_sense_disambiguation",
+      "term_en": "Word Sense Disambiguation (WSD)",
+      "term_ko": "단어 의미 중의성 해소",
+      "category": "NLP",
+      "definition_en": "Determining which meaning of a word is used in a given context.",
+      "definition_ko": "주어진 문맥에서 단어의 어떤 의미가 사용되는지 결정."
+    },
+    {
+      "id": "sentiment_analysis",
+      "term_en": "Sentiment Analysis",
+      "term_ko": "감성 분석",
+      "category": "NLP",
+      "definition_en": "Classifying text by expressed opinion or emotion (positive, negative, neutral).",
+      "definition_ko": "표현된 의견이나 감정(긍정, 부정, 중립)으로 텍스트를 분류."
+    },
+    {
+      "id": "text_summarization",
+      "term_en": "Text Summarization",
+      "term_ko": "텍스트 요약",
+      "category": "NLP",
+      "definition_en": "Generating shorter versions of text preserving key information (extractive or abstractive).",
+      "definition_ko": "핵심 정보를 보존하면서 텍스트의 짧은 버전을 생성 (추출적 또는 생성적)."
+    },
+    {
+      "id": "question_answering",
+      "term_en": "Question Answering (QA)",
+      "term_ko": "질의 응답",
+      "category": "NLP",
+      "definition_en": "Systems that automatically answer questions given a context or knowledge source.",
+      "definition_ko": "맥락이나 지식 소스가 주어지면 자동으로 질문에 답변하는 시스템."
+    },
+    {
+      "id": "dependency_parsing",
+      "term_en": "Dependency Parsing",
+      "term_ko": "의존 구문 분석",
+      "category": "NLP",
+      "definition_en": "Analyzing grammatical structure by identifying dependency relations between words.",
+      "definition_ko": "단어 간 의존 관계를 식별하여 문법 구조를 분석."
+    },
+    {
+      "id": "language_model",
+      "term_en": "Language Model (LM)",
+      "term_ko": "언어 모델",
+      "category": "NLP",
+      "definition_en": "A probabilistic model predicting the next word or sequence of words.",
+      "definition_ko": "다음 단어 또는 단어 시퀀스를 예측하는 확률 모델."
+    },
+    {
+      "id": "masked_language_model",
+      "term_en": "Masked Language Modeling (MLM)",
+      "term_ko": "마스크드 언어 모델링",
+      "category": "NLP",
+      "definition_en": "Pre-training objective where random tokens are masked and predicted from context (used in BERT).",
+      "definition_ko": "무작위 토큰을 마스킹하고 문맥에서 예측하는 사전 학습 목표 (BERT에서 사용)."
+    },
+    {
+      "id": "beam_search",
+      "term_en": "Beam Search",
+      "term_ko": "빔 서치",
+      "category": "NLP",
+      "definition_en": "A decoding strategy keeping top-K candidate sequences at each step.",
+      "definition_ko": "각 단계에서 상위 K개의 후보 시퀀스를 유지하는 디코딩 전략."
+    },
+    {
+      "id": "hallucination",
+      "term_en": "Hallucination",
+      "term_ko": "할루시네이션",
+      "category": "NLP",
+      "definition_en": "When a language model generates plausible but factually incorrect information.",
+      "definition_ko": "언어 모델이 그럴듯하지만 사실적으로 틀린 정보를 생성하는 현상."
+    },
+    {
+      "id": "chain_of_thought",
+      "term_en": "Chain-of-Thought (CoT)",
+      "term_ko": "사고의 연쇄",
+      "category": "NLP",
+      "definition_en": "Prompting LLMs to reason step-by-step before giving a final answer.",
+      "definition_ko": "최종 답변 전에 단계별로 추론하도록 LLM을 유도하는 프롬프팅."
+    },
+    {
+      "id": "rlhf",
+      "term_en": "RLHF (Reinforcement Learning from Human Feedback)",
+      "term_ko": "인간 피드백 강화 학습",
+      "category": "NLP",
+      "definition_en": "Fine-tuning LLMs using human preference data to align outputs with human values.",
+      "definition_ko": "인간 선호 데이터를 사용하여 출력을 인간 가치에 맞게 LLM을 미세 조정."
+    },
+    {
+      "id": "panoptic_segmentation",
+      "term_en": "Panoptic Segmentation",
+      "term_ko": "파놉틱 분할",
+      "category": "Machine Vision",
+      "definition_en": "Unifying semantic and instance segmentation into a single output.",
+      "definition_ko": "의미론적 분할과 인스턴스 분할을 하나의 출력으로 통합."
+    },
+    {
+      "id": "pose_estimation",
+      "term_en": "Pose Estimation",
+      "term_ko": "자세 추정",
+      "category": "Machine Vision",
+      "definition_en": "Detecting the position and orientation of body keypoints or object parts.",
+      "definition_ko": "신체 키포인트 또는 객체 부분의 위치와 방향을 검출."
+    },
+    {
+      "id": "stereo_vision",
+      "term_en": "Stereo Vision",
+      "term_ko": "스테레오 비전",
+      "category": "Machine Vision",
+      "definition_en": "Using two cameras to compute depth by matching corresponding points.",
+      "definition_ko": "두 카메라를 사용하여 대응점을 매칭하여 깊이를 계산."
+    },
+    {
+      "id": "point_cloud",
+      "term_en": "Point Cloud",
+      "term_ko": "포인트 클라우드",
+      "category": "Machine Vision",
+      "definition_en": "A set of 3D points representing the surface of objects, often from LiDAR.",
+      "definition_ko": "객체 표면을 나타내는 3D 점 집합, 주로 LiDAR에서 생성."
+    },
+    {
+      "id": "homography",
+      "term_en": "Homography",
+      "term_ko": "호모그래피",
+      "category": "Machine Vision",
+      "definition_en": "A projective transformation mapping points between two planes in different views.",
+      "definition_ko": "다른 뷰의 두 평면 간 점을 매핑하는 사영 변환."
+    },
+    {
+      "id": "camera_calibration",
+      "term_en": "Camera Calibration",
+      "term_ko": "카메라 보정",
+      "category": "Machine Vision",
+      "definition_en": "Estimating intrinsic and extrinsic camera parameters for accurate 3D reconstruction.",
+      "definition_ko": "정확한 3D 재구성을 위해 카메라 내부 및 외부 파라미터를 추정."
+    },
+    {
+      "id": "sift",
+      "term_en": "SIFT / SURF / ORB",
+      "term_ko": "SIFT / SURF / ORB",
+      "category": "Machine Vision",
+      "definition_en": "Classical feature descriptor algorithms for keypoint detection and matching.",
+      "definition_ko": "키포인트 검출 및 매칭을 위한 고전적 특징 디스크립터 알고리즘."
+    },
+    {
+      "id": "image_stitching",
+      "term_en": "Image Stitching (Panorama)",
+      "term_ko": "이미지 스티칭",
+      "category": "Machine Vision",
+      "definition_en": "Combining overlapping images into a seamless panoramic view.",
+      "definition_ko": "겹치는 이미지를 매끄러운 파노라마 뷰로 결합."
+    },
+    {
+      "id": "edge_detection",
+      "term_en": "Edge Detection (Canny, Sobel)",
+      "term_ko": "엣지 검출",
+      "category": "Machine Vision",
+      "definition_en": "Detecting boundaries in images using gradient-based filters.",
+      "definition_ko": "기울기 기반 필터를 사용하여 이미지의 경계를 검출."
+    },
+    {
+      "id": "morphological_ops",
+      "term_en": "Morphological Operations",
+      "term_ko": "형태학적 연산",
+      "category": "Machine Vision",
+      "definition_en": "Image processing using erosion, dilation, opening, and closing for shape analysis.",
+      "definition_ko": "침식, 팽창, 열기, 닫기를 사용한 형상 분석 이미지 처리."
+    },
+    {
+      "id": "histogram_equalization",
+      "term_en": "Histogram Equalization",
+      "term_ko": "히스토그램 평활화",
+      "category": "Machine Vision",
+      "definition_en": "Enhancing image contrast by redistributing pixel intensity values.",
+      "definition_ko": "픽셀 강도 값을 재분배하여 이미지 대비를 향상."
+    },
+    {
+      "id": "slam",
+      "term_en": "SLAM (Simultaneous Localization and Mapping)",
+      "term_ko": "SLAM",
+      "category": "Machine Vision",
+      "definition_en": "Building a map of an unknown environment while tracking the agent's location.",
+      "definition_ko": "에이전트의 위치를 추적하면서 미지 환경의 지도를 구축."
+    },
+    {
+      "id": "nerf",
+      "term_en": "NeRF (Neural Radiance Fields)",
+      "term_ko": "NeRF",
+      "category": "Machine Vision",
+      "definition_en": "Representing 3D scenes as neural networks for novel view synthesis.",
+      "definition_ko": "새로운 시점 합성을 위해 3D 장면을 신경망으로 표현."
+    },
+    {
+      "id": "ocr",
+      "term_en": "OCR (Optical Character Recognition)",
+      "term_ko": "광학 문자 인식",
+      "category": "Machine Vision",
+      "definition_en": "Converting images of text into machine-readable text.",
+      "definition_ko": "텍스트 이미지를 기계 판독 가능한 텍스트로 변환."
+    },
+    {
+      "id": "face_recognition",
+      "term_en": "Face Recognition / Detection",
+      "term_ko": "얼굴 인식 / 검출",
+      "category": "Machine Vision",
+      "definition_en": "Detecting and identifying faces in images using deep learning models.",
+      "definition_ko": "딥러닝 모델을 사용하여 이미지에서 얼굴을 검출하고 식별."
+    },
+    {
+      "id": "kalman_filter",
+      "term_en": "Kalman Filter",
+      "term_ko": "칼만 필터",
+      "category": "Machine Vision",
+      "definition_en": "A recursive algorithm for estimating object state from noisy sensor measurements.",
+      "definition_ko": "노이즈가 있는 센서 측정에서 객체 상태를 추정하는 재귀 알고리즘."
+    },
+    {
+      "id": "deepsort",
+      "term_en": "DeepSORT",
+      "term_ko": "딥소트",
+      "category": "Machine Vision",
+      "definition_en": "An object tracking algorithm combining deep appearance features with Kalman filtering.",
+      "definition_ko": "딥 외형 특징과 칼만 필터링을 결합한 객체 추적 알고리즘."
+    },
+    {
+      "id": "ssd",
+      "term_en": "SSD (Single Shot Detector)",
+      "term_ko": "SSD",
+      "category": "Machine Vision",
+      "definition_en": "A one-stage object detection model using multi-scale feature maps.",
+      "definition_ko": "다중 스케일 특징 맵을 사용하는 단일 단계 객체 검출 모델."
+    },
+    {
+      "id": "faster_rcnn",
+      "term_en": "Faster R-CNN",
+      "term_ko": "Faster R-CNN",
+      "category": "Machine Vision",
+      "definition_en": "A two-stage detector using a Region Proposal Network followed by classification.",
+      "definition_ko": "영역 제안 네트워크와 분류를 사용하는 2단계 검출기."
+    },
+    {
+      "id": "unet",
+      "term_en": "U-Net",
+      "term_ko": "U-Net",
+      "category": "Machine Vision",
+      "definition_en": "An encoder-decoder architecture with skip connections for precise segmentation.",
+      "definition_ko": "정밀한 분할을 위해 스킵 연결이 있는 인코더-디코더 아키텍처."
+    },
+    {
+      "id": "gan_vision",
+      "term_en": "StyleGAN / CycleGAN",
+      "term_ko": "StyleGAN / CycleGAN",
+      "category": "Machine Vision",
+      "definition_en": "GAN variants for high-quality image generation and unpaired image-to-image translation.",
+      "definition_ko": "고품질 이미지 생성 및 비쌍 이미지-이미지 변환을 위한 GAN 변형."
+    },
+    {
+      "id": "sam",
+      "term_en": "SAM (Segment Anything Model)",
+      "term_ko": "SAM",
+      "category": "Machine Vision",
+      "definition_en": "A foundation model for promptable image segmentation across diverse domains.",
+      "definition_ko": "다양한 도메인에서 프롬프트 기반 이미지 분할을 위한 파운데이션 모델."
+    },
+    {
+      "id": "derivative",
+      "term_en": "Derivative",
+      "term_ko": "도함수 / 미분",
+      "category": "AI Math",
+      "definition_en": "The rate of change of a function with respect to a variable.",
+      "definition_ko": "변수에 대한 함수의 변화율."
+    },
+    {
+      "id": "integral",
+      "term_en": "Integral",
+      "term_ko": "적분",
+      "category": "AI Math",
+      "definition_en": "The accumulation of quantities; inverse of differentiation.",
+      "definition_ko": "양의 누적; 미분의 역연산."
+    },
+    {
+      "id": "limit",
+      "term_en": "Limit",
+      "term_ko": "극한",
+      "category": "AI Math",
+      "definition_en": "The value a function approaches as the input approaches a point.",
+      "definition_ko": "입력이 특정 점에 접근할 때 함수가 다가가는 값."
+    },
+    {
+      "id": "continuity",
+      "term_en": "Continuity",
+      "term_ko": "연속성",
+      "category": "AI Math",
+      "definition_en": "A function is continuous if small changes in input produce small changes in output.",
+      "definition_ko": "입력의 작은 변화가 출력의 작은 변화를 만들면 함수는 연속."
+    },
+    {
+      "id": "divergence",
+      "term_en": "Divergence",
+      "term_ko": "발산",
+      "category": "AI Math",
+      "definition_en": "A measure of the 'outflowing-ness' of a vector field at a point.",
+      "definition_ko": "한 점에서 벡터장의 '유출량'을 측정하는 값."
+    },
+    {
+      "id": "curl",
+      "term_en": "Curl",
+      "term_ko": "회전(curl)",
+      "category": "AI Math",
+      "definition_en": "A measure of rotational tendency of a vector field.",
+      "definition_ko": "벡터장의 회전 경향을 측정하는 값."
+    },
+    {
+      "id": "laplacian",
+      "term_en": "Laplacian",
+      "term_ko": "라플라시안",
+      "category": "AI Math",
+      "definition_en": "Sum of second partial derivatives; used in image processing and PDEs.",
+      "definition_ko": "2차 편미분의 합; 이미지 처리와 편미분방정식에 사용."
+    },
+    {
+      "id": "linear_transformation",
+      "term_en": "Linear Transformation",
+      "term_ko": "선형 변환",
+      "category": "AI Math",
+      "definition_en": "A mapping that preserves addition and scalar multiplication.",
+      "definition_ko": "덧셈과 스칼라 곱을 보존하는 사상."
+    },
+    {
+      "id": "orthogonality",
+      "term_en": "Orthogonality",
+      "term_ko": "직교성",
+      "category": "AI Math",
+      "definition_en": "Two vectors are orthogonal if their dot product is zero.",
+      "definition_ko": "두 벡터의 내적이 0이면 직교."
+    },
+    {
+      "id": "rank",
+      "term_en": "Matrix Rank",
+      "term_ko": "행렬 랭크",
+      "category": "AI Math",
+      "definition_en": "The number of linearly independent rows or columns in a matrix.",
+      "definition_ko": "행렬에서 선형 독립인 행 또는 열의 수."
+    },
+    {
+      "id": "determinant",
+      "term_en": "Determinant",
+      "term_ko": "행렬식",
+      "category": "AI Math",
+      "definition_en": "A scalar value indicating whether a matrix is invertible and scaling factor of the transformation.",
+      "definition_ko": "행렬의 가역성과 변환의 스케일링 인자를 나타내는 스칼라 값."
+    },
+    {
+      "id": "inverse_matrix",
+      "term_en": "Inverse Matrix",
+      "term_ko": "역행렬",
+      "category": "AI Math",
+      "definition_en": "A matrix A⁻¹ such that AA⁻¹ = I; exists only for non-singular matrices.",
+      "definition_ko": "AA⁻¹ = I를 만족하는 행렬; 비특이 행렬에만 존재."
+    },
+    {
+      "id": "trace",
+      "term_en": "Trace",
+      "term_ko": "대각합",
+      "category": "AI Math",
+      "definition_en": "Sum of diagonal elements of a square matrix.",
+      "definition_ko": "정방 행렬의 대각 원소의 합."
+    },
+    {
+      "id": "positive_definite",
+      "term_en": "Positive Definite Matrix",
+      "term_ko": "양정치 행렬",
+      "category": "AI Math",
+      "definition_en": "A symmetric matrix with all positive eigenvalues; guarantees convexity.",
+      "definition_ko": "모든 고유값이 양수인 대칭 행렬; 볼록성을 보장."
+    },
+    {
+      "id": "span",
+      "term_en": "Span",
+      "term_ko": "생성(span)",
+      "category": "AI Math",
+      "definition_en": "The set of all linear combinations of a given set of vectors.",
+      "definition_ko": "주어진 벡터 집합의 모든 선형 결합의 집합."
+    },
+    {
+      "id": "basis",
+      "term_en": "Basis",
+      "term_ko": "기저",
+      "category": "AI Math",
+      "definition_en": "A minimal set of linearly independent vectors that span a vector space.",
+      "definition_ko": "벡터 공간을 생성하는 최소한의 선형 독립 벡터 집합."
+    },
+    {
+      "id": "null_space",
+      "term_en": "Null Space (Kernel)",
+      "term_ko": "영공간 (커널)",
+      "category": "AI Math",
+      "definition_en": "The set of vectors mapped to zero by a linear transformation.",
+      "definition_ko": "선형 변환에 의해 영벡터로 매핑되는 벡터의 집합."
+    },
+    {
+      "id": "matrix_decomposition",
+      "term_en": "Matrix Decomposition (LU, QR, Cholesky)",
+      "term_ko": "행렬 분해",
+      "category": "AI Math",
+      "definition_en": "Factoring matrices into products of simpler matrices for efficient computation.",
+      "definition_ko": "효율적 계산을 위해 행렬을 더 단순한 행렬의 곱으로 분해."
+    },
+    {
+      "id": "hadamard_product",
+      "term_en": "Hadamard (Element-wise) Product",
+      "term_ko": "아다마르 곱 (원소별 곱)",
+      "category": "AI Math",
+      "definition_en": "Element-by-element multiplication of two matrices of the same shape.",
+      "definition_ko": "같은 형상의 두 행렬의 원소별 곱셈."
+    },
+    {
+      "id": "broadcasting",
+      "term_en": "Broadcasting",
+      "term_ko": "브로드캐스팅",
+      "category": "AI Math",
+      "definition_en": "Automatically expanding tensor dimensions for element-wise operations in NumPy/PyTorch.",
+      "definition_ko": "NumPy/PyTorch에서 원소별 연산을 위해 텐서 차원을 자동으로 확장."
+    },
+    {
+      "id": "probability_distribution",
+      "term_en": "Probability Distribution",
+      "term_ko": "확률 분포",
+      "category": "AI Math",
+      "definition_en": "A function describing the likelihood of each possible outcome of a random variable.",
+      "definition_ko": "확률 변수의 각 가능한 결과의 가능성을 설명하는 함수."
+    },
+    {
+      "id": "binomial_distribution",
+      "term_en": "Binomial Distribution",
+      "term_ko": "이항 분포",
+      "category": "AI Math",
+      "definition_en": "Distribution of the number of successes in n independent Bernoulli trials.",
+      "definition_ko": "n번의 독립 베르누이 시행에서 성공 횟수의 분포."
+    },
+    {
+      "id": "poisson_distribution",
+      "term_en": "Poisson Distribution",
+      "term_ko": "포아송 분포",
+      "category": "AI Math",
+      "definition_en": "Distribution of rare events occurring in a fixed interval.",
+      "definition_ko": "고정 구간에서 희귀 사건이 발생하는 분포."
+    },
+    {
+      "id": "exponential_distribution",
+      "term_en": "Exponential Distribution",
+      "term_ko": "지수 분포",
+      "category": "AI Math",
+      "definition_en": "Distribution of time between events in a Poisson process.",
+      "definition_ko": "포아송 과정에서 사건 사이의 시간 분포."
+    },
+    {
+      "id": "uniform_distribution",
+      "term_en": "Uniform Distribution",
+      "term_ko": "균일 분포",
+      "category": "AI Math",
+      "definition_en": "All outcomes are equally likely within a given range.",
+      "definition_ko": "주어진 범위 내에서 모든 결과가 동일한 확률."
+    },
+    {
+      "id": "multivariate_gaussian",
+      "term_en": "Multivariate Gaussian",
+      "term_ko": "다변량 가우시안",
+      "category": "AI Math",
+      "definition_en": "Extension of normal distribution to multiple dimensions with a covariance matrix.",
+      "definition_ko": "공분산 행렬을 가진 다차원으로 확장된 정규 분포."
+    },
+    {
+      "id": "conjugate_prior",
+      "term_en": "Conjugate Prior",
+      "term_ko": "켤레 사전 분포",
+      "category": "AI Math",
+      "definition_en": "A prior distribution that yields a posterior in the same family when combined with the likelihood.",
+      "definition_ko": "우도와 결합 시 같은 분포 족의 사후 분포를 산출하는 사전 분포."
+    },
+    {
+      "id": "moment_generating",
+      "term_en": "Moment Generating Function",
+      "term_ko": "적률 생성 함수",
+      "category": "AI Math",
+      "definition_en": "A function encoding all moments of a distribution; useful for proving convergence.",
+      "definition_ko": "분포의 모든 적률을 인코딩하는 함수; 수렴 증명에 유용."
+    },
+    {
+      "id": "law_of_large_numbers",
+      "term_en": "Law of Large Numbers",
+      "term_ko": "대수의 법칙",
+      "category": "AI Math",
+      "definition_en": "Sample averages converge to the expected value as sample size increases.",
+      "definition_ko": "표본 크기가 증가하면 표본 평균이 기대값에 수렴."
+    },
+    {
+      "id": "markov_chain",
+      "term_en": "Markov Chain",
+      "term_ko": "마르코프 체인",
+      "category": "AI Math",
+      "definition_en": "A stochastic process where the next state depends only on the current state.",
+      "definition_ko": "다음 상태가 현재 상태에만 의존하는 확률 과정."
+    },
+    {
+      "id": "variance",
+      "term_en": "Variance",
+      "term_ko": "분산",
+      "category": "Statistics",
+      "definition_en": "The average squared deviation from the mean.",
+      "definition_ko": "평균으로부터의 편차 제곱의 평균."
+    },
+    {
+      "id": "standard_deviation",
+      "term_en": "Standard Deviation",
+      "term_ko": "표준편차",
+      "category": "Statistics",
+      "definition_en": "Square root of variance; measures data spread in original units.",
+      "definition_ko": "분산의 제곱근; 원래 단위로 데이터 퍼짐을 측정."
+    },
+    {
+      "id": "skewness",
+      "term_en": "Skewness",
+      "term_ko": "왜도",
+      "category": "Statistics",
+      "definition_en": "A measure of asymmetry in a probability distribution.",
+      "definition_ko": "확률 분포의 비대칭성을 측정하는 값."
+    },
+    {
+      "id": "kurtosis",
+      "term_en": "Kurtosis",
+      "term_ko": "첨도",
+      "category": "Statistics",
+      "definition_en": "A measure of the 'tailedness' of a probability distribution.",
+      "definition_ko": "확률 분포의 '꼬리 두께'를 측정하는 값."
+    },
+    {
+      "id": "z_score",
+      "term_en": "Z-Score",
+      "term_ko": "Z-점수",
+      "category": "Statistics",
+      "definition_en": "The number of standard deviations a data point is from the mean.",
+      "definition_ko": "데이터 포인트가 평균으로부터 표준편차 몇 개만큼 떨어져 있는지."
+    },
+    {
+      "id": "regression_analysis",
+      "term_en": "Regression Analysis",
+      "term_ko": "회귀 분석",
+      "category": "Statistics",
+      "definition_en": "Statistical methods for estimating relationships between dependent and independent variables.",
+      "definition_ko": "종속 변수와 독립 변수 간의 관계를 추정하는 통계적 방법."
+    },
+    {
+      "id": "anova",
+      "term_en": "ANOVA",
+      "term_ko": "분산 분석",
+      "category": "Statistics",
+      "definition_en": "A statistical test comparing means across multiple groups.",
+      "definition_ko": "여러 그룹 간 평균을 비교하는 통계적 검정."
+    },
+    {
+      "id": "chi_square",
+      "term_en": "Chi-Square Test",
+      "term_ko": "카이제곱 검정",
+      "category": "Statistics",
+      "definition_en": "A test for independence or goodness-of-fit in categorical data.",
+      "definition_ko": "범주형 데이터의 독립성 또는 적합도를 검정."
+    },
+    {
+      "id": "t_test",
+      "term_en": "T-Test",
+      "term_ko": "T-검정",
+      "category": "Statistics",
+      "definition_en": "Comparing means of two groups to determine statistical significance.",
+      "definition_ko": "두 그룹의 평균을 비교하여 통계적 유의성을 결정."
+    },
+    {
+      "id": "bootstrap",
+      "term_en": "Bootstrap",
+      "term_ko": "부트스트랩",
+      "category": "Statistics",
+      "definition_en": "Resampling with replacement to estimate the sampling distribution of a statistic.",
+      "definition_ko": "통계량의 표본 분포를 추정하기 위해 복원 추출로 재표본."
+    },
+    {
+      "id": "bayesian_inference",
+      "term_en": "Bayesian Inference",
+      "term_ko": "베이지안 추론",
+      "category": "Statistics",
+      "definition_en": "Updating probability estimates as new evidence is observed using Bayes' theorem.",
+      "definition_ko": "베이즈 정리를 사용하여 새 증거가 관찰됨에 따라 확률 추정을 갱신."
+    },
+    {
+      "id": "prior_posterior",
+      "term_en": "Prior / Posterior Distribution",
+      "term_ko": "사전 / 사후 분포",
+      "category": "Statistics",
+      "definition_en": "Prior is belief before data; posterior is updated belief after observing data.",
+      "definition_ko": "사전은 데이터 전 믿음; 사후는 데이터 관찰 후 갱신된 믿음."
+    },
+    {
+      "id": "mcmc",
+      "term_en": "MCMC (Markov Chain Monte Carlo)",
+      "term_ko": "마르코프 체인 몬테카를로",
+      "category": "Statistics",
+      "definition_en": "Sampling from complex distributions using Markov chains for Bayesian computation.",
+      "definition_ko": "베이지안 계산을 위해 마르코프 체인으로 복잡한 분포에서 샘플링."
+    },
+    {
+      "id": "kernel_density",
+      "term_en": "Kernel Density Estimation",
+      "term_ko": "커널 밀도 추정",
+      "category": "Statistics",
+      "definition_en": "Non-parametric method for estimating the PDF of a random variable.",
+      "definition_ko": "확률 변수의 확률밀도함수를 추정하는 비모수 방법."
+    },
+    {
+      "id": "mutual_information",
+      "term_en": "Mutual Information",
+      "term_ko": "상호 정보량",
+      "category": "Statistics",
+      "definition_en": "A measure of the mutual dependence between two variables.",
+      "definition_ko": "두 변수 간의 상호 의존성을 측정하는 지표."
+    },
+    {
+      "id": "effect_size",
+      "term_en": "Effect Size",
+      "term_ko": "효과 크기",
+      "category": "Statistics",
+      "definition_en": "A quantitative measure of the magnitude of a phenomenon.",
+      "definition_ko": "현상의 크기를 정량적으로 측정한 값."
+    },
+    {
+      "id": "type1_type2_error",
+      "term_en": "Type I / Type II Error",
+      "term_ko": "제1종 / 제2종 오류",
+      "category": "Statistics",
+      "definition_en": "Type I: false positive (rejecting true null); Type II: false negative (accepting false null).",
+      "definition_ko": "제1종: 거짓양성(참인 귀무가설 기각); 제2종: 거짓음성(거짓 귀무가설 수용)."
+    },
+    {
+      "id": "power_analysis",
+      "term_en": "Statistical Power",
+      "term_ko": "검정력",
+      "category": "Statistics",
+      "definition_en": "The probability of correctly rejecting a false null hypothesis.",
+      "definition_ko": "거짓 귀무가설을 올바르게 기각할 확률."
+    },
+    {
+      "id": "likelihood",
+      "term_en": "Likelihood",
+      "term_ko": "우도 / 가능도",
+      "category": "Statistics",
+      "definition_en": "The probability of observed data given specific parameter values.",
+      "definition_ko": "특정 파라미터 값이 주어졌을 때 관측 데이터의 확률."
+    },
+    {
+      "id": "sufficient_statistic",
+      "term_en": "Sufficient Statistic",
+      "term_ko": "충분 통계량",
+      "category": "Statistics",
+      "definition_en": "A statistic that captures all information in data about a parameter.",
+      "definition_ko": "파라미터에 대한 데이터의 모든 정보를 포착하는 통계량."
+    },
+    {
+      "id": "polynomial_regression",
+      "term_en": "Polynomial Regression",
+      "term_ko": "다항 회귀",
+      "category": "Machine Learning",
+      "definition_en": "Extending linear regression with polynomial features for curved relationships.",
+      "definition_ko": "곡선 관계를 위해 다항 특성으로 확장한 선형 회귀."
+    },
+    {
+      "id": "ridge_regression",
+      "term_en": "Ridge Regression (L2)",
+      "term_ko": "릿지 회귀",
+      "category": "Machine Learning",
+      "definition_en": "Linear regression with L2 penalty to shrink coefficients and reduce overfitting.",
+      "definition_ko": "계수를 축소하고 과적합을 줄이기 위한 L2 패널티가 있는 선형 회귀."
+    },
+    {
+      "id": "lasso_regression",
+      "term_en": "Lasso Regression (L1)",
+      "term_ko": "라쏘 회귀",
+      "category": "Machine Learning",
+      "definition_en": "Linear regression with L1 penalty inducing sparsity in coefficients.",
+      "definition_ko": "계수의 희소성을 유도하는 L1 패널티가 있는 선형 회귀."
+    },
+    {
+      "id": "elastic_net",
+      "term_en": "Elastic Net",
+      "term_ko": "엘라스틱 넷",
+      "category": "Machine Learning",
+      "definition_en": "Combining L1 and L2 regularization for regression.",
+      "definition_ko": "회귀를 위해 L1과 L2 정규화를 결합."
+    },
+    {
+      "id": "kernel_trick",
+      "term_en": "Kernel Trick",
+      "term_ko": "커널 트릭",
+      "category": "Machine Learning",
+      "definition_en": "Implicitly mapping data to higher dimensions for non-linear classification in SVM.",
+      "definition_ko": "SVM에서 비선형 분류를 위해 데이터를 암시적으로 고차원에 매핑."
+    },
+    {
+      "id": "rbf_kernel",
+      "term_en": "RBF Kernel (Gaussian Kernel)",
+      "term_ko": "RBF 커널",
+      "category": "Machine Learning",
+      "definition_en": "A radial basis function kernel measuring similarity via Euclidean distance.",
+      "definition_ko": "유클리드 거리로 유사도를 측정하는 방사 기저 함수 커널."
+    },
+    {
+      "id": "soft_margin",
+      "term_en": "Soft Margin",
+      "term_ko": "소프트 마진",
+      "category": "Machine Learning",
+      "definition_en": "SVM allowing some misclassifications via slack variables for noisy data.",
+      "definition_ko": "노이즈 데이터를 위해 슬랙 변수로 일부 오분류를 허용하는 SVM."
+    },
+    {
+      "id": "gaussian_process",
+      "term_en": "Gaussian Process",
+      "term_ko": "가우시안 프로세스",
+      "category": "Machine Learning",
+      "definition_en": "A non-parametric Bayesian approach defining distributions over functions.",
+      "definition_ko": "함수에 대한 분포를 정의하는 비모수 베이지안 접근법."
+    },
+    {
+      "id": "em_algorithm",
+      "term_en": "EM Algorithm",
+      "term_ko": "EM 알고리즘",
+      "category": "Machine Learning",
+      "definition_en": "Expectation-Maximization: iteratively estimating latent variables and parameters.",
+      "definition_ko": "잠재 변수와 파라미터를 반복적으로 추정하는 기대-최대화 알고리즘."
+    },
+    {
+      "id": "gmm",
+      "term_en": "Gaussian Mixture Model (GMM)",
+      "term_ko": "가우시안 혼합 모델",
+      "category": "Machine Learning",
+      "definition_en": "Modeling data as a mixture of multiple Gaussian distributions.",
+      "definition_ko": "데이터를 여러 가우시안 분포의 혼합으로 모델링."
+    },
+    {
+      "id": "hmm",
+      "term_en": "Hidden Markov Model (HMM)",
+      "term_ko": "은닉 마르코프 모델",
+      "category": "Machine Learning",
+      "definition_en": "A statistical model for sequential data with hidden states.",
+      "definition_ko": "숨겨진 상태를 가진 순차 데이터를 위한 통계 모델."
+    },
+    {
+      "id": "crf",
+      "term_en": "Conditional Random Field (CRF)",
+      "term_ko": "조건부 랜덤 필드",
+      "category": "Machine Learning",
+      "definition_en": "A discriminative model for structured prediction (e.g., sequence labeling).",
+      "definition_ko": "구조화된 예측(예: 시퀀스 레이블링)을 위한 판별 모델."
+    },
+    {
+      "id": "isolation_forest",
+      "term_en": "Isolation Forest",
+      "term_ko": "고립 포레스트",
+      "category": "Machine Learning",
+      "definition_en": "An anomaly detection algorithm isolating outliers via random partitioning.",
+      "definition_ko": "무작위 분할을 통해 이상치를 고립시키는 이상 탐지 알고리즘."
+    },
+    {
+      "id": "one_class_svm",
+      "term_en": "One-Class SVM",
+      "term_ko": "원클래스 SVM",
+      "category": "Machine Learning",
+      "definition_en": "An SVM variant for novelty detection learning from normal data only.",
+      "definition_ko": "정상 데이터만으로 학습하는 이상 탐지용 SVM 변형."
+    },
+    {
+      "id": "dbscan",
+      "term_en": "DBSCAN",
+      "term_ko": "DBSCAN",
+      "category": "Machine Learning",
+      "definition_en": "Density-based clustering finding arbitrarily shaped clusters and noise points.",
+      "definition_ko": "임의 형상의 클러스터와 노이즈 포인트를 찾는 밀도 기반 클러스터링."
+    },
+    {
+      "id": "hierarchical_clustering",
+      "term_en": "Hierarchical Clustering",
+      "term_ko": "계층적 클러스터링",
+      "category": "Machine Learning",
+      "definition_en": "Building a tree of clusters via agglomerative (bottom-up) or divisive (top-down) methods.",
+      "definition_ko": "병합(상향식) 또는 분할(하향식) 방법으로 클러스터의 트리를 구축."
+    },
+    {
+      "id": "silhouette_score",
+      "term_en": "Silhouette Score",
+      "term_ko": "실루엣 점수",
+      "category": "Machine Learning",
+      "definition_en": "A metric evaluating cluster quality based on intra- vs inter-cluster distance.",
+      "definition_ko": "클러스터 내 대 클러스터 간 거리를 기반으로 클러스터 품질을 평가하는 지표."
+    },
+    {
+      "id": "elbow_method",
+      "term_en": "Elbow Method",
+      "term_ko": "엘보우 방법",
+      "category": "Machine Learning",
+      "definition_en": "Determining optimal K in K-means by plotting distortion vs number of clusters.",
+      "definition_ko": "왜곡 대 클러스터 수를 플롯하여 K-means의 최적 K를 결정."
+    },
+    {
+      "id": "mean_shift",
+      "term_en": "Mean Shift",
+      "term_ko": "평균 이동",
+      "category": "Machine Learning",
+      "definition_en": "A non-parametric clustering algorithm finding cluster centers by density peaks.",
+      "definition_ko": "밀도 피크로 클러스터 중심을 찾는 비모수 클러스터링 알고리즘."
+    },
+    {
+      "id": "spectral_clustering",
+      "term_en": "Spectral Clustering",
+      "term_ko": "스펙트럼 클러스터링",
+      "category": "Machine Learning",
+      "definition_en": "Clustering using eigenvalues of the similarity matrix for graph-based partitioning.",
+      "definition_ko": "그래프 기반 분할을 위해 유사도 행렬의 고유값을 사용하는 클러스터링."
+    },
+    {
+      "id": "feature_selection",
+      "term_en": "Feature Selection",
+      "term_ko": "특성 선택",
+      "category": "Machine Learning",
+      "definition_en": "Choosing the most relevant features using filter, wrapper, or embedded methods.",
+      "definition_ko": "필터, 래퍼 또는 임베디드 방법을 사용하여 가장 관련된 특성을 선택."
+    },
+    {
+      "id": "feature_importance",
+      "term_en": "Feature Importance",
+      "term_ko": "특성 중요도",
+      "category": "Machine Learning",
+      "definition_en": "Ranking features by their contribution to model predictions.",
+      "definition_ko": "모델 예측에 대한 기여도로 특성을 순위 매김."
+    },
+    {
+      "id": "shap",
+      "term_en": "SHAP (SHapley Additive exPlanations)",
+      "term_ko": "SHAP",
+      "category": "Machine Learning",
+      "definition_en": "A game-theoretic approach to explain individual model predictions.",
+      "definition_ko": "개별 모델 예측을 설명하는 게임 이론적 접근법."
+    },
+    {
+      "id": "lime",
+      "term_en": "LIME",
+      "term_ko": "LIME",
+      "category": "Machine Learning",
+      "definition_en": "Local Interpretable Model-agnostic Explanations for any classifier.",
+      "definition_ko": "모든 분류기에 대한 로컬 해석 가능 모델 불가지론 설명."
+    },
+    {
+      "id": "explainability",
+      "term_en": "Explainability / Interpretability",
+      "term_ko": "설명 가능성 / 해석 가능성",
+      "category": "Machine Learning",
+      "definition_en": "The degree to which humans can understand model decisions.",
+      "definition_ko": "인간이 모델 결정을 이해할 수 있는 정도."
+    },
+    {
+      "id": "fairness",
+      "term_en": "Fairness in ML",
+      "term_ko": "ML 공정성",
+      "category": "Machine Learning",
+      "definition_en": "Ensuring models do not discriminate against protected groups.",
+      "definition_ko": "모델이 보호 집단에 대해 차별하지 않도록 보장."
+    },
+    {
+      "id": "data_leakage",
+      "term_en": "Data Leakage",
+      "term_ko": "데이터 누수",
+      "category": "Machine Learning",
+      "definition_en": "When test data information leaks into training, causing overly optimistic results.",
+      "definition_ko": "테스트 데이터 정보가 학습에 누출되어 지나치게 낙관적인 결과를 초래."
+    },
+    {
+      "id": "train_val_test_split",
+      "term_en": "Train / Validation / Test Split",
+      "term_ko": "학습/검증/테스트 분할",
+      "category": "Machine Learning",
+      "definition_en": "Dividing data into three sets for training, tuning, and final evaluation.",
+      "definition_ko": "학습, 튜닝, 최종 평가를 위해 데이터를 세 세트로 분할."
+    },
+    {
+      "id": "label_encoding",
+      "term_en": "Label Encoding / One-Hot Encoding",
+      "term_ko": "레이블 인코딩 / 원핫 인코딩",
+      "category": "Machine Learning",
+      "definition_en": "Converting categorical variables to numerical representations.",
+      "definition_ko": "범주형 변수를 수치 표현으로 변환."
+    },
+    {
+      "id": "imputation",
+      "term_en": "Missing Value Imputation",
+      "term_ko": "결측값 대체",
+      "category": "Machine Learning",
+      "definition_en": "Filling in missing data with mean, median, mode, or model-based estimates.",
+      "definition_ko": "평균, 중앙값, 최빈값 또는 모델 기반 추정으로 결측 데이터를 채움."
+    },
+    {
+      "id": "pipeline_ml",
+      "term_en": "ML Pipeline",
+      "term_ko": "ML 파이프라인",
+      "category": "Machine Learning",
+      "definition_en": "An automated workflow chaining data preprocessing, training, and evaluation.",
+      "definition_ko": "데이터 전처리, 학습, 평가를 체인으로 연결하는 자동화된 워크플로우."
+    },
+    {
+      "id": "automl",
+      "term_en": "AutoML",
+      "term_ko": "AutoML",
+      "category": "Machine Learning",
+      "definition_en": "Automated machine learning including model selection, hyperparameter tuning, and feature engineering.",
+      "definition_ko": "모델 선택, 하이퍼파라미터 튜닝, 특성 공학을 포함한 자동화된 머신러닝."
+    },
+    {
+      "id": "mlops",
+      "term_en": "MLOps",
+      "term_ko": "MLOps",
+      "category": "Machine Learning",
+      "definition_en": "Practices for deploying, monitoring, and maintaining ML models in production.",
+      "definition_ko": "프로덕션에서 ML 모델을 배포, 모니터링, 유지 관리하는 실무."
+    },
+    {
+      "id": "model_drift",
+      "term_en": "Model Drift / Data Drift",
+      "term_ko": "모델 드리프트 / 데이터 드리프트",
+      "category": "Machine Learning",
+      "definition_en": "Degradation of model performance over time due to changing data distributions.",
+      "definition_ko": "데이터 분포 변화로 인한 시간에 따른 모델 성능 저하."
+    },
+    {
+      "id": "ab_testing",
+      "term_en": "A/B Testing",
+      "term_ko": "A/B 테스트",
+      "category": "Machine Learning",
+      "definition_en": "Comparing two model variants to determine which performs better.",
+      "definition_ko": "어떤 것이 더 나은 성능을 내는지 결정하기 위해 두 모델 변형을 비교."
+    },
+    {
+      "id": "collaborative_filtering",
+      "term_en": "Collaborative Filtering",
+      "term_ko": "협업 필터링",
+      "category": "Machine Learning",
+      "definition_en": "Recommending items based on similar users' preferences.",
+      "definition_ko": "유사한 사용자의 선호도를 기반으로 아이템을 추천."
+    },
+    {
+      "id": "content_based_filtering",
+      "term_en": "Content-Based Filtering",
+      "term_ko": "콘텐츠 기반 필터링",
+      "category": "Machine Learning",
+      "definition_en": "Recommending items similar to what a user has liked before.",
+      "definition_ko": "사용자가 이전에 좋아한 것과 유사한 아이템을 추천."
+    },
+    {
+      "id": "matrix_factorization",
+      "term_en": "Matrix Factorization",
+      "term_ko": "행렬 분해 (추천)",
+      "category": "Machine Learning",
+      "definition_en": "Decomposing user-item matrices for recommendation systems (e.g., ALS, NMF).",
+      "definition_ko": "추천 시스템을 위한 사용자-아이템 행렬 분해 (예: ALS, NMF)."
+    },
+    {
+      "id": "bandit_algorithm",
+      "term_en": "Multi-Armed Bandit",
+      "term_ko": "다중 팔 밴딧",
+      "category": "Machine Learning",
+      "definition_en": "Balancing exploration and exploitation for sequential decision-making.",
+      "definition_ko": "순차적 의사결정을 위해 탐색과 활용의 균형을 맞춤."
+    },
+    {
+      "id": "active_learning",
+      "term_en": "Active Learning",
+      "term_ko": "능동 학습",
+      "category": "Machine Learning",
+      "definition_en": "Selecting the most informative samples for labeling to minimize annotation cost.",
+      "definition_ko": "주석 비용을 최소화하기 위해 가장 유익한 샘플을 레이블링 대상으로 선택."
+    },
+    {
+      "id": "curriculum_learning",
+      "term_en": "Curriculum Learning",
+      "term_ko": "커리큘럼 학습",
+      "category": "Machine Learning",
+      "definition_en": "Training models on progressively harder examples.",
+      "definition_ko": "점진적으로 더 어려운 예제로 모델을 학습."
+    },
+    {
+      "id": "meta_learning",
+      "term_en": "Meta-Learning",
+      "term_ko": "메타 학습",
+      "category": "Machine Learning",
+      "definition_en": "Learning to learn; acquiring knowledge that transfers across tasks.",
+      "definition_ko": "학습하는 방법을 학습; 작업 간 전이 가능한 지식을 획득."
+    },
+    {
+      "id": "few_shot",
+      "term_en": "Few-Shot / Zero-Shot Learning",
+      "term_ko": "퓨샷 / 제로샷 학습",
+      "category": "Machine Learning",
+      "definition_en": "Learning from very few or no labeled examples of a new class.",
+      "definition_ko": "새 클래스의 매우 적거나 없는 레이블 예제로 학습."
+    },
+    {
+      "id": "federated_learning",
+      "term_en": "Federated Learning",
+      "term_ko": "연합 학습",
+      "category": "Machine Learning",
+      "definition_en": "Training models across decentralized data sources without sharing raw data.",
+      "definition_ko": "원시 데이터를 공유하지 않고 분산된 데이터 소스에서 모델을 학습."
+    },
+    {
+      "id": "differential_privacy",
+      "term_en": "Differential Privacy",
+      "term_ko": "차등 프라이버시",
+      "category": "Machine Learning",
+      "definition_en": "Adding noise to data or queries to protect individual privacy while enabling analysis.",
+      "definition_ko": "분석을 가능하게 하면서 개인 프라이버시를 보호하기 위해 데이터나 쿼리에 노이즈 추가."
+    },
+    {
+      "id": "weight_initialization",
+      "term_en": "Weight Initialization (Xavier, He)",
+      "term_ko": "가중치 초기화",
+      "category": "Deep Learning",
+      "definition_en": "Setting initial weights to proper distributions to enable stable training.",
+      "definition_ko": "안정적인 학습을 위해 초기 가중치를 적절한 분포로 설정."
+    },
+    {
+      "id": "skip_connection",
+      "term_en": "Skip Connection / Shortcut",
+      "term_ko": "스킵 연결",
+      "category": "Deep Learning",
+      "definition_en": "Directly connecting earlier layers to later layers bypassing intermediate ones.",
+      "definition_ko": "중간 층을 우회하여 이전 층을 이후 층에 직접 연결."
+    },
+    {
+      "id": "group_normalization",
+      "term_en": "Group Normalization",
+      "term_ko": "그룹 정규화",
+      "category": "Deep Learning",
+      "definition_en": "Normalizing across groups of channels; works well with small batch sizes.",
+      "definition_ko": "채널 그룹에 걸쳐 정규화; 작은 배치 크기에서도 잘 작동."
+    },
+    {
+      "id": "instance_normalization",
+      "term_en": "Instance Normalization",
+      "term_ko": "인스턴스 정규화",
+      "category": "Deep Learning",
+      "definition_en": "Normalizing each sample independently per channel; used in style transfer.",
+      "definition_ko": "채널별로 각 샘플을 독립적으로 정규화; 스타일 전이에 사용."
+    },
+    {
+      "id": "spectral_normalization",
+      "term_en": "Spectral Normalization",
+      "term_ko": "스펙트럼 정규화",
+      "category": "Deep Learning",
+      "definition_en": "Constraining the spectral norm of weight matrices for stable GAN training.",
+      "definition_ko": "안정적인 GAN 학습을 위해 가중치 행렬의 스펙트럼 노름을 제한."
+    },
+    {
+      "id": "depthwise_separable_conv",
+      "term_en": "Depthwise Separable Convolution",
+      "term_ko": "깊이별 분리 합성곱",
+      "category": "Deep Learning",
+      "definition_en": "Splitting convolution into depthwise and pointwise steps for efficiency (MobileNet).",
+      "definition_ko": "효율성을 위해 합성곱을 깊이별과 포인트별 단계로 분리 (MobileNet)."
+    },
+    {
+      "id": "dilated_conv",
+      "term_en": "Dilated (Atrous) Convolution",
+      "term_ko": "팽창 합성곱",
+      "category": "Deep Learning",
+      "definition_en": "Convolution with gaps in the kernel to increase receptive field without pooling.",
+      "definition_ko": "풀링 없이 수용 영역을 늘리기 위해 커널에 간격을 둔 합성곱."
+    },
+    {
+      "id": "deformable_conv",
+      "term_en": "Deformable Convolution",
+      "term_ko": "변형 합성곱",
+      "category": "Deep Learning",
+      "definition_en": "Learning offsets for convolution sampling locations for adaptive receptive fields.",
+      "definition_ko": "적응적 수용 영역을 위해 합성곱 샘플링 위치의 오프셋을 학습."
+    },
+    {
+      "id": "transposed_conv",
+      "term_en": "Transposed Convolution",
+      "term_ko": "전치 합성곱",
+      "category": "Deep Learning",
+      "definition_en": "Upsampling feature maps by learnable filters; used in decoder networks.",
+      "definition_ko": "학습 가능한 필터로 특징 맵을 업샘플링; 디코더 네트워크에서 사용."
+    },
+    {
+      "id": "global_avg_pooling",
+      "term_en": "Global Average Pooling",
+      "term_ko": "글로벌 평균 풀링",
+      "category": "Deep Learning",
+      "definition_en": "Averaging each feature map to a single value; replaces FC layers in modern CNNs.",
+      "definition_ko": "각 특징 맵을 단일 값으로 평균화; 현대 CNN에서 FC 층을 대체."
+    },
+    {
+      "id": "teacher_forcing",
+      "term_en": "Teacher Forcing",
+      "term_ko": "교사 강제",
+      "category": "Deep Learning",
+      "definition_en": "Using ground-truth outputs as inputs during sequence model training.",
+      "definition_ko": "시퀀스 모델 학습 중 정답 출력을 입력으로 사용."
+    },
+    {
+      "id": "scheduled_sampling",
+      "term_en": "Scheduled Sampling",
+      "term_ko": "스케줄드 샘플링",
+      "category": "Deep Learning",
+      "definition_en": "Gradually transitioning from teacher forcing to model predictions during training.",
+      "definition_ko": "학습 중 교사 강제에서 모델 예측으로 점진적으로 전환."
+    },
+    {
+      "id": "pretraining",
+      "term_en": "Pre-Training",
+      "term_ko": "사전 학습",
+      "category": "Deep Learning",
+      "definition_en": "Training a model on a large dataset before fine-tuning on a specific task.",
+      "definition_ko": "특정 작업에 미세 조정하기 전에 대규모 데이터셋으로 모델을 학습."
+    },
+    {
+      "id": "foundation_model",
+      "term_en": "Foundation Model",
+      "term_ko": "파운데이션 모델",
+      "category": "Deep Learning",
+      "definition_en": "A large pre-trained model adaptable to many downstream tasks (GPT, CLIP, SAM).",
+      "definition_ko": "많은 다운스트림 작업에 적응 가능한 대규모 사전 학습 모델 (GPT, CLIP, SAM)."
+    },
+    {
+      "id": "model_compression",
+      "term_en": "Model Compression",
+      "term_ko": "모델 압축",
+      "category": "Deep Learning",
+      "definition_en": "Reducing model size via pruning, quantization, or distillation for deployment.",
+      "definition_ko": "배포를 위해 프루닝, 양자화, 증류를 통해 모델 크기를 축소."
+    },
+    {
+      "id": "pruning",
+      "term_en": "Pruning",
+      "term_ko": "프루닝 (가지치기)",
+      "category": "Deep Learning",
+      "definition_en": "Removing redundant weights or neurons to reduce model size and computation.",
+      "definition_ko": "모델 크기와 계산을 줄이기 위해 불필요한 가중치나 뉴런을 제거."
+    },
+    {
+      "id": "quantization",
+      "term_en": "Quantization (INT8, INT4)",
+      "term_ko": "양자화",
+      "category": "Deep Learning",
+      "definition_en": "Reducing numerical precision of weights for faster inference with less memory.",
+      "definition_ko": "더 적은 메모리로 빠른 추론을 위해 가중치의 수치 정밀도를 줄임."
+    },
+    {
+      "id": "neural_architecture_search",
+      "term_en": "Neural Architecture Search (NAS)",
+      "term_ko": "신경망 아키텍처 탐색",
+      "category": "Deep Learning",
+      "definition_en": "Automatically designing neural network architectures using search algorithms.",
+      "definition_ko": "탐색 알고리즘을 사용하여 신경망 아키텍처를 자동으로 설계."
+    },
+    {
+      "id": "mobilenet",
+      "term_en": "MobileNet",
+      "term_ko": "모바일넷",
+      "category": "Deep Learning",
+      "definition_en": "A lightweight CNN designed for mobile and edge devices using depthwise separable convolutions.",
+      "definition_ko": "깊이별 분리 합성곱을 사용하여 모바일 및 엣지 디바이스용으로 설계된 경량 CNN."
+    },
+    {
+      "id": "efficientnet",
+      "term_en": "EfficientNet",
+      "term_ko": "이피션트넷",
+      "category": "Deep Learning",
+      "definition_en": "A CNN family using compound scaling of depth, width, and resolution.",
+      "definition_ko": "깊이, 너비, 해상도의 복합 스케일링을 사용하는 CNN 계열."
+    },
+    {
+      "id": "inception",
+      "term_en": "Inception (GoogLeNet)",
+      "term_ko": "인셉션",
+      "category": "Deep Learning",
+      "definition_en": "A CNN using parallel convolutions of different kernel sizes in inception modules.",
+      "definition_ko": "인셉션 모듈에서 다양한 커널 크기의 병렬 합성곱을 사용하는 CNN."
+    },
+    {
+      "id": "densenet",
+      "term_en": "DenseNet",
+      "term_ko": "덴스넷",
+      "category": "Deep Learning",
+      "definition_en": "A CNN where each layer receives inputs from all preceding layers.",
+      "definition_ko": "각 층이 모든 이전 층의 입력을 받는 CNN."
+    },
+    {
+      "id": "vgg",
+      "term_en": "VGGNet",
+      "term_ko": "VGG",
+      "category": "Deep Learning",
+      "definition_en": "A deep CNN using uniform 3x3 convolution stacks.",
+      "definition_ko": "균일한 3x3 합성곱 스택을 사용하는 딥 CNN."
+    },
+    {
+      "id": "alexnet",
+      "term_en": "AlexNet",
+      "term_ko": "알렉스넷",
+      "category": "Deep Learning",
+      "definition_en": "The 2012 CNN that sparked the deep learning revolution by winning ImageNet.",
+      "definition_ko": "ImageNet 우승으로 딥러닝 혁명을 촉발한 2012년 CNN."
+    },
+    {
+      "id": "lenet",
+      "term_en": "LeNet",
+      "term_ko": "레넷",
+      "category": "Deep Learning",
+      "definition_en": "One of the earliest CNNs, designed for handwritten digit recognition.",
+      "definition_ko": "가장 초기 CNN 중 하나로, 필기 숫자 인식을 위해 설계."
+    },
+    {
+      "id": "encoder_decoder",
+      "term_en": "Encoder-Decoder Architecture",
+      "term_ko": "인코더-디코더 아키텍처",
+      "category": "Deep Learning",
+      "definition_en": "A framework compressing input to a latent representation then reconstructing output.",
+      "definition_ko": "입력을 잠재 표현으로 압축한 후 출력을 재구성하는 프레임워크."
+    },
+    {
+      "id": "latent_space",
+      "term_en": "Latent Space",
+      "term_ko": "잠재 공간",
+      "category": "Deep Learning",
+      "definition_en": "A compressed representation space learned by encoder networks.",
+      "definition_ko": "인코더 네트워크가 학습한 압축된 표현 공간."
+    },
+    {
+      "id": "embedding_layer",
+      "term_en": "Embedding Layer",
+      "term_ko": "임베딩 레이어",
+      "category": "Deep Learning",
+      "definition_en": "A trainable lookup table mapping discrete tokens to dense vectors.",
+      "definition_ko": "이산 토큰을 밀집 벡터로 매핑하는 학습 가능한 룩업 테이블."
+    },
+    {
+      "id": "attention_score",
+      "term_en": "Attention Score / Weight",
+      "term_ko": "어텐션 스코어 / 가중치",
+      "category": "Deep Learning",
+      "definition_en": "The computed relevance between query and key in attention mechanisms.",
+      "definition_ko": "어텐션 메커니즘에서 쿼리와 키 간의 계산된 관련성."
+    },
+    {
+      "id": "kv_cache",
+      "term_en": "KV Cache",
+      "term_ko": "KV 캐시",
+      "category": "Deep Learning",
+      "definition_en": "Caching key-value pairs during autoregressive inference to avoid recomputation.",
+      "definition_ko": "재계산을 피하기 위해 자기회귀 추론 중 키-밸류 쌍을 캐시."
+    },
+    {
+      "id": "rotary_pe",
+      "term_en": "Rotary Positional Encoding (RoPE)",
+      "term_ko": "회전 위치 인코딩",
+      "category": "Deep Learning",
+      "definition_en": "Encoding positions via rotation matrices; used in modern LLMs (LLaMA).",
+      "definition_ko": "회전 행렬을 통한 위치 인코딩; 현대 LLM(LLaMA)에서 사용."
+    },
+    {
+      "id": "mixture_of_experts",
+      "term_en": "Mixture of Experts (MoE)",
+      "term_ko": "전문가 혼합",
+      "category": "Deep Learning",
+      "definition_en": "Routing inputs to different specialized sub-networks for efficient scaling.",
+      "definition_ko": "효율적 스케일링을 위해 입력을 다른 전문화된 서브네트워크로 라우팅."
+    },
+    {
+      "id": "parameter_efficient",
+      "term_en": "Parameter-Efficient Fine-Tuning (PEFT)",
+      "term_ko": "파라미터 효율적 미세 조정",
+      "category": "Deep Learning",
+      "definition_en": "Fine-tuning only a small subset of parameters (LoRA, Adapters, Prefix Tuning).",
+      "definition_ko": "파라미터의 작은 부분집합만 미세 조정 (LoRA, 어댑터, 프리픽스 튜닝)."
+    },
+    {
+      "id": "adapter",
+      "term_en": "Adapter Layers",
+      "term_ko": "어댑터 레이어",
+      "category": "Deep Learning",
+      "definition_en": "Small trainable modules inserted into frozen pre-trained models for efficient fine-tuning.",
+      "definition_ko": "효율적 미세 조정을 위해 고정된 사전 학습 모델에 삽입하는 작은 학습 가능 모듈."
+    },
+    {
+      "id": "normalization_flow",
+      "term_en": "Normalizing Flow",
+      "term_ko": "정규화 플로우",
+      "category": "Deep Learning",
+      "definition_en": "A generative model using invertible transformations for exact likelihood computation.",
+      "definition_ko": "정확한 우도 계산을 위해 가역 변환을 사용하는 생성 모델."
+    },
+    {
+      "id": "energy_based_model",
+      "term_en": "Energy-Based Model",
+      "term_ko": "에너지 기반 모델",
+      "category": "Deep Learning",
+      "definition_en": "Assigning scalar energy to configurations; lower energy = more likely.",
+      "definition_ko": "구성에 스칼라 에너지를 할당; 낮은 에너지 = 높은 가능성."
+    },
+    {
+      "id": "graph_neural_network",
+      "term_en": "Graph Neural Network (GNN)",
+      "term_ko": "그래프 신경망",
+      "category": "Deep Learning",
+      "definition_en": "Neural networks operating on graph-structured data for node/edge/graph-level tasks.",
+      "definition_ko": "노드/엣지/그래프 수준 작업을 위해 그래프 구조 데이터에서 작동하는 신경망."
+    },
+    {
+      "id": "message_passing",
+      "term_en": "Message Passing",
+      "term_ko": "메시지 패싱",
+      "category": "Deep Learning",
+      "definition_en": "GNN mechanism where nodes aggregate information from neighboring nodes.",
+      "definition_ko": "노드가 이웃 노드에서 정보를 집계하는 GNN 메커니즘."
+    },
+    {
+      "id": "graph_attention",
+      "term_en": "Graph Attention Network (GAT)",
+      "term_ko": "그래프 어텐션 네트워크",
+      "category": "Deep Learning",
+      "definition_en": "GNN using attention to weight neighbor contributions differently.",
+      "definition_ko": "이웃 기여를 다르게 가중하기 위해 어텐션을 사용하는 GNN."
+    },
+    {
+      "id": "neuroevolution",
+      "term_en": "Neuroevolution",
+      "term_ko": "뉴로에볼루션",
+      "category": "Deep Learning",
+      "definition_en": "Evolving neural network architectures or weights using evolutionary algorithms.",
+      "definition_ko": "진화 알고리즘을 사용하여 신경망 아키텍처나 가중치를 진화."
+    },
+    {
+      "id": "capsule_network",
+      "term_en": "Capsule Network",
+      "term_ko": "캡슐 네트워크",
+      "category": "Deep Learning",
+      "definition_en": "A network using capsules to capture spatial hierarchies and part-whole relationships.",
+      "definition_ko": "공간적 계층과 부분-전체 관계를 포착하기 위해 캡슐을 사용하는 네트워크."
+    },
+    {
+      "id": "neural_ode",
+      "term_en": "Neural ODE",
+      "term_ko": "신경 ODE",
+      "category": "Deep Learning",
+      "definition_en": "Modeling continuous-depth networks using ordinary differential equations.",
+      "definition_ko": "일반 미분방정식을 사용하여 연속 깊이 네트워크를 모델링."
+    },
+    {
+      "id": "world_model",
+      "term_en": "World Model",
+      "term_ko": "월드 모델",
+      "category": "Deep Learning",
+      "definition_en": "A learned model of environment dynamics for planning and simulation.",
+      "definition_ko": "계획과 시뮬레이션을 위해 환경 역학을 학습한 모델."
+    },
+    {
+      "id": "adagrad",
+      "term_en": "AdaGrad",
+      "term_ko": "아다그래드",
+      "category": "Optimization",
+      "definition_en": "An optimizer adapting learning rates per parameter based on accumulated gradients.",
+      "definition_ko": "누적 기울기를 기반으로 파라미터별 학습률을 적응하는 옵티마이저."
+    },
+    {
+      "id": "adadelta",
+      "term_en": "AdaDelta",
+      "term_ko": "아다델타",
+      "category": "Optimization",
+      "definition_en": "An extension of AdaGrad addressing its aggressive learning rate decay.",
+      "definition_ko": "AdaGrad의 공격적 학습률 감쇠를 해결하는 확장."
+    },
+    {
+      "id": "adamw",
+      "term_en": "AdamW",
+      "term_ko": "AdamW",
+      "category": "Optimization",
+      "definition_en": "Adam with decoupled weight decay for better regularization.",
+      "definition_ko": "더 나은 정규화를 위해 분리된 가중치 감쇠를 가진 Adam."
+    },
+    {
+      "id": "lamb",
+      "term_en": "LAMB Optimizer",
+      "term_ko": "LAMB 옵티마이저",
+      "category": "Optimization",
+      "definition_en": "Layer-wise Adaptive Moments optimizer for large batch training.",
+      "definition_ko": "대규모 배치 학습을 위한 층별 적응적 모멘트 옵티마이저."
+    },
+    {
+      "id": "cosine_annealing",
+      "term_en": "Cosine Annealing",
+      "term_ko": "코사인 어닐링",
+      "category": "Optimization",
+      "definition_en": "A learning rate schedule following a cosine curve with optional warm restarts.",
+      "definition_ko": "선택적 웜 리스타트와 함께 코사인 곡선을 따르는 학습률 스케줄."
+    },
+    {
+      "id": "warmup",
+      "term_en": "Learning Rate Warmup",
+      "term_ko": "학습률 워밍업",
+      "category": "Optimization",
+      "definition_en": "Gradually increasing learning rate at training start for stability.",
+      "definition_ko": "안정성을 위해 학습 시작 시 학습률을 점진적으로 증가."
+    },
+    {
+      "id": "cyclical_lr",
+      "term_en": "Cyclical Learning Rate",
+      "term_ko": "순환 학습률",
+      "category": "Optimization",
+      "definition_en": "Oscillating learning rate between bounds for better convergence.",
+      "definition_ko": "더 나은 수렴을 위해 경계 사이에서 학습률을 진동."
+    },
+    {
+      "id": "saddle_point",
+      "term_en": "Saddle Point",
+      "term_ko": "안장점",
+      "category": "Optimization",
+      "definition_en": "A critical point that is neither a local minimum nor maximum; common in high dimensions.",
+      "definition_ko": "국소 최솟값도 최댓값도 아닌 임계점; 고차원에서 흔함."
+    },
+    {
+      "id": "local_minimum",
+      "term_en": "Local Minimum / Global Minimum",
+      "term_ko": "국소 최솟값 / 전역 최솟값",
+      "category": "Optimization",
+      "definition_en": "Local: lowest point in a neighborhood; Global: lowest point overall.",
+      "definition_ko": "국소: 이웃에서 가장 낮은 점; 전역: 전체에서 가장 낮은 점."
+    },
+    {
+      "id": "loss_landscape",
+      "term_en": "Loss Landscape",
+      "term_ko": "손실 지형",
+      "category": "Optimization",
+      "definition_en": "The surface formed by loss function values over parameter space.",
+      "definition_ko": "파라미터 공간에 걸친 손실 함수 값이 형성하는 표면."
+    },
+    {
+      "id": "batch_size",
+      "term_en": "Batch Size / Mini-Batch",
+      "term_ko": "배치 크기 / 미니배치",
+      "category": "Optimization",
+      "definition_en": "Number of samples processed before updating weights; affects speed and generalization.",
+      "definition_ko": "가중치 업데이트 전에 처리하는 샘플 수; 속도와 일반화에 영향."
+    },
+    {
+      "id": "epoch",
+      "term_en": "Epoch",
+      "term_ko": "에포크",
+      "category": "Optimization",
+      "definition_en": "One complete pass through the entire training dataset.",
+      "definition_ko": "전체 학습 데이터셋을 한 번 완전히 통과하는 것."
+    },
+    {
+      "id": "convergence",
+      "term_en": "Convergence",
+      "term_ko": "수렴",
+      "category": "Optimization",
+      "definition_en": "When the loss function approaches a stable minimum during training.",
+      "definition_ko": "학습 중 손실 함수가 안정적인 최솟값에 접근하는 것."
+    },
+    {
+      "id": "second_order_optimization",
+      "term_en": "Second-Order Optimization (L-BFGS, Newton)",
+      "term_ko": "2차 최적화",
+      "category": "Optimization",
+      "definition_en": "Using curvature information (Hessian) for faster convergence.",
+      "definition_ko": "더 빠른 수렴을 위해 곡률 정보(헤시안)를 사용."
+    },
+    {
+      "id": "proximal_gradient",
+      "term_en": "Proximal Gradient",
+      "term_ko": "근위 기울기",
+      "category": "Optimization",
+      "definition_en": "Optimization for non-smooth functions combining gradient descent with proximal operators.",
+      "definition_ko": "기울기 하강과 근위 연산자를 결합한 비매끄러운 함수의 최적화."
+    },
+    {
+      "id": "stopwords",
+      "term_en": "Stop Words",
+      "term_ko": "불용어",
+      "category": "NLP",
+      "definition_en": "Common words (the, is, at) filtered out during text preprocessing.",
+      "definition_ko": "텍스트 전처리 중 필터링되는 일반적인 단어 (the, is, at)."
+    },
+    {
+      "id": "stemming",
+      "term_en": "Stemming",
+      "term_ko": "어간 추출",
+      "category": "NLP",
+      "definition_en": "Reducing words to their root form by removing suffixes (running → run).",
+      "definition_ko": "접미사를 제거하여 단어를 어근 형태로 축소 (running → run)."
+    },
+    {
+      "id": "lemmatization",
+      "term_en": "Lemmatization",
+      "term_ko": "표제어 추출",
+      "category": "NLP",
+      "definition_en": "Reducing words to their dictionary form using morphological analysis.",
+      "definition_ko": "형태소 분석을 사용하여 단어를 사전 형태로 축소."
+    },
+    {
+      "id": "ngram",
+      "term_en": "N-gram",
+      "term_ko": "N-그램",
+      "category": "NLP",
+      "definition_en": "A contiguous sequence of n items (words or characters) from text.",
+      "definition_ko": "텍스트에서 n개의 연속 항목(단어 또는 문자)의 시퀀스."
+    },
+    {
+      "id": "bag_of_words",
+      "term_en": "Bag of Words (BoW)",
+      "term_ko": "단어 가방 (BoW)",
+      "category": "NLP",
+      "definition_en": "Representing text as unordered word frequency counts.",
+      "definition_ko": "텍스트를 순서 없는 단어 빈도 카운트로 표현."
+    },
+    {
+      "id": "word2vec",
+      "term_en": "Word2Vec (CBOW / Skip-gram)",
+      "term_ko": "Word2Vec",
+      "category": "NLP",
+      "definition_en": "CBOW predicts target word from context; Skip-gram predicts context from target.",
+      "definition_ko": "CBOW는 문맥에서 타겟 단어를 예측; Skip-gram은 타겟에서 문맥을 예측."
+    },
+    {
+      "id": "glove",
+      "term_en": "GloVe",
+      "term_ko": "GloVe",
+      "category": "NLP",
+      "definition_en": "Global Vectors: word embeddings from word co-occurrence statistics.",
+      "definition_ko": "단어 동시 출현 통계에서 만든 단어 임베딩."
+    },
+    {
+      "id": "fasttext",
+      "term_en": "FastText",
+      "term_ko": "FastText",
+      "category": "NLP",
+      "definition_en": "Word embeddings using subword information for handling OOV words.",
+      "definition_ko": "OOV 단어 처리를 위해 서브워드 정보를 사용하는 단어 임베딩."
+    },
+    {
+      "id": "elmo",
+      "term_en": "ELMo",
+      "term_ko": "ELMo",
+      "category": "NLP",
+      "definition_en": "Contextualized word embeddings from bidirectional LSTM language models.",
+      "definition_ko": "양방향 LSTM 언어 모델의 문맥화된 단어 임베딩."
+    },
+    {
+      "id": "xlnet",
+      "term_en": "XLNet",
+      "term_ko": "XLNet",
+      "category": "NLP",
+      "definition_en": "A permutation-based autoregressive model capturing bidirectional context.",
+      "definition_ko": "양방향 문맥을 포착하는 순열 기반 자기회귀 모델."
+    },
+    {
+      "id": "roberta",
+      "term_en": "RoBERTa",
+      "term_ko": "RoBERTa",
+      "category": "NLP",
+      "definition_en": "A robustly optimized BERT pre-training approach with more data and longer training.",
+      "definition_ko": "더 많은 데이터와 긴 학습으로 강건하게 최적화된 BERT 사전 학습 접근법."
+    },
+    {
+      "id": "albert",
+      "term_en": "ALBERT",
+      "term_ko": "ALBERT",
+      "category": "NLP",
+      "definition_en": "A lightweight BERT variant using parameter sharing and factorized embedding.",
+      "definition_ko": "파라미터 공유와 분해된 임베딩을 사용하는 경량 BERT 변형."
+    },
+    {
+      "id": "distilbert",
+      "term_en": "DistilBERT",
+      "term_ko": "DistilBERT",
+      "category": "NLP",
+      "definition_en": "A distilled, smaller, faster version of BERT retaining 97% of performance.",
+      "definition_ko": "성능의 97%를 유지하는 증류된 더 작고 빠른 BERT 버전."
+    },
+    {
+      "id": "t5",
+      "term_en": "T5 (Text-to-Text Transfer Transformer)",
+      "term_ko": "T5",
+      "category": "NLP",
+      "definition_en": "A model treating every NLP task as text-to-text generation.",
+      "definition_ko": "모든 NLP 작업을 텍스트-텍스트 생성으로 처리하는 모델."
+    },
+    {
+      "id": "bart",
+      "term_en": "BART",
+      "term_ko": "BART",
+      "category": "NLP",
+      "definition_en": "A denoising autoencoder for pre-training sequence-to-sequence models.",
+      "definition_ko": "시퀀스-투-시퀀스 모델 사전 학습을 위한 노이즈 제거 오토인코더."
+    },
+    {
+      "id": "llama",
+      "term_en": "LLaMA",
+      "term_ko": "LLaMA",
+      "category": "NLP",
+      "definition_en": "Meta's open-source family of large language models.",
+      "definition_ko": "Meta의 오픈소스 대규모 언어 모델 계열."
+    },
+    {
+      "id": "mistral",
+      "term_en": "Mistral",
+      "term_ko": "Mistral",
+      "category": "NLP",
+      "definition_en": "An efficient open-source LLM with sliding window attention.",
+      "definition_ko": "슬라이딩 윈도우 어텐션을 가진 효율적 오픈소스 LLM."
+    },
+    {
+      "id": "clip",
+      "term_en": "CLIP",
+      "term_ko": "CLIP",
+      "category": "NLP",
+      "definition_en": "Contrastive Language-Image Pre-training for connecting vision and language.",
+      "definition_ko": "비전과 언어를 연결하기 위한 대조적 언어-이미지 사전 학습."
+    },
+    {
+      "id": "sentence_embedding",
+      "term_en": "Sentence Embedding",
+      "term_ko": "문장 임베딩",
+      "category": "NLP",
+      "definition_en": "Dense vector representation of entire sentences capturing semantic meaning.",
+      "definition_ko": "의미를 포착하는 전체 문장의 밀집 벡터 표현."
+    },
+    {
+      "id": "sentence_bert",
+      "term_en": "Sentence-BERT (SBERT)",
+      "term_ko": "Sentence-BERT",
+      "category": "NLP",
+      "definition_en": "BERT fine-tuned with siamese networks for generating sentence embeddings.",
+      "definition_ko": "문장 임베딩 생성을 위해 샴 네트워크로 미세 조정된 BERT."
+    },
+    {
+      "id": "contrastive_loss",
+      "term_en": "Contrastive Loss / Triplet Loss",
+      "term_ko": "대조 손실 / 트리플렛 손실",
+      "category": "NLP",
+      "definition_en": "Loss functions for metric learning comparing positive and negative pairs.",
+      "definition_ko": "양성과 음성 쌍을 비교하는 메트릭 학습용 손실 함수."
+    },
+    {
+      "id": "text_classification",
+      "term_en": "Text Classification",
+      "term_ko": "텍스트 분류",
+      "category": "NLP",
+      "definition_en": "Assigning predefined categories to text documents.",
+      "definition_ko": "텍스트 문서에 사전 정의된 범주를 할당."
+    },
+    {
+      "id": "machine_translation",
+      "term_en": "Machine Translation",
+      "term_ko": "기계 번역",
+      "category": "NLP",
+      "definition_en": "Automatically translating text from one language to another.",
+      "definition_ko": "한 언어에서 다른 언어로 텍스트를 자동으로 번역."
+    },
+    {
+      "id": "rouge",
+      "term_en": "ROUGE Score",
+      "term_ko": "ROUGE 점수",
+      "category": "NLP",
+      "definition_en": "Recall-based metric for evaluating text summarization quality.",
+      "definition_ko": "텍스트 요약 품질을 평가하는 재현율 기반 지표."
+    },
+    {
+      "id": "meteor",
+      "term_en": "METEOR Score",
+      "term_ko": "METEOR 점수",
+      "category": "NLP",
+      "definition_en": "A machine translation metric using synonym matching and stemming.",
+      "definition_ko": "동의어 매칭과 어간 추출을 사용하는 기계 번역 지표."
+    },
+    {
+      "id": "bertscore",
+      "term_en": "BERTScore",
+      "term_ko": "BERTScore",
+      "category": "NLP",
+      "definition_en": "Evaluating text generation quality using BERT embeddings similarity.",
+      "definition_ko": "BERT 임베딩 유사도를 사용한 텍스트 생성 품질 평가."
+    },
+    {
+      "id": "coreference",
+      "term_en": "Coreference Resolution",
+      "term_ko": "상호 참조 해결",
+      "category": "NLP",
+      "definition_en": "Identifying all expressions referring to the same entity in text.",
+      "definition_ko": "텍스트에서 같은 개체를 가리키는 모든 표현을 식별."
+    },
+    {
+      "id": "constituency_parsing",
+      "term_en": "Constituency Parsing",
+      "term_ko": "구문 구조 분석",
+      "category": "NLP",
+      "definition_en": "Breaking sentences into nested sub-phrases (NP, VP, PP).",
+      "definition_ko": "문장을 중첩된 하위 구(NP, VP, PP)로 분해."
+    },
+    {
+      "id": "relation_extraction",
+      "term_en": "Relation Extraction",
+      "term_ko": "관계 추출",
+      "category": "NLP",
+      "definition_en": "Identifying semantic relationships between entities in text.",
+      "definition_ko": "텍스트에서 개체 간의 의미적 관계를 식별."
+    },
+    {
+      "id": "information_extraction",
+      "term_en": "Information Extraction",
+      "term_ko": "정보 추출",
+      "category": "NLP",
+      "definition_en": "Extracting structured information from unstructured text.",
+      "definition_ko": "비구조화된 텍스트에서 구조화된 정보를 추출."
+    },
+    {
+      "id": "knowledge_graph",
+      "term_en": "Knowledge Graph",
+      "term_ko": "지식 그래프",
+      "category": "NLP",
+      "definition_en": "A graph of entities and their relationships for structured knowledge representation.",
+      "definition_ko": "구조화된 지식 표현을 위한 개체와 관계의 그래프."
+    },
+    {
+      "id": "topic_modeling",
+      "term_en": "Topic Modeling (LDA)",
+      "term_ko": "토픽 모델링",
+      "category": "NLP",
+      "definition_en": "Discovering latent topics in document collections (Latent Dirichlet Allocation).",
+      "definition_ko": "문서 모음에서 잠재 토픽을 발견 (잠재 디리클레 할당)."
+    },
+    {
+      "id": "word_cloud",
+      "term_en": "Word Cloud",
+      "term_ko": "워드 클라우드",
+      "category": "NLP",
+      "definition_en": "Visualizing word frequency in text with word size proportional to frequency.",
+      "definition_ko": "단어 크기가 빈도에 비례하는 텍스트의 단어 빈도 시각화."
+    },
+    {
+      "id": "attention_mask",
+      "term_en": "Attention Mask",
+      "term_ko": "어텐션 마스크",
+      "category": "NLP",
+      "definition_en": "A binary mask preventing attention to padding tokens or future tokens.",
+      "definition_ko": "패딩 토큰이나 미래 토큰에 대한 어텐션을 방지하는 이진 마스크."
+    },
+    {
+      "id": "causal_lm",
+      "term_en": "Causal Language Model",
+      "term_ko": "인과 언어 모델",
+      "category": "NLP",
+      "definition_en": "An autoregressive model generating text left-to-right (GPT-style).",
+      "definition_ko": "텍스트를 왼쪽에서 오른쪽으로 생성하는 자기회귀 모델 (GPT 스타일)."
+    },
+    {
+      "id": "seq2seq_with_attention",
+      "term_en": "Seq2Seq with Attention",
+      "term_ko": "어텐션 Seq2Seq",
+      "category": "NLP",
+      "definition_en": "Adding attention mechanism to encoder-decoder for better long-sequence handling.",
+      "definition_ko": "장 시퀀스 처리를 위해 인코더-디코더에 어텐션 메커니즘을 추가."
+    },
+    {
+      "id": "instruction_tuning",
+      "term_en": "Instruction Tuning",
+      "term_ko": "인스트럭션 튜닝",
+      "category": "NLP",
+      "definition_en": "Fine-tuning LLMs on instruction-response pairs for better task following.",
+      "definition_ko": "더 나은 작업 수행을 위해 명령-응답 쌍으로 LLM을 미세 조정."
+    },
+    {
+      "id": "dpo",
+      "term_en": "DPO (Direct Preference Optimization)",
+      "term_ko": "직접 선호 최적화",
+      "category": "NLP",
+      "definition_en": "Aligning LLMs with preferences without a separate reward model.",
+      "definition_ko": "별도의 보상 모델 없이 선호도로 LLM을 정렬."
+    },
+    {
+      "id": "in_context_learning",
+      "term_en": "In-Context Learning",
+      "term_ko": "인컨텍스트 학습",
+      "category": "NLP",
+      "definition_en": "LLM adapting to tasks via examples in the prompt without weight updates.",
+      "definition_ko": "가중치 업데이트 없이 프롬프트의 예제로 작업에 적응하는 LLM."
+    },
+    {
+      "id": "tokenizer",
+      "term_en": "Tokenizer (SentencePiece, Unigram)",
+      "term_ko": "토크나이저",
+      "category": "NLP",
+      "definition_en": "Tools for splitting text into tokens; SentencePiece is language-agnostic.",
+      "definition_ko": "텍스트를 토큰으로 분할하는 도구; SentencePiece는 언어에 구애받지 않음."
+    },
+    {
+      "id": "vocab_size",
+      "term_en": "Vocabulary Size",
+      "term_ko": "어휘 크기",
+      "category": "NLP",
+      "definition_en": "The number of unique tokens a model can process.",
+      "definition_ko": "모델이 처리할 수 있는 고유 토큰의 수."
+    },
+    {
+      "id": "oov",
+      "term_en": "Out-of-Vocabulary (OOV)",
+      "term_ko": "미등록 단어",
+      "category": "NLP",
+      "definition_en": "Words not in the model's vocabulary; handled by subword tokenization.",
+      "definition_ko": "모델의 어휘에 없는 단어; 서브워드 토큰화로 처리."
+    },
+    {
+      "id": "document_retrieval",
+      "term_en": "Document Retrieval",
+      "term_ko": "문서 검색",
+      "category": "NLP",
+      "definition_en": "Finding relevant documents from a large corpus given a query.",
+      "definition_ko": "쿼리가 주어지면 대규모 코퍼스에서 관련 문서를 찾기."
+    },
+    {
+      "id": "dense_retrieval",
+      "term_en": "Dense Retrieval",
+      "term_ko": "밀집 검색",
+      "category": "NLP",
+      "definition_en": "Using dense vector representations for semantic document retrieval.",
+      "definition_ko": "의미적 문서 검색을 위해 밀집 벡터 표현을 사용."
+    },
+    {
+      "id": "sparse_retrieval",
+      "term_en": "Sparse Retrieval (BM25)",
+      "term_ko": "희소 검색",
+      "category": "NLP",
+      "definition_en": "Traditional keyword-based retrieval using term frequency statistics.",
+      "definition_ko": "용어 빈도 통계를 사용하는 전통적 키워드 기반 검색."
+    },
+    {
+      "id": "reranking",
+      "term_en": "Re-Ranking",
+      "term_ko": "재순위화",
+      "category": "NLP",
+      "definition_en": "A second-stage model re-scoring retrieved documents for better relevance.",
+      "definition_ko": "더 나은 관련성을 위해 검색된 문서를 재점수화하는 2단계 모델."
+    },
+    {
+      "id": "vector_database",
+      "term_en": "Vector Database",
+      "term_ko": "벡터 데이터베이스",
+      "category": "NLP",
+      "definition_en": "A database optimized for storing and querying high-dimensional vectors (Chroma, Pinecone, Milvus).",
+      "definition_ko": "고차원 벡터 저장 및 쿼리에 최적화된 데이터베이스 (Chroma, Pinecone, Milvus)."
+    },
+    {
+      "id": "chunking",
+      "term_en": "Chunking (Text Splitting)",
+      "term_ko": "청킹 (텍스트 분할)",
+      "category": "NLP",
+      "definition_en": "Splitting long documents into smaller segments for embedding and retrieval.",
+      "definition_ko": "임베딩과 검색을 위해 긴 문서를 더 작은 세그먼트로 분할."
+    },
+    {
+      "id": "hybrid_search",
+      "term_en": "Hybrid Search",
+      "term_ko": "하이브리드 검색",
+      "category": "NLP",
+      "definition_en": "Combining sparse (BM25) and dense retrieval for better recall.",
+      "definition_ko": "더 나은 재현율을 위해 희소(BM25)와 밀집 검색을 결합."
+    },
+    {
+      "id": "grounding",
+      "term_en": "Grounding",
+      "term_ko": "그라운딩",
+      "category": "NLP",
+      "definition_en": "Connecting model outputs to verifiable sources or real-world facts.",
+      "definition_ko": "모델 출력을 검증 가능한 소스나 실제 사실에 연결."
+    },
+    {
+      "id": "context_window",
+      "term_en": "Context Window",
+      "term_ko": "컨텍스트 윈도우",
+      "category": "NLP",
+      "definition_en": "The maximum number of tokens a model can process in a single input.",
+      "definition_ko": "모델이 단일 입력에서 처리할 수 있는 최대 토큰 수."
+    },
+    {
+      "id": "hough_transform",
+      "term_en": "Hough Transform",
+      "term_ko": "허프 변환",
+      "category": "Machine Vision",
+      "definition_en": "Detecting lines, circles, and other shapes by voting in parameter space.",
+      "definition_ko": "파라미터 공간에서 투표를 통해 직선, 원 등의 형상을 검출."
+    },
+    {
+      "id": "harris_corner",
+      "term_en": "Harris Corner Detection",
+      "term_ko": "해리스 코너 검출",
+      "category": "Machine Vision",
+      "definition_en": "Detecting corner points using eigenvalues of the structure tensor.",
+      "definition_ko": "구조 텐서의 고유값을 사용하여 코너 포인트를 검출."
+    },
+    {
+      "id": "gaussian_blur",
+      "term_en": "Gaussian Blur",
+      "term_ko": "가우시안 블러",
+      "category": "Machine Vision",
+      "definition_en": "Smoothing an image using a Gaussian kernel to reduce noise.",
+      "definition_ko": "노이즈를 줄이기 위해 가우시안 커널로 이미지를 평활화."
+    },
+    {
+      "id": "image_pyramid",
+      "term_en": "Image Pyramid",
+      "term_ko": "이미지 피라미드",
+      "category": "Machine Vision",
+      "definition_en": "Multi-scale image representations for detecting features at different scales.",
+      "definition_ko": "다양한 스케일에서 특징을 감지하기 위한 다중 스케일 이미지 표현."
+    },
+    {
+      "id": "affine_transform",
+      "term_en": "Affine Transformation",
+      "term_ko": "아핀 변환",
+      "category": "Machine Vision",
+      "definition_en": "A geometric transformation preserving lines and parallelism (rotation, scale, shear, translation).",
+      "definition_ko": "직선과 평행성을 보존하는 기하학적 변환 (회전, 스케일, 전단, 이동)."
+    },
+    {
+      "id": "perspective_transform",
+      "term_en": "Perspective Transformation",
+      "term_ko": "투시 변환",
+      "category": "Machine Vision",
+      "definition_en": "A projective transformation mapping a quadrilateral to another; used for document scanning.",
+      "definition_ko": "사각형을 다른 사각형으로 매핑하는 사영 변환; 문서 스캐닝에 사용."
+    },
+    {
+      "id": "color_space",
+      "term_en": "Color Space (RGB, HSV, LAB)",
+      "term_ko": "색 공간",
+      "category": "Machine Vision",
+      "definition_en": "Different ways to represent colors; HSV separates hue, saturation, brightness.",
+      "definition_ko": "색상을 표현하는 다양한 방법; HSV는 색조, 채도, 밝기를 분리."
+    },
+    {
+      "id": "thresholding",
+      "term_en": "Thresholding (Otsu, Adaptive)",
+      "term_ko": "임계값 처리",
+      "category": "Machine Vision",
+      "definition_en": "Converting grayscale images to binary by choosing a threshold value.",
+      "definition_ko": "임계값을 선택하여 그레이스케일 이미지를 이진으로 변환."
+    },
+    {
+      "id": "contour_detection",
+      "term_en": "Contour Detection",
+      "term_ko": "윤곽 검출",
+      "category": "Machine Vision",
+      "definition_en": "Finding outlines of objects in binary images.",
+      "definition_ko": "이진 이미지에서 객체의 윤곽선을 찾기."
+    },
+    {
+      "id": "connected_components",
+      "term_en": "Connected Components",
+      "term_ko": "연결 요소",
+      "category": "Machine Vision",
+      "definition_en": "Labeling groups of connected pixels in a binary image.",
+      "definition_ko": "이진 이미지에서 연결된 픽셀 그룹에 레이블을 지정."
+    },
+    {
+      "id": "ransac",
+      "term_en": "RANSAC",
+      "term_ko": "RANSAC",
+      "category": "Machine Vision",
+      "definition_en": "Random Sample Consensus: robust model fitting in the presence of outliers.",
+      "definition_ko": "이상치가 존재할 때 강건한 모델 적합을 위한 랜덤 샘플 합의."
+    },
+    {
+      "id": "epipolar_geometry",
+      "term_en": "Epipolar Geometry",
+      "term_ko": "에피폴라 기하학",
+      "category": "Machine Vision",
+      "definition_en": "The geometry of stereo vision relating points in two camera views.",
+      "definition_ko": "두 카메라 뷰의 점을 관련시키는 스테레오 비전의 기하학."
+    },
+    {
+      "id": "essential_fundamental_matrix",
+      "term_en": "Essential / Fundamental Matrix",
+      "term_ko": "필수 / 기본 행렬",
+      "category": "Machine Vision",
+      "definition_en": "Matrices encoding epipolar geometry constraints between camera views.",
+      "definition_ko": "카메라 뷰 간 에피폴라 기하학 제약을 인코딩하는 행렬."
+    },
+    {
+      "id": "disparity_map",
+      "term_en": "Disparity Map",
+      "term_ko": "시차 맵",
+      "category": "Machine Vision",
+      "definition_en": "Pixel displacement between left and right stereo images indicating depth.",
+      "definition_ko": "깊이를 나타내는 좌우 스테레오 이미지 간의 픽셀 변위."
+    },
+    {
+      "id": "structure_from_motion",
+      "term_en": "Structure from Motion (SfM)",
+      "term_ko": "모션에서의 구조 복원",
+      "category": "Machine Vision",
+      "definition_en": "Reconstructing 3D structure from 2D image sequences taken from different viewpoints.",
+      "definition_ko": "다른 시점에서 촬영한 2D 이미지 시퀀스로부터 3D 구조를 재구성."
+    },
+    {
+      "id": "visual_odometry",
+      "term_en": "Visual Odometry",
+      "term_ko": "비주얼 오도메트리",
+      "category": "Machine Vision",
+      "definition_en": "Estimating camera motion from sequential image frames.",
+      "definition_ko": "순차 이미지 프레임에서 카메라 움직임을 추정."
+    },
+    {
+      "id": "lidar",
+      "term_en": "LiDAR",
+      "term_ko": "라이다",
+      "category": "Machine Vision",
+      "definition_en": "Light Detection and Ranging sensor for 3D point cloud generation.",
+      "definition_ko": "3D 포인트 클라우드 생성을 위한 레이저 탐지 및 거리 측정 센서."
+    },
+    {
+      "id": "3d_reconstruction",
+      "term_en": "3D Reconstruction",
+      "term_ko": "3D 재구성",
+      "category": "Machine Vision",
+      "definition_en": "Building 3D models from 2D images or sensor data.",
+      "definition_ko": "2D 이미지나 센서 데이터로부터 3D 모델을 구축."
+    },
+    {
+      "id": "super_resolution",
+      "term_en": "Super Resolution",
+      "term_ko": "초해상도",
+      "category": "Machine Vision",
+      "definition_en": "Enhancing image resolution beyond original using deep learning.",
+      "definition_ko": "딥러닝을 사용하여 원본 이상으로 이미지 해상도를 향상."
+    },
+    {
+      "id": "image_inpainting",
+      "term_en": "Image Inpainting",
+      "term_ko": "이미지 인페인팅",
+      "category": "Machine Vision",
+      "definition_en": "Filling in missing or damaged regions of an image.",
+      "definition_ko": "이미지의 결측 또는 손상된 영역을 채움."
+    },
+    {
+      "id": "style_transfer",
+      "term_en": "Neural Style Transfer",
+      "term_ko": "신경 스타일 전이",
+      "category": "Machine Vision",
+      "definition_en": "Applying the artistic style of one image to the content of another.",
+      "definition_ko": "한 이미지의 예술적 스타일을 다른 이미지의 콘텐츠에 적용."
+    },
+    {
+      "id": "action_recognition",
+      "term_en": "Action Recognition",
+      "term_ko": "행동 인식",
+      "category": "Machine Vision",
+      "definition_en": "Classifying human actions in video sequences.",
+      "definition_ko": "비디오 시퀀스에서 인간의 행동을 분류."
+    },
+    {
+      "id": "video_segmentation",
+      "term_en": "Video Object Segmentation",
+      "term_ko": "비디오 객체 분할",
+      "category": "Machine Vision",
+      "definition_en": "Tracking and segmenting objects across video frames.",
+      "definition_ko": "비디오 프레임에서 객체를 추적하고 분할."
+    },
+    {
+      "id": "sort_tracker",
+      "term_en": "SORT (Simple Online Realtime Tracking)",
+      "term_ko": "SORT",
+      "category": "Machine Vision",
+      "definition_en": "A lightweight multi-object tracker using Kalman filters and Hungarian algorithm.",
+      "definition_ko": "칼만 필터와 헝가리안 알고리즘을 사용하는 경량 다중 객체 추적기."
+    },
+    {
+      "id": "siamese_network",
+      "term_en": "Siamese Network",
+      "term_ko": "샴 네트워크",
+      "category": "Machine Vision",
+      "definition_en": "Twin networks sharing weights for similarity comparison (face verification, tracking).",
+      "definition_ko": "유사도 비교를 위해 가중치를 공유하는 쌍둥이 네트워크 (얼굴 인증, 추적)."
+    },
+    {
+      "id": "mask_rcnn",
+      "term_en": "Mask R-CNN",
+      "term_ko": "Mask R-CNN",
+      "category": "Machine Vision",
+      "definition_en": "Extending Faster R-CNN with a mask branch for instance segmentation.",
+      "definition_ko": "인스턴스 분할을 위해 마스크 브랜치로 Faster R-CNN을 확장."
+    },
+    {
+      "id": "detr",
+      "term_en": "DETR (Detection Transformer)",
+      "term_ko": "DETR",
+      "category": "Machine Vision",
+      "definition_en": "An end-to-end object detection model using Transformers without NMS.",
+      "definition_ko": "NMS 없이 트랜스포머를 사용하는 엔드투엔드 객체 검출 모델."
+    },
+    {
+      "id": "yolov_series",
+      "term_en": "YOLOv5 / v8 / v9 / v10",
+      "term_ko": "YOLO 시리즈",
+      "category": "Machine Vision",
+      "definition_en": "Evolution of YOLO models with improved accuracy, speed, and architecture.",
+      "definition_ko": "정확도, 속도, 아키텍처가 개선된 YOLO 모델의 진화."
+    },
+    {
+      "id": "backbone",
+      "term_en": "Backbone Network",
+      "term_ko": "백본 네트워크",
+      "category": "Machine Vision",
+      "definition_en": "The base feature extraction network in detection/segmentation architectures.",
+      "definition_ko": "검출/분할 아키텍처의 기본 특징 추출 네트워크."
+    },
+    {
+      "id": "neck",
+      "term_en": "Neck (PANet, BiFPN)",
+      "term_ko": "넥",
+      "category": "Machine Vision",
+      "definition_en": "The intermediate feature aggregation layer between backbone and detection head.",
+      "definition_ko": "백본과 검출 헤드 사이의 중간 특징 집계 층."
+    },
+    {
+      "id": "detection_head",
+      "term_en": "Detection Head",
+      "term_ko": "검출 헤드",
+      "category": "Machine Vision",
+      "definition_en": "The final prediction layer producing bounding boxes and class probabilities.",
+      "definition_ko": "바운딩 박스와 클래스 확률을 생성하는 최종 예측 층."
+    },
+    {
+      "id": "focal_loss",
+      "term_en": "Focal Loss",
+      "term_ko": "포컬 로스",
+      "category": "Machine Vision",
+      "definition_en": "A loss function down-weighting easy examples to focus on hard negatives (RetinaNet).",
+      "definition_ko": "어려운 음성에 집중하기 위해 쉬운 예제의 가중치를 줄이는 손실 함수 (RetinaNet)."
+    },
+    {
+      "id": "ciou_loss",
+      "term_en": "CIoU / GIoU / DIoU Loss",
+      "term_ko": "CIoU / GIoU / DIoU 손실",
+      "category": "Machine Vision",
+      "definition_en": "Advanced IoU-based losses considering distance, aspect ratio, and overlap.",
+      "definition_ko": "거리, 종횡비, 겹침을 고려하는 고급 IoU 기반 손실."
+    },
+    {
+      "id": "transfer_detection",
+      "term_en": "Transfer Learning for Detection",
+      "term_ko": "검출용 전이 학습",
+      "category": "Machine Vision",
+      "definition_en": "Using ImageNet pre-trained backbones for object detection tasks.",
+      "definition_ko": "객체 검출 작업을 위해 ImageNet 사전 학습된 백본을 사용."
+    },
+    {
+      "id": "multi_object_tracking",
+      "term_en": "Multi-Object Tracking (MOT)",
+      "term_ko": "다중 객체 추적",
+      "category": "Machine Vision",
+      "definition_en": "Simultaneously tracking multiple objects with unique identities across frames.",
+      "definition_ko": "프레임에 걸쳐 고유 ID를 가진 여러 객체를 동시에 추적."
+    },
+    {
+      "id": "crowd_counting",
+      "term_en": "Crowd Counting",
+      "term_ko": "군중 카운팅",
+      "category": "Machine Vision",
+      "definition_en": "Estimating the number of people in dense crowd images.",
+      "definition_ko": "밀집 군중 이미지에서 사람 수를 추정."
+    },
+    {
+      "id": "autonomous_driving",
+      "term_en": "Autonomous Driving Perception",
+      "term_ko": "자율 주행 인식",
+      "category": "Machine Vision",
+      "definition_en": "Visual understanding systems for self-driving (lane detection, sign recognition, obstacle avoidance).",
+      "definition_ko": "자율 주행을 위한 시각적 이해 시스템 (차선 검출, 표지판 인식, 장애물 회피)."
+    },
+    {
+      "id": "medical_image_analysis",
+      "term_en": "Medical Image Analysis",
+      "term_ko": "의료 이미지 분석",
+      "category": "Machine Vision",
+      "definition_en": "Applying CV to medical imaging (X-ray, MRI, CT) for diagnosis assistance.",
+      "definition_ko": "진단 보조를 위해 의료 영상(X-ray, MRI, CT)에 CV를 적용."
+    },
+    {
+      "id": "gaussian_splatting",
+      "term_en": "3D Gaussian Splatting",
+      "term_ko": "3D 가우시안 스플래팅",
+      "category": "Machine Vision",
+      "definition_en": "Real-time novel view synthesis using learnable 3D Gaussians.",
+      "definition_ko": "학습 가능한 3D 가우시안을 사용한 실시간 새로운 시점 합성."
+    },
+    {
+      "id": "xgboost",
+      "term_en": "XGBoost",
+      "term_ko": "XGBoost",
+      "category": "Machine Learning",
+      "definition_en": "Extreme Gradient Boosting: a scalable, high-performance gradient boosting implementation.",
+      "definition_ko": "확장 가능하고 고성능인 그래디언트 부스팅 구현."
+    },
+    {
+      "id": "lightgbm",
+      "term_en": "LightGBM",
+      "term_ko": "LightGBM",
+      "category": "Machine Learning",
+      "definition_en": "A gradient boosting framework using leaf-wise tree growth for speed and efficiency.",
+      "definition_ko": "속도와 효율성을 위해 잎 방향 트리 성장을 사용하는 그래디언트 부스팅 프레임워크."
+    },
+    {
+      "id": "catboost",
+      "term_en": "CatBoost",
+      "term_ko": "CatBoost",
+      "category": "Machine Learning",
+      "definition_en": "A gradient boosting library handling categorical features natively.",
+      "definition_ko": "범주형 특성을 기본적으로 처리하는 그래디언트 부스팅 라이브러리."
+    },
+    {
+      "id": "calibration",
+      "term_en": "Probability Calibration",
+      "term_ko": "확률 보정",
+      "category": "Machine Learning",
+      "definition_en": "Adjusting predicted probabilities to match real-world frequencies (Platt scaling, isotonic).",
+      "definition_ko": "예측 확률을 실제 빈도에 맞게 조정 (플랫 스케일링, 단조)."
+    },
+    {
+      "id": "stratified_kfold",
+      "term_en": "Stratified K-Fold",
+      "term_ko": "층화 K-폴드",
+      "category": "Machine Learning",
+      "definition_en": "Cross-validation preserving class distribution in each fold.",
+      "definition_ko": "각 폴드에서 클래스 분포를 보존하는 교차 검증."
+    },
+    {
+      "id": "time_series",
+      "term_en": "Time Series Analysis",
+      "term_ko": "시계열 분석",
+      "category": "Machine Learning",
+      "definition_en": "Analyzing data points indexed in time order for forecasting and trend detection.",
+      "definition_ko": "예측과 추세 감지를 위해 시간 순서로 인덱스된 데이터 포인트를 분석."
+    },
+    {
+      "id": "arima",
+      "term_en": "ARIMA",
+      "term_ko": "ARIMA",
+      "category": "Machine Learning",
+      "definition_en": "AutoRegressive Integrated Moving Average: a classical time series forecasting model.",
+      "definition_ko": "자기회귀 누적 이동 평균: 고전적 시계열 예측 모델."
+    },
+    {
+      "id": "prophet",
+      "term_en": "Prophet",
+      "term_ko": "Prophet",
+      "category": "Machine Learning",
+      "definition_en": "Facebook's forecasting tool for time series with seasonality and holidays.",
+      "definition_ko": "계절성과 휴일이 있는 시계열을 위한 Facebook의 예측 도구."
+    },
+    {
+      "id": "survival_analysis",
+      "term_en": "Survival Analysis",
+      "term_ko": "생존 분석",
+      "category": "Machine Learning",
+      "definition_en": "Modeling time-to-event data with censoring (Kaplan-Meier, Cox regression).",
+      "definition_ko": "중도 절단이 있는 시간-사건 데이터 모델링 (카플란-마이어, 콕스 회귀)."
+    },
+    {
+      "id": "online_learning",
+      "term_en": "Online Learning",
+      "term_ko": "온라인 학습",
+      "category": "Machine Learning",
+      "definition_en": "Updating model incrementally as new data arrives, without retraining.",
+      "definition_ko": "재학습 없이 새 데이터가 도착하면 모델을 점진적으로 업데이트."
+    },
+    {
+      "id": "batch_learning",
+      "term_en": "Batch Learning",
+      "term_ko": "배치 학습",
+      "category": "Machine Learning",
+      "definition_en": "Training on the entire dataset at once.",
+      "definition_ko": "전체 데이터셋을 한 번에 학습."
+    },
+    {
+      "id": "multi_task_learning",
+      "term_en": "Multi-Task Learning",
+      "term_ko": "다중 작업 학습",
+      "category": "Machine Learning",
+      "definition_en": "Training a single model on multiple related tasks simultaneously.",
+      "definition_ko": "여러 관련 작업을 단일 모델로 동시에 학습."
+    },
+    {
+      "id": "domain_adaptation",
+      "term_en": "Domain Adaptation",
+      "term_ko": "도메인 적응",
+      "category": "Machine Learning",
+      "definition_en": "Adapting a model trained on one domain to perform well on a different domain.",
+      "definition_ko": "한 도메인에서 학습된 모델을 다른 도메인에서 잘 수행하도록 적응."
+    },
+    {
+      "id": "cost_sensitive",
+      "term_en": "Cost-Sensitive Learning",
+      "term_ko": "비용 민감 학습",
+      "category": "Machine Learning",
+      "definition_en": "Assigning different misclassification costs to different classes.",
+      "definition_ko": "다른 클래스에 다른 오분류 비용을 할당."
+    },
+    {
+      "id": "label_smoothing",
+      "term_en": "Label Smoothing",
+      "term_ko": "레이블 스무딩",
+      "category": "Machine Learning",
+      "definition_en": "Softening hard labels to prevent overconfident predictions.",
+      "definition_ko": "과도한 확신 예측을 방지하기 위해 하드 레이블을 부드럽게."
+    },
+    {
+      "id": "mixup",
+      "term_en": "Mixup / CutMix",
+      "term_ko": "믹스업 / 컷믹스",
+      "category": "Machine Learning",
+      "definition_en": "Data augmentation by linearly interpolating or cutting-pasting between training samples.",
+      "definition_ko": "학습 샘플 간 선형 보간 또는 잘라 붙이기로 데이터 증강."
+    },
+    {
+      "id": "attention_is_all",
+      "term_en": "Attention Is All You Need",
+      "term_ko": "어텐션만 있으면 된다",
+      "category": "Deep Learning",
+      "definition_en": "The 2017 paper introducing the Transformer architecture.",
+      "definition_ko": "트랜스포머 아키텍처를 소개한 2017년 논문."
+    },
+    {
+      "id": "token_embedding",
+      "term_en": "Token Embedding",
+      "term_ko": "토큰 임베딩",
+      "category": "Deep Learning",
+      "definition_en": "Mapping tokens to dense vectors as input to neural networks.",
+      "definition_ko": "신경망 입력으로 토큰을 밀집 벡터로 매핑."
+    },
+    {
+      "id": "sinusoidal_pe",
+      "term_en": "Sinusoidal Positional Encoding",
+      "term_ko": "사인 위치 인코딩",
+      "category": "Deep Learning",
+      "definition_en": "Fixed position encoding using sine and cosine functions at different frequencies.",
+      "definition_ko": "다른 주파수의 사인과 코사인 함수를 사용한 고정 위치 인코딩."
+    },
+    {
+      "id": "learned_pe",
+      "term_en": "Learned Positional Embedding",
+      "term_ko": "학습된 위치 임베딩",
+      "category": "Deep Learning",
+      "definition_en": "Trainable position encodings instead of fixed sinusoidal patterns.",
+      "definition_ko": "고정 사인 패턴 대신 학습 가능한 위치 인코딩."
+    },
+    {
+      "id": "residual_stream",
+      "term_en": "Residual Stream",
+      "term_ko": "잔차 스트림",
+      "category": "Deep Learning",
+      "definition_en": "The main pathway in Transformers where information flows via additive updates.",
+      "definition_ko": "가산 업데이트를 통해 정보가 흐르는 트랜스포머의 주 경로."
+    },
+    {
+      "id": "feed_forward",
+      "term_en": "Feed-Forward Network (FFN)",
+      "term_ko": "피드포워드 네트워크",
+      "category": "Deep Learning",
+      "definition_en": "The MLP component in each Transformer block applied position-wise.",
+      "definition_ko": "각 트랜스포머 블록에서 위치별로 적용되는 MLP 구성 요소."
+    },
+    {
+      "id": "swiglu",
+      "term_en": "SwiGLU Activation",
+      "term_ko": "SwiGLU 활성화",
+      "category": "Deep Learning",
+      "definition_en": "A gated activation function used in modern LLMs for improved performance.",
+      "definition_ko": "향상된 성능을 위해 현대 LLM에서 사용되는 게이티드 활성화 함수."
+    },
+    {
+      "id": "grouped_query_attention",
+      "term_en": "Grouped-Query Attention (GQA)",
+      "term_ko": "그룹 쿼리 어텐션",
+      "category": "Deep Learning",
+      "definition_en": "Sharing key-value heads across multiple query heads for efficient inference.",
+      "definition_ko": "효율적 추론을 위해 여러 쿼리 헤드에 키-밸류 헤드를 공유."
+    },
+    {
+      "id": "multi_query_attention",
+      "term_en": "Multi-Query Attention (MQA)",
+      "term_ko": "멀티 쿼리 어텐션",
+      "category": "Deep Learning",
+      "definition_en": "Using a single key-value head for all query heads to reduce memory.",
+      "definition_ko": "메모리를 줄이기 위해 모든 쿼리 헤드에 단일 키-밸류 헤드를 사용."
+    },
+    {
+      "id": "ring_attention",
+      "term_en": "Ring Attention",
+      "term_ko": "링 어텐션",
+      "category": "Deep Learning",
+      "definition_en": "Distributing attention computation across devices in a ring topology for very long contexts.",
+      "definition_ko": "매우 긴 컨텍스트를 위해 링 토폴로지에서 디바이스 간 어텐션 계산을 분산."
+    },
+    {
+      "id": "sparse_attention",
+      "term_en": "Sparse Attention",
+      "term_ko": "희소 어텐션",
+      "category": "Deep Learning",
+      "definition_en": "Attending to only a subset of positions for O(n√n) or O(n log n) complexity.",
+      "definition_ko": "O(n√n) 또는 O(n log n) 복잡도를 위해 위치의 부분집합에만 어텐드."
+    },
+    {
+      "id": "linear_attention",
+      "term_en": "Linear Attention",
+      "term_ko": "선형 어텐션",
+      "category": "Deep Learning",
+      "definition_en": "Approximating attention with linear complexity using kernel methods.",
+      "definition_ko": "커널 방법을 사용하여 선형 복잡도로 어텐션을 근사."
+    },
+    {
+      "id": "mamba",
+      "term_en": "Mamba (State Space Model)",
+      "term_ko": "맘바",
+      "category": "Deep Learning",
+      "definition_en": "A selective state space model as an alternative to Transformers for sequence modeling.",
+      "definition_ko": "시퀀스 모델링을 위한 트랜스포머의 대안으로서의 선택적 상태 공간 모델."
+    },
+    {
+      "id": "rwkv",
+      "term_en": "RWKV",
+      "term_ko": "RWKV",
+      "category": "Deep Learning",
+      "definition_en": "An RNN-based architecture achieving Transformer-level performance with linear complexity.",
+      "definition_ko": "선형 복잡도로 트랜스포머 수준 성능을 달성하는 RNN 기반 아키텍처."
+    },
+    {
+      "id": "rms_norm",
+      "term_en": "RMSNorm",
+      "term_ko": "RMS 정규화",
+      "category": "Deep Learning",
+      "definition_en": "Root Mean Square normalization; simpler alternative to Layer Norm used in LLaMA.",
+      "definition_ko": "제곱 평균 제곱근 정규화; LLaMA에서 사용되는 Layer Norm의 간단한 대안."
+    },
+    {
+      "id": "label_propagation",
+      "term_en": "Label Propagation",
+      "term_ko": "레이블 전파",
+      "category": "Machine Learning",
+      "definition_en": "A semi-supervised method spreading labels through a graph of data points.",
+      "definition_ko": "데이터 포인트의 그래프를 통해 레이블을 전파하는 준지도 방법."
+    },
+    {
+      "id": "gaussian_nb",
+      "term_en": "Gaussian Naive Bayes",
+      "term_ko": "가우시안 나이브 베이즈",
+      "category": "Machine Learning",
+      "definition_en": "Naive Bayes assuming continuous features follow a Gaussian distribution.",
+      "definition_ko": "연속 특성이 가우시안 분포를 따른다고 가정하는 나이브 베이즈."
+    },
+    {
+      "id": "perceptron",
+      "term_en": "Perceptron",
+      "term_ko": "퍼셉트론",
+      "category": "Deep Learning",
+      "definition_en": "The simplest neural network unit: a linear classifier.",
+      "definition_ko": "가장 단순한 신경망 단위: 선형 분류기."
+    },
+    {
+      "id": "mlp",
+      "term_en": "Multi-Layer Perceptron (MLP)",
+      "term_ko": "다층 퍼셉트론",
+      "category": "Deep Learning",
+      "definition_en": "A fully connected feedforward network with multiple hidden layers.",
+      "definition_ko": "여러 은닉 층을 가진 완전 연결 피드포워드 네트워크."
+    },
+    {
+      "id": "universal_approx",
+      "term_en": "Universal Approximation Theorem",
+      "term_ko": "만능 근사 정리",
+      "category": "Deep Learning",
+      "definition_en": "A sufficiently wide neural network can approximate any continuous function.",
+      "definition_ko": "충분히 넓은 신경망은 임의의 연속 함수를 근사할 수 있다."
+    },
+    {
+      "id": "data_parallel",
+      "term_en": "Data Parallelism",
+      "term_ko": "데이터 병렬화",
+      "category": "Deep Learning",
+      "definition_en": "Splitting data across GPUs, each running the full model on a subset.",
+      "definition_ko": "GPU 간 데이터를 분할하여 각각 부분집합에서 전체 모델을 실행."
+    },
+    {
+      "id": "model_parallel",
+      "term_en": "Model Parallelism (Tensor / Pipeline)",
+      "term_ko": "모델 병렬화",
+      "category": "Deep Learning",
+      "definition_en": "Splitting model layers or tensors across multiple GPUs.",
+      "definition_ko": "모델 층이나 텐서를 여러 GPU에 분할."
+    },
+    {
+      "id": "deepspeed",
+      "term_en": "DeepSpeed / FSDP",
+      "term_ko": "DeepSpeed / FSDP",
+      "category": "Deep Learning",
+      "definition_en": "Libraries for distributed training with ZeRO optimization and memory efficiency.",
+      "definition_ko": "ZeRO 최적화와 메모리 효율성을 가진 분산 학습 라이브러리."
+    },
+    {
+      "id": "gradient_accumulation",
+      "term_en": "Gradient Accumulation",
+      "term_ko": "기울기 누적",
+      "category": "Deep Learning",
+      "definition_en": "Accumulating gradients over multiple mini-batches before updating weights.",
+      "definition_ko": "가중치 업데이트 전에 여러 미니배치에 걸쳐 기울기를 누적."
+    },
+    {
+      "id": "checkpoint_activation",
+      "term_en": "Activation Checkpointing",
+      "term_ko": "활성화 체크포인팅",
+      "category": "Deep Learning",
+      "definition_en": "Recomputing activations during backward pass to save GPU memory.",
+      "definition_ko": "GPU 메모리를 절약하기 위해 역전파 중 활성화를 재계산."
+    },
+    {
+      "id": "onnx",
+      "term_en": "ONNX",
+      "term_ko": "ONNX",
+      "category": "Deep Learning",
+      "definition_en": "Open Neural Network Exchange: an interoperable format for ML models.",
+      "definition_ko": "오픈 신경망 교환: ML 모델을 위한 상호 운용 가능한 형식."
+    },
+    {
+      "id": "tensorrt",
+      "term_en": "TensorRT",
+      "term_ko": "TensorRT",
+      "category": "Deep Learning",
+      "definition_en": "NVIDIA's inference optimization library for deploying deep learning models.",
+      "definition_ko": "딥러닝 모델 배포를 위한 NVIDIA의 추론 최적화 라이브러리."
+    },
+    {
+      "id": "triton_inference",
+      "term_en": "Triton Inference Server",
+      "term_ko": "트리톤 추론 서버",
+      "category": "Deep Learning",
+      "definition_en": "NVIDIA's model serving platform for deploying AI models at scale.",
+      "definition_ko": "대규모 AI 모델 배포를 위한 NVIDIA의 모델 서빙 플랫폼."
+    },
+    {
+      "id": "vllm",
+      "term_en": "vLLM",
+      "term_ko": "vLLM",
+      "category": "Deep Learning",
+      "definition_en": "A high-throughput LLM serving engine with PagedAttention.",
+      "definition_ko": "PagedAttention을 가진 고처리량 LLM 서빙 엔진."
+    },
+    {
+      "id": "speculative_decoding",
+      "term_en": "Speculative Decoding",
+      "term_ko": "추측적 디코딩",
+      "category": "Deep Learning",
+      "definition_en": "Using a small draft model to speed up large model inference.",
+      "definition_ko": "대형 모델 추론을 가속하기 위해 작은 초안 모델을 사용."
+    },
+    {
+      "id": "abstractive_summarization",
+      "term_en": "Abstractive Summarization",
+      "term_ko": "생성적 요약",
+      "category": "NLP",
+      "definition_en": "Generating a summary with new words not necessarily in the original text.",
+      "definition_ko": "원본 텍스트에 반드시 없는 새 단어로 요약을 생성."
+    },
+    {
+      "id": "extractive_summarization",
+      "term_en": "Extractive Summarization",
+      "term_ko": "추출적 요약",
+      "category": "NLP",
+      "definition_en": "Selecting key sentences from the original text as the summary.",
+      "definition_ko": "원본 텍스트에서 핵심 문장을 선택하여 요약."
+    },
+    {
+      "id": "dialogue_system",
+      "term_en": "Dialogue System",
+      "term_ko": "대화 시스템",
+      "category": "NLP",
+      "definition_en": "A system for engaging in multi-turn conversations (chatbots, virtual assistants).",
+      "definition_ko": "다턴 대화에 참여하는 시스템 (챗봇, 가상 비서)."
+    },
+    {
+      "id": "slot_filling",
+      "term_en": "Slot Filling",
+      "term_ko": "슬롯 채우기",
+      "category": "NLP",
+      "definition_en": "Extracting specific pieces of information from user utterances in task-oriented dialogue.",
+      "definition_ko": "작업 지향 대화에서 사용자 발화의 특정 정보를 추출."
+    },
+    {
+      "id": "intent_detection",
+      "term_en": "Intent Detection",
+      "term_ko": "의도 감지",
+      "category": "NLP",
+      "definition_en": "Classifying the purpose or goal behind a user's utterance.",
+      "definition_ko": "사용자 발화 뒤의 목적이나 목표를 분류."
+    },
+    {
+      "id": "text_generation",
+      "term_en": "Text Generation",
+      "term_ko": "텍스트 생성",
+      "category": "NLP",
+      "definition_en": "Producing coherent text from a model given a prompt or context.",
+      "definition_ko": "프롬프트나 문맥이 주어지면 모델에서 일관된 텍스트를 생성."
+    },
+    {
+      "id": "top_k_sampling",
+      "term_en": "Top-K / Top-P Sampling",
+      "term_ko": "Top-K / Top-P 샘플링",
+      "category": "NLP",
+      "definition_en": "Decoding strategies limiting token selection to top K or cumulative probability P.",
+      "definition_ko": "토큰 선택을 상위 K개 또는 누적 확률 P로 제한하는 디코딩 전략."
+    },
+    {
+      "id": "temperature",
+      "term_en": "Temperature (Sampling)",
+      "term_ko": "온도 (샘플링)",
+      "category": "NLP",
+      "definition_en": "A parameter controlling randomness in text generation; lower = more deterministic.",
+      "definition_ko": "텍스트 생성의 무작위성을 제어하는 파라미터; 낮을수록 결정적."
+    },
+    {
+      "id": "repetition_penalty",
+      "term_en": "Repetition Penalty",
+      "term_ko": "반복 패널티",
+      "category": "NLP",
+      "definition_en": "Penalizing already-generated tokens to reduce repetitive output.",
+      "definition_ko": "반복적 출력을 줄이기 위해 이미 생성된 토큰에 패널티."
+    },
+    {
+      "id": "agentic_ai",
+      "term_en": "Agentic AI",
+      "term_ko": "에이전틱 AI",
+      "category": "NLP",
+      "definition_en": "AI systems that autonomously plan, reason, and take actions to complete complex tasks.",
+      "definition_ko": "복잡한 작업을 완료하기 위해 자율적으로 계획, 추론, 행동하는 AI 시스템."
+    },
+    {
+      "id": "tool_use",
+      "term_en": "Tool Use / Function Calling",
+      "term_ko": "도구 사용 / 함수 호출",
+      "category": "NLP",
+      "definition_en": "LLMs invoking external tools (APIs, databases, code) to answer queries.",
+      "definition_ko": "쿼리에 답하기 위해 외부 도구(API, 데이터베이스, 코드)를 호출하는 LLM."
+    },
+    {
+      "id": "multi_modal",
+      "term_en": "Multi-Modal AI",
+      "term_ko": "멀티모달 AI",
+      "category": "NLP",
+      "definition_en": "Models processing multiple data types (text, image, audio, video) jointly.",
+      "definition_ko": "여러 데이터 유형(텍스트, 이미지, 오디오, 비디오)을 공동으로 처리하는 모델."
+    },
+    {
+      "id": "vision_language_model",
+      "term_en": "Vision-Language Model (VLM)",
+      "term_ko": "비전-언어 모델",
+      "category": "NLP",
+      "definition_en": "Models understanding both images and text (GPT-4V, LLaVA, Gemini).",
+      "definition_ko": "이미지와 텍스트를 모두 이해하는 모델 (GPT-4V, LLaVA, Gemini)."
+    },
+    {
+      "id": "speech_to_text",
+      "term_en": "Speech-to-Text (ASR)",
+      "term_ko": "음성 인식",
+      "category": "NLP",
+      "definition_en": "Converting spoken language into written text (Whisper, DeepSpeech).",
+      "definition_ko": "음성 언어를 서면 텍스트로 변환 (Whisper, DeepSpeech)."
+    },
+    {
+      "id": "text_to_speech",
+      "term_en": "Text-to-Speech (TTS)",
+      "term_ko": "텍스트 음성 변환",
+      "category": "NLP",
+      "definition_en": "Generating natural-sounding speech from text input.",
+      "definition_ko": "텍스트 입력에서 자연스러운 음성을 생성."
+    },
+    {
+      "id": "semantic_similarity",
+      "term_en": "Semantic Similarity",
+      "term_ko": "의미적 유사도",
+      "category": "NLP",
+      "definition_en": "Measuring how similar two text passages are in meaning.",
+      "definition_ko": "두 텍스트 구절의 의미가 얼마나 유사한지 측정."
+    },
+    {
+      "id": "cross_lingual",
+      "term_en": "Cross-Lingual Transfer",
+      "term_ko": "교차 언어 전이",
+      "category": "NLP",
+      "definition_en": "Applying NLP models trained in one language to another language.",
+      "definition_ko": "한 언어로 학습된 NLP 모델을 다른 언어에 적용."
+    },
+    {
+      "id": "tokenization_free",
+      "term_en": "Tokenization-Free Models",
+      "term_ko": "토큰화 없는 모델",
+      "category": "NLP",
+      "definition_en": "Models operating on raw bytes or characters without tokenization (MegaByte).",
+      "definition_ko": "토큰화 없이 원시 바이트나 문자에서 작동하는 모델 (MegaByte)."
+    },
+    {
+      "id": "dense_prediction",
+      "term_en": "Dense Prediction",
+      "term_ko": "밀집 예측",
+      "category": "Machine Vision",
+      "definition_en": "Per-pixel predictions such as segmentation, depth estimation, optical flow.",
+      "definition_ko": "분할, 깊이 추정, 옵티컬 플로우 등의 픽셀별 예측."
+    },
+    {
+      "id": "roi_pooling",
+      "term_en": "RoI Pooling / RoI Align",
+      "term_ko": "RoI 풀링 / RoI 정렬",
+      "category": "Machine Vision",
+      "definition_en": "Extracting fixed-size feature maps from regions of interest in detection models.",
+      "definition_ko": "검출 모델에서 관심 영역의 고정 크기 특징 맵을 추출."
+    },
+    {
+      "id": "label_map",
+      "term_en": "Label Map / Annotation",
+      "term_ko": "레이블 맵 / 주석",
+      "category": "Machine Vision",
+      "definition_en": "Ground truth annotations for training (bounding boxes, masks, keypoints).",
+      "definition_ko": "학습을 위한 정답 주석 (바운딩 박스, 마스크, 키포인트)."
+    },
+    {
+      "id": "coco_dataset",
+      "term_en": "COCO Dataset",
+      "term_ko": "COCO 데이터셋",
+      "category": "Machine Vision",
+      "definition_en": "A large-scale benchmark dataset for detection, segmentation, and captioning.",
+      "definition_ko": "검출, 분할, 캡션을 위한 대규모 벤치마크 데이터셋."
+    },
+    {
+      "id": "imagenet",
+      "term_en": "ImageNet",
+      "term_ko": "ImageNet",
+      "category": "Machine Vision",
+      "definition_en": "A large-scale image classification benchmark with 1000 categories.",
+      "definition_ko": "1000개 카테고리를 가진 대규모 이미지 분류 벤치마크."
+    },
+    {
+      "id": "pascal_voc",
+      "term_en": "Pascal VOC",
+      "term_ko": "Pascal VOC",
+      "category": "Machine Vision",
+      "definition_en": "A benchmark dataset for object detection with 20 object categories.",
+      "definition_ko": "20개 객체 카테고리를 가진 객체 검출 벤치마크 데이터셋."
+    },
+    {
+      "id": "test_time_augmentation",
+      "term_en": "Test-Time Augmentation (TTA)",
+      "term_ko": "테스트 시간 증강",
+      "category": "Machine Vision",
+      "definition_en": "Applying augmentations at inference and averaging predictions for better accuracy.",
+      "definition_ko": "추론 시 증강을 적용하고 예측을 평균하여 더 나은 정확도."
+    },
+    {
+      "id": "batch_inference",
+      "term_en": "Batch Inference",
+      "term_ko": "배치 추론",
+      "category": "Machine Vision",
+      "definition_en": "Processing multiple images simultaneously for efficient GPU utilization.",
+      "definition_ko": "효율적 GPU 활용을 위해 여러 이미지를 동시에 처리."
+    },
+    {
+      "id": "precision_at_k",
+      "term_en": "Precision@K / Recall@K",
+      "term_ko": "Precision@K / Recall@K",
+      "category": "Machine Learning",
+      "definition_en": "Precision/recall measured at the top K predictions.",
+      "definition_ko": "상위 K개 예측에서 측정된 정밀도/재현율."
+    },
+    {
+      "id": "mean_reciprocal_rank",
+      "term_en": "MRR (Mean Reciprocal Rank)",
+      "term_ko": "평균 역순위",
+      "category": "Machine Learning",
+      "definition_en": "The average of reciprocal ranks of the first correct result.",
+      "definition_ko": "첫 번째 정답 결과의 역순위 평균."
+    },
+    {
+      "id": "ndcg",
+      "term_en": "NDCG (Normalized Discounted Cumulative Gain)",
+      "term_ko": "NDCG",
+      "category": "Machine Learning",
+      "definition_en": "A ranking metric accounting for position and graded relevance.",
+      "definition_ko": "위치와 등급 관련성을 고려하는 랭킹 지표."
+    },
+    {
+      "id": "matthews_corr",
+      "term_en": "Matthews Correlation Coefficient",
+      "term_ko": "매튜스 상관 계수",
+      "category": "Machine Learning",
+      "definition_en": "A balanced measure for binary classification even with imbalanced classes.",
+      "definition_ko": "불균형 클래스에서도 이진 분류를 위한 균형 잡힌 측정."
+    },
+    {
+      "id": "log_loss",
+      "term_en": "Log Loss (Binary Cross-Entropy)",
+      "term_ko": "로그 손실",
+      "category": "Machine Learning",
+      "definition_en": "The negative log likelihood for classification measuring probability quality.",
+      "definition_ko": "확률 품질을 측정하는 분류의 음의 로그 우도."
+    },
+    {
+      "id": "r_squared",
+      "term_en": "R² (Coefficient of Determination)",
+      "term_ko": "결정계수 R²",
+      "category": "Machine Learning",
+      "definition_en": "The proportion of variance explained by the regression model.",
+      "definition_ko": "회귀 모델이 설명하는 분산의 비율."
+    },
+    {
+      "id": "mae",
+      "term_en": "MAE (Mean Absolute Error)",
+      "term_ko": "평균 절대 오차",
+      "category": "Machine Learning",
+      "definition_en": "Average of absolute differences between predictions and actual values.",
+      "definition_ko": "예측과 실제 값 간 절대 차이의 평균."
+    },
+    {
+      "id": "mse",
+      "term_en": "MSE (Mean Squared Error)",
+      "term_ko": "평균 제곱 오차",
+      "category": "Machine Learning",
+      "definition_en": "Average of squared differences between predictions and actual values.",
+      "definition_ko": "예측과 실제 값 간 제곱 차이의 평균."
+    },
+    {
+      "id": "rmse",
+      "term_en": "RMSE (Root Mean Squared Error)",
+      "term_ko": "평균 제곱근 오차",
+      "category": "Machine Learning",
+      "definition_en": "Square root of MSE; in the same units as the target variable.",
+      "definition_ko": "MSE의 제곱근; 타겟 변수와 같은 단위."
+    },
+    {
+      "id": "huber_loss",
+      "term_en": "Huber Loss",
+      "term_ko": "후버 손실",
+      "category": "Machine Learning",
+      "definition_en": "A loss function less sensitive to outliers than MSE, combining L1 and L2.",
+      "definition_ko": "MSE보다 이상치에 덜 민감한 손실 함수, L1과 L2를 결합."
+    },
+    {
+      "id": "bayesian_optimization",
+      "term_en": "Bayesian Optimization",
+      "term_ko": "베이지안 최적화",
+      "category": "Optimization",
+      "definition_en": "Using probabilistic models (GP) to find optimal hyperparameters efficiently.",
+      "definition_ko": "확률 모델(GP)을 사용하여 최적 하이퍼파라미터를 효율적으로 찾기."
+    },
+    {
+      "id": "optuna",
+      "term_en": "Optuna / Hyperopt",
+      "term_ko": "Optuna / Hyperopt",
+      "category": "Optimization",
+      "definition_en": "Automated hyperparameter optimization frameworks using Bayesian methods.",
+      "definition_ko": "베이지안 방법을 사용하는 자동 하이퍼파라미터 최적화 프레임워크."
+    },
+    {
+      "id": "evolutionary_algorithm",
+      "term_en": "Evolutionary Algorithm",
+      "term_ko": "진화 알고리즘",
+      "category": "Optimization",
+      "definition_en": "Optimization inspired by natural selection (genetic algorithms, CMA-ES).",
+      "definition_ko": "자연 선택에서 영감을 받은 최적화 (유전 알고리즘, CMA-ES)."
+    },
+    {
+      "id": "simulated_annealing",
+      "term_en": "Simulated Annealing",
+      "term_ko": "시뮬레이티드 어닐링",
+      "category": "Optimization",
+      "definition_en": "A probabilistic optimization technique escaping local minima via controlled randomness.",
+      "definition_ko": "제어된 무작위성을 통해 국소 최솟값을 탈출하는 확률적 최적화 기법."
+    },
+    {
+      "id": "particle_swarm",
+      "term_en": "Particle Swarm Optimization",
+      "term_ko": "입자 군집 최적화",
+      "category": "Optimization",
+      "definition_en": "Optimization using a swarm of candidate solutions moving through search space.",
+      "definition_ko": "탐색 공간을 이동하는 후보 솔루션 군집을 사용한 최적화."
+    },
+    {
+      "id": "stochastic_weight_avg",
+      "term_en": "Stochastic Weight Averaging",
+      "term_ko": "확률적 가중 평균화",
+      "category": "Optimization",
+      "definition_en": "Averaging weights from different training epochs for better generalization.",
+      "definition_ko": "더 나은 일반화를 위해 다른 학습 에포크의 가중치를 평균화."
+    },
+    {
+      "id": "lookahead",
+      "term_en": "Lookahead Optimizer",
+      "term_ko": "룩어헤드 옵티마이저",
+      "category": "Optimization",
+      "definition_en": "Maintaining fast and slow weights for stable optimization.",
+      "definition_ko": "안정적 최적화를 위해 빠른 가중치와 느린 가중치를 유지."
+    },
+    {
+      "id": "image_captioning",
+      "term_en": "Image Captioning",
+      "term_ko": "이미지 캡셔닝",
+      "category": "Machine Vision",
+      "definition_en": "Generating natural language descriptions of image content.",
+      "definition_ko": "이미지 내용의 자연어 설명을 생성."
+    },
+    {
+      "id": "visual_question_answering",
+      "term_en": "Visual Question Answering (VQA)",
+      "term_ko": "시각적 질의 응답",
+      "category": "Machine Vision",
+      "definition_en": "Answering free-form questions about the content of an image.",
+      "definition_ko": "이미지 내용에 대한 자유 형식 질문에 답변."
+    },
+    {
+      "id": "scene_understanding",
+      "term_en": "Scene Understanding",
+      "term_ko": "장면 이해",
+      "category": "Machine Vision",
+      "definition_en": "Comprehensively understanding the content, layout, and relationships in a scene.",
+      "definition_ko": "장면의 내용, 레이아웃, 관계를 종합적으로 이해."
+    },
+    {
+      "id": "dino",
+      "term_en": "DINO / DINOv2",
+      "term_ko": "DINO",
+      "category": "Machine Vision",
+      "definition_en": "Self-supervised vision Transformers learning visual features without labels.",
+      "definition_ko": "레이블 없이 시각적 특징을 학습하는 자기 지도 비전 트랜스포머."
+    },
+    {
+      "id": "swin_transformer",
+      "term_en": "Swin Transformer",
+      "term_ko": "스윈 트랜스포머",
+      "category": "Machine Vision",
+      "definition_en": "A hierarchical Vision Transformer using shifted windows for efficiency.",
+      "definition_ko": "효율성을 위해 이동 윈도우를 사용하는 계층적 비전 트랜스포머."
+    },
+    {
+      "id": "convnext",
+      "term_en": "ConvNeXt",
+      "term_ko": "ConvNeXt",
+      "category": "Machine Vision",
+      "definition_en": "A modernized pure ConvNet competitive with Vision Transformers.",
+      "definition_ko": "비전 트랜스포머와 경쟁하는 현대화된 순수 합성곱 네트워크."
+    },
+    {
+      "id": "clip_vision",
+      "term_en": "CLIP Visual Encoder",
+      "term_ko": "CLIP 비주얼 인코더",
+      "category": "Machine Vision",
+      "definition_en": "The visual backbone of CLIP used for zero-shot image classification.",
+      "definition_ko": "제로샷 이미지 분류에 사용되는 CLIP의 시각적 백본."
+    },
+    {
+      "id": "zero_shot_detection",
+      "term_en": "Zero-Shot Object Detection",
+      "term_ko": "제로샷 객체 검출",
+      "category": "Machine Vision",
+      "definition_en": "Detecting objects from novel categories not seen during training (Grounding DINO).",
+      "definition_ko": "학습 중 보지 못한 새로운 카테고리의 객체를 검출 (Grounding DINO)."
+    },
+    {
+      "id": "open_vocabulary",
+      "term_en": "Open-Vocabulary Detection",
+      "term_ko": "오픈 어휘 검출",
+      "category": "Machine Vision",
+      "definition_en": "Detection models recognizing any object described by text, beyond fixed categories.",
+      "definition_ko": "고정 카테고리를 넘어 텍스트로 설명된 모든 객체를 인식하는 검출 모델."
+    },
+    {
+      "id": "depth_anything",
+      "term_en": "Depth Anything",
+      "term_ko": "Depth Anything",
+      "category": "Machine Vision",
+      "definition_en": "A foundation model for robust monocular depth estimation.",
+      "definition_ko": "강건한 단안 깊이 추정을 위한 파운데이션 모델."
+    },
+    {
+      "id": "video_llm",
+      "term_en": "Video Understanding (Video-LLM)",
+      "term_ko": "비디오 이해",
+      "category": "Machine Vision",
+      "definition_en": "Models understanding temporal dynamics and content of video sequences.",
+      "definition_ko": "비디오 시퀀스의 시간적 역학과 콘텐츠를 이해하는 모델."
+    },
+    {
+      "id": "occupancy_network",
+      "term_en": "Occupancy Networks",
+      "term_ko": "점유 네트워크",
+      "category": "Machine Vision",
+      "definition_en": "Representing 3D shapes as continuous decision boundaries.",
+      "definition_ko": "3D 형상을 연속적 결정 경계로 표현."
+    },
+    {
+      "id": "transformer_detection",
+      "term_en": "Transformer-based Detection",
+      "term_ko": "트랜스포머 기반 검출",
+      "category": "Machine Vision",
+      "definition_en": "Using Transformers for object detection (DETR, RT-DETR, Co-DETR).",
+      "definition_ko": "객체 검출을 위해 트랜스포머를 사용 (DETR, RT-DETR, Co-DETR)."
+    },
+    {
+      "id": "wandb",
+      "term_en": "W&B (Weights & Biases)",
+      "term_ko": "W&B",
+      "category": "Machine Learning",
+      "definition_en": "An experiment tracking platform for ML model training and evaluation.",
+      "definition_ko": "ML 모델 학습과 평가를 위한 실험 추적 플랫폼."
+    },
+    {
+      "id": "mlflow",
+      "term_en": "MLflow",
+      "term_ko": "MLflow",
+      "category": "Machine Learning",
+      "definition_en": "An open-source platform for ML lifecycle management.",
+      "definition_ko": "ML 생명주기 관리를 위한 오픈소스 플랫폼."
+    },
+    {
+      "id": "docker_ml",
+      "term_en": "Containerized ML (Docker)",
+      "term_ko": "컨테이너화된 ML",
+      "category": "Machine Learning",
+      "definition_en": "Packaging ML models and dependencies in containers for reproducibility.",
+      "definition_ko": "재현성을 위해 ML 모델과 종속성을 컨테이너에 패키징."
+    },
+    {
+      "id": "feature_store",
+      "term_en": "Feature Store",
+      "term_ko": "특성 저장소",
+      "category": "Machine Learning",
+      "definition_en": "A centralized repository for storing and serving ML features.",
+      "definition_ko": "ML 특성을 저장하고 서빙하기 위한 중앙 저장소."
+    },
+    {
+      "id": "model_registry",
+      "term_en": "Model Registry",
+      "term_ko": "모델 레지스트리",
+      "category": "Machine Learning",
+      "definition_en": "A system for versioning, staging, and managing trained ML models.",
+      "definition_ko": "학습된 ML 모델의 버전 관리, 스테이징, 관리를 위한 시스템."
+    },
+    {
+      "id": "canary_deployment",
+      "term_en": "Canary / Blue-Green Deployment",
+      "term_ko": "카나리 / 블루-그린 배포",
+      "category": "Machine Learning",
+      "definition_en": "Gradually rolling out model updates to minimize risk.",
+      "definition_ko": "위험을 최소화하기 위해 점진적으로 모델 업데이트를 롤아웃."
+    },
+    {
+      "id": "shadow_testing",
+      "term_en": "Shadow Mode Testing",
+      "term_ko": "섀도우 모드 테스트",
+      "category": "Machine Learning",
+      "definition_en": "Running a new model in parallel with production without serving its results.",
+      "definition_ko": "결과를 서빙하지 않고 프로덕션과 병렬로 새 모델을 실행."
+    },
+    {
+      "id": "responsible_ai",
+      "term_en": "Responsible AI",
+      "term_ko": "책임 있는 AI",
+      "category": "Machine Learning",
+      "definition_en": "Principles ensuring AI systems are ethical, transparent, and accountable.",
+      "definition_ko": "AI 시스템이 윤리적이고, 투명하며, 책임감 있도록 보장하는 원칙."
+    },
+    {
+      "id": "adversarial_attack",
+      "term_en": "Adversarial Attack",
+      "term_ko": "적대적 공격",
+      "category": "Deep Learning",
+      "definition_en": "Intentionally crafted inputs that fool ML models into wrong predictions.",
+      "definition_ko": "ML 모델을 잘못된 예측으로 속이기 위해 의도적으로 만든 입력."
+    },
+    {
+      "id": "adversarial_training",
+      "term_en": "Adversarial Training",
+      "term_ko": "적대적 학습",
+      "category": "Deep Learning",
+      "definition_en": "Training on adversarial examples to improve model robustness.",
+      "definition_ko": "모델 강건성을 개선하기 위해 적대적 예제로 학습."
+    },
+    {
+      "id": "fgsm",
+      "term_en": "FGSM (Fast Gradient Sign Method)",
+      "term_ko": "FGSM",
+      "category": "Deep Learning",
+      "definition_en": "A simple adversarial attack perturbing inputs along the gradient sign direction.",
+      "definition_ko": "기울기 부호 방향으로 입력을 교란하는 간단한 적대적 공격."
+    },
+    {
+      "id": "pgd",
+      "term_en": "PGD Attack",
+      "term_ko": "PGD 공격",
+      "category": "Deep Learning",
+      "definition_en": "An iterative adversarial attack with projected gradient descent.",
+      "definition_ko": "투영된 경사 하강법을 사용한 반복적 적대적 공격."
+    },
+    {
+      "id": "backdoor_attack",
+      "term_en": "Backdoor Attack",
+      "term_ko": "백도어 공격",
+      "category": "Deep Learning",
+      "definition_en": "Poisoning training data to create hidden triggers in the model.",
+      "definition_ko": "모델에 숨겨진 트리거를 생성하기 위해 학습 데이터를 오염."
+    },
+    {
+      "id": "model_interpretability",
+      "term_en": "Attention Visualization",
+      "term_ko": "어텐션 시각화",
+      "category": "Deep Learning",
+      "definition_en": "Visualizing attention weights to understand what the model focuses on.",
+      "definition_ko": "모델이 집중하는 것을 이해하기 위해 어텐션 가중치를 시각화."
+    },
+    {
+      "id": "grad_cam",
+      "term_en": "Grad-CAM",
+      "term_ko": "Grad-CAM",
+      "category": "Deep Learning",
+      "definition_en": "Gradient-weighted Class Activation Mapping for visual explanations.",
+      "definition_ko": "시각적 설명을 위한 기울기 가중 클래스 활성화 매핑."
+    },
+    {
+      "id": "saliency_map",
+      "term_en": "Saliency Map",
+      "term_ko": "중요도 맵",
+      "category": "Deep Learning",
+      "definition_en": "Highlighting which input pixels most influence the model's prediction.",
+      "definition_ko": "모델 예측에 가장 많이 영향을 미치는 입력 픽셀을 강조."
+    },
+    {
+      "id": "tokenization_korean",
+      "term_en": "Korean Tokenization (Mecab, KoNLPy)",
+      "term_ko": "한국어 토큰화",
+      "category": "NLP",
+      "definition_en": "Morphological analysis tools for Korean text processing.",
+      "definition_ko": "한국어 텍스트 처리를 위한 형태소 분석 도구."
+    },
+    {
+      "id": "konlpy",
+      "term_en": "KoNLPy",
+      "term_ko": "KoNLPy",
+      "category": "NLP",
+      "definition_en": "A Python package for Korean NLP with multiple morphological analyzers.",
+      "definition_ko": "여러 형태소 분석기를 가진 한국어 NLP를 위한 Python 패키지."
+    },
+    {
+      "id": "huggingface",
+      "term_en": "Hugging Face Transformers",
+      "term_ko": "허깅페이스 트랜스포머",
+      "category": "NLP",
+      "definition_en": "The most popular open-source library for pre-trained NLP models.",
+      "definition_ko": "사전 학습된 NLP 모델을 위한 가장 인기 있는 오픈소스 라이브러리."
+    },
+    {
+      "id": "langchain",
+      "term_en": "LangChain",
+      "term_ko": "랭체인",
+      "category": "NLP",
+      "definition_en": "A framework for building applications with LLMs including chains and agents.",
+      "definition_ko": "체인과 에이전트를 포함하여 LLM으로 애플리케이션을 구축하는 프레임워크."
+    },
+    {
+      "id": "llamaindex",
+      "term_en": "LlamaIndex",
+      "term_ko": "라마인덱스",
+      "category": "NLP",
+      "definition_en": "A data framework for connecting custom data sources to LLMs.",
+      "definition_ko": "커스텀 데이터 소스를 LLM에 연결하기 위한 데이터 프레임워크."
+    },
+    {
+      "id": "tokenizer_comparison",
+      "term_en": "WordPiece vs BPE vs Unigram",
+      "term_ko": "WordPiece vs BPE vs Unigram",
+      "category": "NLP",
+      "definition_en": "Different subword tokenization algorithms with trade-offs in coverage and compression.",
+      "definition_ko": "커버리지와 압축의 트레이드오프를 가진 다양한 서브워드 토큰화 알고리즘."
+    },
+    {
+      "id": "nlu",
+      "term_en": "Natural Language Understanding (NLU)",
+      "term_ko": "자연어 이해",
+      "category": "NLP",
+      "definition_en": "The subtask of NLP focused on comprehending the meaning of text.",
+      "definition_ko": "텍스트의 의미를 이해하는 데 초점을 맞춘 NLP의 하위 작업."
+    },
+    {
+      "id": "nlg",
+      "term_en": "Natural Language Generation (NLG)",
+      "term_ko": "자연어 생성",
+      "category": "NLP",
+      "definition_en": "The subtask of NLP focused on producing human-readable text.",
+      "definition_ko": "인간이 읽을 수 있는 텍스트를 생성하는 데 초점을 맞춘 NLP의 하위 작업."
+    }
+  ]
+}

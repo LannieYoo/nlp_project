@@ -35,7 +35,7 @@ const MethodIcon = ({ type, className = "w-3.5 h-3.5" }) => {
   return icons[type] || null
 }
 
-export default function Sidebar({ settings, onSettingsChange, collapsed, onToggle, activeView, onViewChange, onOpenBook, activeBookId }) {
+export default function Sidebar({ settings, onSettingsChange, collapsed, onToggle, activeView, onViewChange, onOpenBook, activeBookId, onGoHome }) {
   const [stats, setStats] = useState(null)
   const [books, setBooks] = useState([])
   const [showBookFilter, setShowBookFilter] = useState(true)
@@ -125,7 +125,7 @@ export default function Sidebar({ settings, onSettingsChange, collapsed, onToggl
       <div className="flex items-center gap-2.5 px-4 py-4 border-b border-neutral-150 relative">
         {!collapsed && (
           <div 
-            onClick={() => onViewChange('search')}
+            onClick={onGoHome}
             className="cursor-pointer group flex items-center gap-2.5 flex-1 min-w-0"
             title="Go to Search"
           >

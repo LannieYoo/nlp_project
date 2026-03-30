@@ -19,6 +19,7 @@ export default function App() {
   const [activeSource, setActiveSource] = useState(null)
   const [showPdfMobile, setShowPdfMobile] = useState(false)
   const [activeView, setActiveView] = useState('search')  // 'search' | 'library'
+  const [searchKey, setSearchKey] = useState(0)
   const [pdfWidth, setPdfWidth] = useState(50) // percentage
   const [isDragging, setIsDragging] = useState(false)
 
@@ -39,7 +40,7 @@ export default function App() {
     }
   }, [isDragging])
 
-  const { search, result, loading, error } = useSearch()
+  const { search, result, loading, error, resetSearch } = useSearch()
 
   const handleViewPdf = useCallback((source) => {
     setPdfState({
@@ -70,6 +71,13 @@ export default function App() {
     }
   }, [handleClosePdf])
 
+  const handleGoHome = useCallback(() => {
+    setActiveView('search')
+    handleClosePdf()
+    resetSearch()
+    setSearchKey(k => k + 1)
+  }, [handleClosePdf, resetSearch])
+
   const sidebarWidth = sidebarCollapsed ? 'lg:pl-14' : 'pl-0 lg:pl-60'
 
   return (
@@ -89,6 +97,7 @@ export default function App() {
           activeView={activeView}
           onViewChange={handleViewChange}
           onOpenBook={handleOpenBook}
+          onGoHome={handleGoHome}
           activeBookId={pdfState.bookId}
         />
 
@@ -111,6 +120,7 @@ export default function App() {
           >
             {activeView === 'search' ? (
               <SearchPanel
+                key={`search-${searchKey}`}
                 result={result}
                 loading={loading}
                 error={error}
