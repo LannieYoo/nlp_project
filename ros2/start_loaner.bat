@@ -16,7 +16,7 @@ echo ==========================================
 
 REM ── Step 1: Sync latest source files ──────────────────────
 echo.
-echo [1/4] Syncing source files to laptop...
+echo [📦 SYNC] Syncing source files to laptop...
 scp -o StrictHostKeyChecking=no "%~dp0..\aisd-vision-zhizhunbao\aisd_hearing\aisd_hearing\recording_publisher.py" %LAPTOP%:~/ros2_ws/src/aisd-vision-zhizhunbao/aisd_hearing/aisd_hearing/recording_publisher.py
 scp -o StrictHostKeyChecking=no "%~dp0..\aisd-vision-zhizhunbao\aisd_hearing\aisd_hearing\words_publisher.py" %LAPTOP%:~/ros2_ws/src/aisd-vision-zhizhunbao/aisd_hearing/aisd_hearing/words_publisher.py
 scp -o StrictHostKeyChecking=no "%~dp0..\aisd-vision-zhizhunbao\aisd_hearing\aisd_hearing\ollama_publisher.py" %LAPTOP%:~/ros2_ws/src/aisd-vision-zhizhunbao/aisd_hearing/aisd_hearing/ollama_publisher.py
@@ -24,23 +24,23 @@ scp -o StrictHostKeyChecking=no "%~dp0..\aisd-vision-zhizhunbao\aisd_hearing\ais
 scp -o StrictHostKeyChecking=no "%~dp0run_loaner.sh" %LAPTOP%:~/run_loaner.sh
 scp -o StrictHostKeyChecking=no "%~dp0stop_loaner.sh" %LAPTOP%:~/stop_loaner.sh
 scp -o StrictHostKeyChecking=no "%~dp0knowledge.txt" %LAPTOP%:~/ros2_ws/knowledge/knowledge.txt
-echo [OK] Files synced (including knowledge.txt)
+echo [✅ SYNC] Files synced (including knowledge.txt)
 
 REM ── Step 2: Stop existing nodes ───────────────────────────
 echo.
-echo [2/4] Stopping existing nodes...
+echo [🛑 STOP] Stopping existing nodes...
 ssh -o StrictHostKeyChecking=no %LAPTOP% "bash ~/stop_loaner.sh"
-echo [OK] Old nodes stopped
+echo [✅ STOP] Old nodes stopped
 
 REM ── Step 3: Rebuild workspace ─────────────────────────────
 echo.
-echo [3/4] Rebuilding ROS 2 workspace...
+echo [🔨 BUILD] Rebuilding ROS 2 workspace...
 ssh -o StrictHostKeyChecking=no %LAPTOP% "source /opt/ros/humble/setup.bash && cd ~/ros2_ws && colcon build --symlink-install --packages-select aisd_hearing 2>&1"
-echo [OK] Build complete
+echo [✅ BUILD] Build complete
 
 REM ── Step 4: Launch nodes and attach to tmux ───────────────
 echo.
-echo [4/4] Launching all nodes...
+echo [🚀 LAUNCH] Launching all nodes...
 echo.
 echo   Entering tmux session with 5 panes. Controls:
 echo     Ctrl+B then D   = detach (nodes keep running)
@@ -50,7 +50,7 @@ echo.
 ssh -t -o StrictHostKeyChecking=no %LAPTOP% "bash ~/run_loaner.sh"
 
 echo.
-echo [Done] Disconnected from laptop. Nodes may still be running.
+echo [🏁 DONE] Disconnected from laptop. Nodes may still be running.
 echo   To re-attach:  ssh -t %LAPTOP% "tmux attach -t nlp_rag"
 echo   To stop all:   ssh %LAPTOP% "bash ~/stop_loaner.sh"
 pause
