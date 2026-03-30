@@ -8,6 +8,7 @@ import os
 import io
 import re
 import json
+import threading
 from typing import Optional, List, Tuple
 
 import pypdfium2 as pdfium
@@ -22,6 +23,7 @@ class PageRenderer:
     def __init__(self, pdf_base_dir: str = "mineru_output/textbooks"):
         self.pdf_base_dir = pdf_base_dir
         self._doc_cache: dict = {}  # book_id -> pdfium.PdfDocument
+        self._lock = threading.Lock()
 
     def get_pdf_path(self, book_id: str) -> Optional[str]:
         path = os.path.join(
@@ -61,102 +63,103 @@ class PageRenderer:
         Returns:
             PNG image bytes
         """
-        doc = self._get_doc(book_id)
-        if not doc or page_idx >= len(doc):
-            return None
+        with self._lock:
+            doc = self._get_doc(book_id)
+            if not doc or page_idx >= len(doc):
+                return None
 
-        try:
-            page = doc[page_idx]
-            # Render to PIL Image
-            bitmap = page.render(scale=scale)
-            pil_image = bitmap.to_pil()
-
-            # Create overlay image for highlights
-            draw_img = None
-            draw = None
-            sx = pil_image.width / page.get_width()
-            sy = pil_image.height / page.get_height()
-
-            def _init_draw():
-                nonlocal draw_img, draw
-                if not draw_img:
-                    draw_img = Image.new("RGBA", pil_image.size, (0, 0, 0, 0))
-                    draw = ImageDraw.Draw(draw_img)
-
-            def _draw_rect(x, y, w, h):
-                _init_draw()
-                px, py = int(x * sx), int(y * sy)
-                pw, ph = int(w * sx), int(h * sy)
-                draw.rectangle(
-                    [px, py, px + pw, py + ph],
-                    fill=self.HIGHLIGHT_COLOR,
-                    outline=(255, 180, 0, 200),
-                    width=3,
-                )
-
-            # 1. Draw single highlight_rect if given
-            if highlight_rect:
-                x, y, w, h = highlight_rect
-                _draw_rect(x, y, w, h)
-
-            # 2. Draw search_query occurrences if given
-            if search_query:
-                try:
-                    textpage = page.get_textpage()
-                    searcher = textpage.search(search_query)
-                    while True:
-                        try:
-                            res = searcher.get_next()
-                            if not res:
-                                break
-                            count = textpage.count_rects(res[0], res[1])
-                            for i in range(count):
-                                r = textpage.get_rect(i)
-                                page_height = page.get_height()
-                                x = r[0]
-                                w = r[2] - r[0]
-                                y = page_height - r[3]
-                                h = r[3] - r[1]
-                                _draw_rect(x, y, w, h)
-                        except Exception as ex:
-                            print(f"pdf search rects error: {ex}")
-                            break
-                    textpage.close()
-                except Exception as ex:
-                    print(f"pdf search_query error (skipped): {ex}")
-
-            # Composite if any highlights were drawn
-            if draw_img:
-                pil_image = pil_image.convert("RGBA")
-                pil_image = Image.alpha_composite(pil_image, draw_img)
-                pil_image = pil_image.convert("RGB")
-
-            # Encode as PNG
-            buf = io.BytesIO()
-            pil_image.save(buf, format="PNG", optimize=True)
-            return buf.getvalue()
-
-        except Exception as e:
-            print(f"Page render error: {e}")
-            # Clear corrupted doc cache and retry once with lower scale
-            if book_id in self._doc_cache:
-                try:
-                    self._doc_cache[book_id].close()
-                except Exception:
-                    pass
-                del self._doc_cache[book_id]
             try:
-                doc2 = self._get_doc(book_id)
-                if doc2 and page_idx < len(doc2):
-                    page2 = doc2[page_idx]
-                    bitmap2 = page2.render(scale=min(scale, 1.0))
-                    pil2 = bitmap2.to_pil()
-                    buf2 = io.BytesIO()
-                    pil2.save(buf2, format="PNG", optimize=True)
-                    return buf2.getvalue()
-            except Exception as e2:
-                print(f"Page render retry also failed: {e2}")
-            return None
+                page = doc[page_idx]
+                # Render to PIL Image
+                bitmap = page.render(scale=scale)
+                pil_image = bitmap.to_pil()
+
+                # Create overlay image for highlights
+                draw_img = None
+                draw = None
+                sx = pil_image.width / page.get_width()
+                sy = pil_image.height / page.get_height()
+
+                def _init_draw():
+                    nonlocal draw_img, draw
+                    if not draw_img:
+                        draw_img = Image.new("RGBA", pil_image.size, (0, 0, 0, 0))
+                        draw = ImageDraw.Draw(draw_img)
+
+                def _draw_rect(x, y, w, h):
+                    _init_draw()
+                    px, py = int(x * sx), int(y * sy)
+                    pw, ph = int(w * sx), int(h * sy)
+                    draw.rectangle(
+                        [px, py, px + pw, py + ph],
+                        fill=self.HIGHLIGHT_COLOR,
+                        outline=(255, 180, 0, 200),
+                        width=3,
+                    )
+
+                # 1. Draw single highlight_rect if given
+                if highlight_rect:
+                    x, y, w, h = highlight_rect
+                    _draw_rect(x, y, w, h)
+
+                # 2. Draw search_query occurrences if given
+                if search_query:
+                    try:
+                        textpage = page.get_textpage()
+                        searcher = textpage.search(search_query)
+                        while True:
+                            try:
+                                res = searcher.get_next()
+                                if not res:
+                                    break
+                                count = textpage.count_rects(res[0], res[1])
+                                for i in range(count):
+                                    r = textpage.get_rect(i)
+                                    page_height = page.get_height()
+                                    x = r[0]
+                                    w = r[2] - r[0]
+                                    y = page_height - r[3]
+                                    h = r[3] - r[1]
+                                    _draw_rect(x, y, w, h)
+                            except Exception as ex:
+                                print(f"pdf search rects error: {ex}")
+                                break
+                        textpage.close()
+                    except Exception as ex:
+                        print(f"pdf search_query error (skipped): {ex}")
+
+                # Composite if any highlights were drawn
+                if draw_img:
+                    pil_image = pil_image.convert("RGBA")
+                    pil_image = Image.alpha_composite(pil_image, draw_img)
+                    pil_image = pil_image.convert("RGB")
+
+                # Encode as PNG
+                buf = io.BytesIO()
+                pil_image.save(buf, format="PNG", optimize=True)
+                return buf.getvalue()
+
+            except Exception as e:
+                print(f"Page render error: {e}")
+                # Clear corrupted doc cache and retry once with lower scale
+                if book_id in self._doc_cache:
+                    try:
+                        self._doc_cache[book_id].close()
+                    except Exception:
+                        pass
+                    del self._doc_cache[book_id]
+                try:
+                    doc2 = self._get_doc(book_id)
+                    if doc2 and page_idx < len(doc2):
+                        page2 = doc2[page_idx]
+                        bitmap2 = page2.render(scale=min(scale, 1.0))
+                        pil2 = bitmap2.to_pil()
+                        buf2 = io.BytesIO()
+                        pil2.save(buf2, format="PNG", optimize=True)
+                        return buf2.getvalue()
+                except Exception as e2:
+                    print(f"Page render retry also failed: {e2}")
+                return None
 
     def compute_highlight_coords(
         self, book_id: str, page_idx: int, text_preview: str, bbox: Optional[List] = None

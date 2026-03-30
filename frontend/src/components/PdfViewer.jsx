@@ -1,10 +1,12 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import { getBookTitle } from '../utils/bookMeta'
+import BookSpreadViewer from './BookSpreadViewer'
 
 export default function PdfViewer({ bookId, pageIdx, highlight, onClose }) {
   const [numPages, setNumPages] = useState(null)
   const [currentPage, setCurrentPage] = useState(pageIdx || 0)
-  const [scale, setScale] = useState(2.0)
+  const [zoom, setZoom] = useState(1.0)
+  const API_SCALE = 4.0  // High-quality render scale for zoom support
   const [pageInputValue, setPageInputValue] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -12,6 +14,7 @@ export default function PdfViewer({ bookId, pageIdx, highlight, onClose }) {
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchResults, setSearchResults] = useState(null)
   const [searchLoading, setSearchLoading] = useState(false)
+  const [showBookSpread, setShowBookSpread] = useState(false)
   const containerRef = useRef(null)
   const imgRef = useRef(null)
   const searchInputRef = useRef(null)
@@ -64,6 +67,9 @@ export default function PdfViewer({ bookId, pageIdx, highlight, onClose }) {
 
     let scrollTimeout = null
     const handleWheel = (e) => {
+      // Don't intercept scroll when zoomed in (let user scroll/pan the image)
+      if (zoom > 1.0) return
+
       const { scrollTop, scrollHeight, clientHeight } = container
       const atBottom = scrollTop + clientHeight >= scrollHeight - 5
       const atTop = scrollTop <= 5
@@ -91,11 +97,11 @@ export default function PdfViewer({ bookId, pageIdx, highlight, onClose }) {
 
     container.addEventListener('wheel', handleWheel, { passive: false })
     return () => container.removeEventListener('wheel', handleWheel)
-  }, [numPages, currentPage])
+  }, [numPages, currentPage, zoom])
 
   // Build image URL
   const buildImageUrl = useCallback((page, withHighlight = true) => {
-    let url = `/api/page-image/${bookId}/${page}?scale=${scale}`
+    let url = `/api/page-image/${bookId}/${page}?scale=${API_SCALE}`
     if (withHighlight && highlight && page === pageIdx) {
       url += `&hl_x=${highlight.x}&hl_y=${highlight.y}&hl_w=${highlight.width}&hl_h=${highlight.height}`
     }
@@ -103,7 +109,7 @@ export default function PdfViewer({ bookId, pageIdx, highlight, onClose }) {
       url += `&sq=${encodeURIComponent(searchQuery.trim())}`
     }
     return url
-  }, [bookId, scale, highlight, pageIdx, searchOpen, searchQuery])
+  }, [bookId, highlight, pageIdx, searchOpen, searchQuery])
 
   const goToPage = (p) => {
     const pg = Math.max(0, Math.min(p, (numPages || 1) - 1))
@@ -190,6 +196,16 @@ export default function PdfViewer({ bookId, pageIdx, highlight, onClose }) {
 
   return (
     <div className="h-full flex flex-col">
+      {/* Fullscreen Book Spread Overlay */}
+      {showBookSpread && (
+        <BookSpreadViewer
+          bookId={bookId}
+          initialPage={currentPage}
+          numPages={numPages}
+          onClose={() => setShowBookSpread(false)}
+        />
+      )}
+
       {/* Toolbar */}
       <div className="flex items-center gap-2 px-3 py-2 toolbar-bg flex-shrink-0">
         {onClose && (
@@ -214,6 +230,18 @@ export default function PdfViewer({ bookId, pageIdx, highlight, onClose }) {
           title="Search in book (Ctrl+F)">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </button>
+
+        {/* Book spread (fullscreen two-page) button */}
+        <button
+          onClick={() => setShowBookSpread(true)}
+          className="p-1.5 rounded-lg transition-colors hover:bg-neutral-100 text-neutral-400 hover:text-accent-600"
+          title="Open book spread view (two pages)">
+          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+            <path strokeLinecap="round" strokeLinejoin="round"
+              d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+            />
           </svg>
         </button>
 
@@ -246,12 +274,17 @@ export default function PdfViewer({ bookId, pageIdx, highlight, onClose }) {
         </div>
 
         <div className="flex items-center gap-0.5 ml-2 bg-neutral-100 rounded-lg p-0.5">
-          <button onClick={() => setScale(s => Math.max(0.5, +(s - 0.25).toFixed(2)))}
+          <button onClick={() => setZoom(s => Math.max(0.5, +(s - 0.25).toFixed(2)))}
             className="p-1 rounded-md hover:bg-white transition-colors text-xs text-neutral-500 hover:text-neutral-700 font-bold leading-none">−</button>
-          <span className="text-[10px] text-neutral-500 w-9 text-center font-medium">{scale.toFixed(1)}x</span>
-          <button onClick={() => setScale(s => Math.min(4, +(s + 0.25).toFixed(2)))}
+          <span className="text-[10px] text-neutral-500 w-9 text-center font-medium">{zoom.toFixed(1)}x</span>
+          <button onClick={() => setZoom(s => Math.min(3, +(s + 0.25).toFixed(2)))}
             className="p-1 rounded-md hover:bg-white transition-colors text-xs text-neutral-500 hover:text-neutral-700 font-bold leading-none">+</button>
         </div>
+
+        <button onClick={() => setZoom(1.0)}
+          className={`px-2 py-0.5 rounded-lg bg-accent-50 text-accent-600 border border-accent-200 text-[10px] font-semibold hover:bg-accent-100 transition-colors ${zoom === 1.0 ? 'invisible' : ''}`}>
+          Fit
+        </button>
 
         {highlight && currentPage !== pageIdx && (
           <button onClick={() => goToPage(pageIdx)}
@@ -336,11 +369,12 @@ export default function PdfViewer({ bookId, pageIdx, highlight, onClose }) {
 
       {/* Scroll hint */}
       <div className="text-center py-0.5 bg-neutral-100/80 text-[9px] text-neutral-400 flex-shrink-0 select-none">
-        Page {currentPage + 1}{numPages ? ` of ${numPages}` : ''} · Scroll down to go to next page
+        Page {currentPage + 1}{numPages ? ` of ${numPages}` : ''}
+        {zoom > 1.0 ? ' · Scroll to pan image' : ' · Scroll down to go to next page'}
       </div>
 
       {/* PDF Image Container — single page, scroll to change */}
-      <div ref={containerRef} className="flex-1 overflow-auto flex justify-center" style={{ background: '#ebebeb' }}>
+      <div ref={containerRef} className="flex-1 overflow-auto" style={{ background: '#ebebeb' }}>
         {error ? (
           <div className="flex flex-col items-center justify-center h-full px-4 gap-3">
             <p className="text-red-500 text-sm">{error}</p>
@@ -352,14 +386,19 @@ export default function PdfViewer({ bookId, pageIdx, highlight, onClose }) {
             </button>
           </div>
         ) : (
-          <div key={`${bookId}-${currentPage}-${scale}-${searchOpen ? searchQuery : ''}`} className="my-4 relative inline-block">
+          <div key={`${bookId}-${currentPage}-${searchOpen ? searchQuery : ''}`}
+            className="relative p-4"
+            style={{
+              width: `${zoom * 100}%`,
+              transition: 'width 0.15s ease-out',
+            }}>
             <img
               ref={imgRef}
               src={buildImageUrl(currentPage)}
               alt={`Page ${currentPage + 1}`}
               onLoad={() => setLoading(false)}
               onError={() => { setLoading(false); setError(`Failed to load page ${currentPage + 1}`) }}
-              className={`block max-w-full rounded shadow-lg transition-opacity duration-300 ${loading ? 'opacity-40' : 'opacity-100'}`}
+              className={`block w-full rounded shadow-lg transition-opacity duration-300 ${loading ? 'opacity-40' : 'opacity-100'}`}
               style={{ minHeight: '200px' }}
             />
             {loading && (

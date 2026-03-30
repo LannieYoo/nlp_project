@@ -1,16 +1,21 @@
 #!/usr/bin/env python3
 """
-ROS2 Ollama Publisher Node — RAG-based response generation.
-Subscribes to 'words' topic (Whisper STT output),
-publishes responses to 'ollama_reply' topic.
+ROS 2 RAG Ollama Publisher Node (Part 2).
 
-Converted from Part 1 RAG engine to ROS2 node for Part 2.
+Subscribes to the 'words' topic (Whisper STT output),
+sends the query to the Windows FastAPI RAG backend via HTTP,
+and publishes the generated answer to the 'ollama_reply' topic.
+
+Architecture:
+  [Whisper STT] --words--> [OllamaPublisher] --ollama_reply--> [SpeakClient]
+
+The FastAPI backend (running on the Windows PC) handles:
+  - Document retrieval (BM25 + vector search)
+  - Ollama LLM generation (qwen2.5:0.5b)
+  - RAG-grounded answer synthesis
 """
-
-import os
 import sys
 
-# Import ROS2 dependencies
 try:
     import rclpy
     from rclpy.node import Node
@@ -20,79 +25,91 @@ except ImportError:
     print("Run this on the loaner laptop with ROS2 installed.")
     sys.exit(1)
 
-from ollama import Client
+try:
+    import requests
+except ImportError:
+    print("'requests' library not installed. Run: pip install requests")
+    sys.exit(1)
 
 
 class OllamaPublisher(Node):
     """
-    ROS2 node that integrates the RAG engine.
-    Subscribes to Whisper STT output and publishes RAG-based responses.
+    ROS 2 node that bridges Whisper speech-to-text output
+    to the RAG-powered Ollama language model backend.
+
+    Parameters
+    ----------
+    api_url : str
+        URL of the FastAPI search endpoint on the Windows PC.
+        Default: 'http://192.168.x.x:8000/api/search'
+        (Replace with actual Windows PC IP from `ipconfig`)
+    model : str
+        Ollama model name to use for generation (default: 'qwen2.5:0.5b').
+    top_k : int
+        Number of source documents to retrieve (default: 3).
+
+    Subscriptions
+    -------------
+    words : std_msgs/String
+        Transcribed text from Whisper STT (words_publisher).
+
+    Publications
+    ------------
+    ollama_reply : std_msgs/String
+        Generated answer from the RAG pipeline.
     """
 
     def __init__(self):
         super().__init__('ollama_publisher')
 
-        # Declare ROS parameters
+        # ── ROS 2 Parameters ─────────────────────────────────────────────
+        # Windows PC's IP address + FastAPI endpoint
+        # (use `ipconfig` on Windows terminal to find the IP)
+        self.declare_parameter('api_url', 'http://192.168.x.x:8000/api/search')
+        self.api_url = (
+            self.get_parameter('api_url').get_parameter_value().string_value
+        )
+
         self.declare_parameter('model', 'qwen2.5:0.5b')
-        self.declare_parameter('rag_path',
-                               '/home/aisd/aisd_ali/knowledge/ragfile.txt')
-        self.declare_parameter('ollama_host', 'http://localhost:11434')
-
-        # Get parameter values
         self.model = (
-            self.get_parameter('model')
-            .get_parameter_value().string_value
-        )
-        self.rag_path = (
-            self.get_parameter('rag_path')
-            .get_parameter_value().string_value
-        )
-        self.ollama_host = (
-            self.get_parameter('ollama_host')
-            .get_parameter_value().string_value
+            self.get_parameter('model').get_parameter_value().string_value
         )
 
-        # Initialize Ollama client
-        self.client = Client(host=self.ollama_host)
+        self.declare_parameter('top_k', 3)
+        self.top_k = (
+            self.get_parameter('top_k').get_parameter_value().integer_value
+        )
 
-        # Load RAG context from knowledge file
-        self.rag_context = ""
-        if os.path.isfile(self.rag_path):
-            try:
-                with open(self.rag_path, 'r', encoding='utf-8') as f:
-                    self.rag_context = f.read().strip()
-                self.get_logger().info(f'Loaded RAG file: {self.rag_path}')
-            except Exception as e:
-                self.get_logger().error(f'Failed to read RAG file: {e}')
-        else:
-            self.get_logger().warn(f'RAG file not found: {self.rag_path}')
-
-        # Publisher: ollama_reply topic
+        # ── Publisher: ollama_reply ───────────────────────────────────────
         self.pub = self.create_publisher(String, 'ollama_reply', 10)
 
-        # Subscriber: words topic (Whisper output)
+        # ── Subscriber: words (from Whisper STT) ─────────────────────────
         self.sub = self.create_subscription(String, 'words', self.cb, 10)
 
-        # Busy flag to prevent concurrent processing
+        # Prevent overlapping requests
         self.busy = False
 
         self.get_logger().info(
-            f'OllamaPublisher initialized: model={self.model}'
+            f'[Init] OllamaPublisher initialized\n'
+            f'  Backend API : {self.api_url}\n'
+            f'  Model       : {self.model}\n'
+            f'  Top-K       : {self.top_k}'
         )
 
+    # ── Callback: Incoming speech text ───────────────────────────────────
     def cb(self, msg: String):
-        """Callback for incoming speech-to-text words."""
+        """Handle incoming transcribed text from the Whisper model."""
         text = msg.data.strip()
         if text == "" or self.busy:
             return
 
         self.busy = True
-        self.get_logger().info(f'WORDS: "{text}"')
+        self.get_logger().info(f'[Words] Received: "{text}"')
 
         try:
-            reply = self.ask_ollama(text)
+            reply = self.ask_backend(text)
         except Exception as e:
-            self.get_logger().error(f'Ollama error: {e}')
+            self.get_logger().error(f'[Error] Backend API error: {e}')
             self.busy = False
             return
 
@@ -101,42 +118,73 @@ class OllamaPublisher(Node):
             out = String()
             out.data = reply
             self.pub.publish(out)
-            self.get_logger().info(f'OLLAMA_REPLY: "{out.data}"')
+            self.get_logger().info(f'[Reply] Published: "{out.data}"')
+        else:
+            self.get_logger().warn('[Reply] Empty response from backend')
 
         self.busy = False
 
-    def ask_ollama(self, user_text: str) -> str:
-        """Generate a response using Ollama with RAG context."""
-        system_parts = [
-            "You are an AI textbook assistant. "
-            "Answer questions about AI, ML, and NLP concepts accurately. "
-            "Keep responses concise but informative."
-        ]
+    # ── RAG Query via FastAPI ────────────────────────────────────────────
+    def ask_backend(self, user_text: str) -> str:
+        """
+        Call the FastAPI backend on the Windows PC to generate
+        a RAG-grounded response.
 
-        if self.rag_context:
-            system_parts.append(
-                "Use the following knowledge as the primary source of truth:"
-            )
-            system_parts.append(self.rag_context)
+        POST /api/search
+        {
+            "query": "<user_text>",
+            "top_k": 3,
+            "model": "qwen2.5:0.5b",
+            "methods": ["fts", "vector"]
+        }
 
-        system_prompt = "\n\n".join(system_parts)
+        Returns the 'answer' field from the JSON response.
+        """
+        payload = {
+            "query": user_text,
+            "top_k": self.top_k,
+            "model": self.model,
+            "methods": ["fts", "vector"],
+        }
 
-        res = self.client.chat(
-            model=self.model,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_text},
-            ],
+        self.get_logger().info(
+            f'[API] Sending request to {self.api_url} ...'
         )
-        return res["message"]["content"]
+        res = requests.post(self.api_url, json=payload, timeout=60.0)
+        res.raise_for_status()
+
+        data = res.json()
+        answer = data.get("answer", "I could not find an answer.")
+
+        # Log source documents for traceability
+        sources = data.get("sources", [])
+        if sources:
+            self.get_logger().info(
+                f'[API] Retrieved {len(sources)} source document(s)'
+            )
+            for i, src in enumerate(sources):
+                self.get_logger().debug(
+                    f'  Source {i+1}: {src.get("book_id", "?")} '
+                    f'p.{src.get("page_idx", "?")} '
+                    f'({src.get("method", "?")})'
+                )
+
+        return answer
 
 
 def main(args=None):
     rclpy.init(args=args)
     node = OllamaPublisher()
-    rclpy.spin(node)
-    node.destroy_node()
-    rclpy.shutdown()
+    try:
+        node.get_logger().info('[Run] Node spinning, waiting for words...')
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        node.get_logger().info('[Shutdown] Keyboard interrupt received')
+    except Exception as e:
+        node.get_logger().error(f'[Error] Node execution failed: {str(e)}')
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
 
 
 if __name__ == "__main__":

@@ -1,0 +1,52 @@
+[eisenstein_nlp | 18.3.1 Neural attention]
+The function $\psi$ is thus a two layer feedforward neural network, with weights ${ \pmb v } _ { \alpha }$ on the output layer, and weights $\Theta _ { \alpha }$ on the input layer. To convert these scores into attention weights, we apply an activation function, which can be vector-wise softmax or an element-wise sigmoid: Softmax attention
+
+[kelleher_ml_fundamentals | 8.4.2 Weight Initialization and Unstable Gradients]
+$$
+\nu a r ( w \times d ) = [ E ( \mathbf { W } ) ] ^ { 2 } \nu a r ( \mathbf { d } ) + [ E ( \mathbf { d } ) ] ^ { 2 } \nu a r ( \mathbf { W } ) + \nu a r ( \mathbf { W } ) \nu a r ( \mathbf { d } )
+$$
+
+[szeliski_cv | 2.1.2 3D transformations]
+where I is the $( 3 \times 3 )$ identity matrix. Rotation $^ +$ translation. Also known as 3D rigid body motion or the 3D Euclidean transformation or SE(3), it can be written as $\mathbf { x } ^ { \prime } = \mathbf { R } \mathbf { x } + \mathbf { t }$ or
+
+[barber_brml | 18.1.4 Hyperparameter optimisation : using the gradient]
+which is in fact a re-derivation of the EM procedure for this model. For a Gaussian posterior, $p ( \mathbf { w } | \alpha , \mathcal { D } ) =$ $\mathcal { N } \left( \mathbf { w } | \mathbf { m } , \mathbf { S } \right)$ ,
+
+[zalewski_tangled_web | Mathematical Markup Language]
+Mathematical Markup Language (MathML)2 is a fairly straightforward means to facilitate the semantic, if a bit verbose, representation of mathematical equations. The standard was originally proposed by the W3C in 1998, and it has been substantially refined through the years. Because of its somewhat niche application, MathML needed over a decade to gain partial support in Opera and Firefox browsers, but it is slowly gaining acceptance today. In the browsers that support the language, it may be pla
+
+[murphy_pml1 | 9.4 Generative vs discriminative classifiers]
+A model of the form $p ( \pmb { x } , y ) = p ( y ) p ( \pmb { x } | y )$ is called a generative classifier, since it can be used to generate examples $_ { x }$ from each class $y$ . By contrast, a model of the form $p ( y | \mathbf { \boldsymbol { x } } )$ is called a discriminative classifier, since it can only be used to discriminate between different classes. Below we discuss various pros and cons of the generative and discriminative approaches to classification. (See also [BT04; UB05; LBM06
+
+[eisenstein_nlp | Classifying implicit discourse relations]
+$$
+\begin{array} { c } { z ^ { ( i ) } = \displaystyle \mathrm { E n c o d e } ( w ^ { ( i ) } ) } \\ { z ^ { ( i + 1 ) } = \displaystyle \mathrm { E n c o d e } ( w ^ { ( i + 1 ) } ) } \\ { \hat { y } _ { i } = \displaystyle \mathrm { a r g m a x } \Psi ( y , z ^ { ( i ) } , z ^ { ( i + 1 ) } ) . } \end{array}
+$$
+
+[murphy_pml1 | 9.4.2 Advantages of generative classifiers]
+By contrast, a generative model $p ( { \pmb x } | { \pmb y } )$ may be better able to capture the causal mechanisms of the underlying data generating process; such causal models can be more robust to distribution shift (see e.g., [Sch19; LBS19; LN81]).
+
+[szeliski_cv | 2.1.1 2D transformations]
+and is a restricted form of an affine transformation. Unfortunately, it does not nest cleanly with the groups listed in Table 2.1. Planar surface flow. This eight-parameter transformation (Horn 1986; Bergen, Anandan et al. 1992; Girod, Greiner, and Niemann 2000),
+
+[jurafsky_slp3 | 4.6.1 The Gradient for Logistic Regression]
+$$
+\begin{array} { l } { \frac { \partial L _ { \mathrm { C E } } ( \hat { y } , y ) } { \partial w _ { j } } ~ = ~ [ \sigma ( \mathbf { w } \cdot \mathbf { x } + b ) - y ] x _ { j } } \\ { ~ = ~ ( \hat { y } - y ) x _ { j } } \end{array}
+$$
+
+[kelleher_ml_fundamentals | 8.2.3 Neural Networks as Matrix Operations]
+The representation of a network as a sequence of matrix operations provides a transparent view on the depth of the network: a network depth is equal to the number of layers that have a weight matrix associated with them. This is why the input layer is not counted as part of the depth of the network.
+
+[jurafsky_slp3 | 13.2 RNNs as Language Models]
+Let’s see how to apply RNNs to the language modeling task. Recall from Chapter 3 that language models predict the next word in a sequence given some preceding context. For example, if the preceding context is “Thanks for all the” and we want to know how likely the next word is “fish” we would compute:
+
+[eisenstein_nlp | 6.1 $N$ -gram language models]
+or in any other order. But this means that we also haven’t really made any progress: to compute the conditional probability $\mathtt { p } ( w _ { M } \mid w _ { M - 1 } , w _ { M - 2 } , \ldots , w _ { 1 } ) _ { \mathrm { ~ } }$ , we would need to model $\hat { V } ^ { M - 1 }$ contexts. Such a distribution cannot be estimated from any realistic sample of text. To solve this problem, $n$ -gram models make a crucial simplifying approximation: they condition on only the past $n - 1$ words.
+
+[jurafsky_slp3 | 5.5.2 Learning skip-gram embeddings]
+$$
+\begin{array} { r c l } { \displaystyle L ( w , c _ { p o s } , c _ { n e g s } ) } & { = } & { \displaystyle - \log \left[ P ( + | w , c _ { p o s } ) \prod _ { i = 1 } ^ { k } P ( - | w , c _ { n e g _ { i } } ) \right] } \\ & { = } & { \displaystyle - \left[ \log P ( + | w , c _ { p o s } ) + \sum _ { i = 1 } ^ { k } \log P ( - | w , c _ { n e g _ { i } } ) \right] } \\ & { = } & { \displaystyle - \left[ \log P ( + | w , c _ { p o s } ) + \sum _ { i = 1 } ^ { k } \log \big ( 1 - P ( + | w 
+
+[murphy_pml1 | 5.1.2.2 Cost-sensitive classification]
+Now suppose $\ell _ { 1 0 } = c \ell _ { 0 1 }$ , so a false negative costs $c$ times more than a false positive. The decision rule further simplifies to the following: pick $a = 0$ iff $p _ { 1 } < 1 / ( 1 + c )$ . For example, if a false negative costs twice as much as false positive, so $c = 2$ , then we use a decision threshold of $1 / 3$ before declaring a positive.
+

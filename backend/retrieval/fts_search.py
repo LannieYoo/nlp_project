@@ -108,7 +108,7 @@ class FTSSearcher:
     def _sanitize_query(query: str) -> str:
         """Remove FTS5 special syntax characters for safe query."""
         # Remove operators that could cause FTS5 syntax errors
-        special = ["'", '*', '-', '+', '(', ')', '{', '}', '^', '~', ':']
+        special = ["'", '"', '?', '*', '-', '+', '(', ')', '{', '}', '^', '~', ':']
         clean = query
         for ch in special:
             clean = clean.replace(ch, ' ')

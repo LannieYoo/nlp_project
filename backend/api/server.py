@@ -7,6 +7,7 @@ PDF pages rendered as images via pypdfium2 (no PyMuPDF).
 
 import os
 import sys
+import io
 import sqlite3
 from typing import List, Optional
 from contextlib import asynccontextmanager
