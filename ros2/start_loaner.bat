@@ -23,7 +23,8 @@ scp -o StrictHostKeyChecking=no "%~dp0..\aisd-vision-zhizhunbao\aisd_hearing\ais
 scp -o StrictHostKeyChecking=no "%~dp0..\aisd-vision-zhizhunbao\aisd_hearing\aisd_hearing\speak_client.py" %LAPTOP%:~/ros2_ws/src/aisd-vision-zhizhunbao/aisd_hearing/aisd_hearing/speak_client.py
 scp -o StrictHostKeyChecking=no "%~dp0run_loaner.sh" %LAPTOP%:~/run_loaner.sh
 scp -o StrictHostKeyChecking=no "%~dp0stop_loaner.sh" %LAPTOP%:~/stop_loaner.sh
-echo [OK] Files synced
+scp -o StrictHostKeyChecking=no "%~dp0knowledge.txt" %LAPTOP%:~/ros2_ws/knowledge/knowledge.txt
+echo [OK] Files synced (including knowledge.txt)
 
 REM ── Step 2: Stop existing nodes ───────────────────────────
 echo.

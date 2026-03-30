@@ -17,7 +17,7 @@ A ROS 2-based system that provides hand gesture recognition and robot motion con
 
    ```bash
    git config --global credential.helper store
-   echo "https://zhizhunbao:<YOUR_PAT>@github.com" >> ~/.git-credentials
+   echo "https://zhizhunbao:<YOUR_PERSONAL_ACCESS_TOKEN>@github.com" >> ~/.git-credentials
    chmod 600 ~/.git-credentials
    ```
 

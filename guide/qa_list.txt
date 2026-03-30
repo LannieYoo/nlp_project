@@ -1,0 +1,23 @@
+c:\Users\40270\Desktop\workspace\nlp\ros2\start_loaner.bat
+c:\Users\40270\Desktop\workspace\nlp\ros2\stop_loaner.bat
+
+1. What is neural attention?
+2. What is the difference between generative and discriminative classifiers?
+3. What is the gradient for logistic regression?
+4. What is an N-gram language model?
+5. What is skip-gram in Word2Vec?
+6. How do RNNs work as language models?
+7. What is a 3D rigid body transformation?
+8. Why is weight initialization important in deep learning?
+9. What is network depth in neural networks?
+10. What is cost-sensitive classification?
+11. What is TF-IDF?
+12. What is backpropagation?
+13. What is the Transformer architecture?
+14. What is Word2Vec?
+15. What is Named Entity Recognition?
+16. What is beam search?
+17. What is dropout regularization?
+18. What is batch normalization?
+19. What is transfer learning?
+20. What is the BLEU score?
