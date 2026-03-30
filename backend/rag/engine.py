@@ -132,9 +132,19 @@ class RAGEngine:
         )
 
     def _format_sources(self, chunks: List[dict]) -> List[dict]:
-        """Format chunks into source references."""
+        """Format chunks into source references with 0~1 normalized scores."""
+        if not chunks:
+            return []
+
+        # Get max raw score for normalization
+        max_score = max(
+            c.get("rrf_score", c.get("normalized_score", 0))
+            for c in chunks
+        ) or 1.0
+
         sources = []
         for c in chunks:
+            raw_score = c.get("rrf_score", c.get("normalized_score", 0))
             sources.append({
                 "chunk_id": c.get("chunk_id", ""),
                 "book_id": c.get("book_id", ""),
@@ -143,7 +153,7 @@ class RAGEngine:
                 "chapter": c.get("chapter", ""),
                 "section": c.get("section", ""),
                 "text_preview": c.get("text", "")[:200],
-                "score": c.get("rrf_score", c.get("normalized_score", 0)),
+                "score": round(raw_score / max_score, 4),
                 "method": c.get("method", ""),
             })
         return sources
