@@ -1,0 +1,185 @@
+{
+  "rows": [
+    {
+      "q": "What is neural attention?",
+      "score": 0.7577,
+      "top3": [
+        "Eisenstein Nlp p.462 (0.7577)",
+        "Hamilton Grl p.64 (0.5991)",
+        "Murphy Pml1 p.549 (0.3333)"
+      ]
+    },
+    {
+      "q": "What is the difference between generative and discriminative classifiers?",
+      "score": 0.3333,
+      "top3": [
+        "Kelleher Ml Fundamentals p.787 (0.3333)",
+        "Murphy Pml1 p.365 (0.3280)",
+        "Shalev-Shwartz Uml p.341 (0.2990)"
+      ]
+    },
+    {
+      "q": "What is the gradient for logistic regression?",
+      "score": 0.6414,
+      "top3": [
+        "Jurafsky Slp3 p.146 (0.6414)",
+        "Kelleher Ml Fundamentals p.399 (0.6305)",
+        "Barber Brml p.349 (0.4791)"
+      ]
+    },
+    {
+      "q": "What is an N-gram language model?",
+      "score": 0.6414,
+      "top3": [
+        "Eisenstein Nlp p.216 (0.6414)",
+        "Jurafsky Slp3 p.177 (0.6414)",
+        "Aumasson Serious Cryptography p.241 (0.1667)"
+      ]
+    },
+    {
+      "q": "What is skip-gram in Word2Vec?",
+      "score": 0.7553,
+      "top3": [
+        "Jurafsky Slp3 p.119 (0.7553)",
+        "Murphy Pml1 p.738 (0.7366)",
+        "Eisenstein Nlp p.352 (0.2748)"
+      ]
+    },
+    {
+      "q": "How do RNNs work as language models?",
+      "score": 0.5,
+      "top3": [
+        "Jurafsky Slp3 p.295 (0.5000)",
+        "Szeliski Cv p.347 (0.4745)",
+        "Eisenstein Nlp p.184 (0.3280)"
+      ]
+    },
+    {
+      "q": "What is a 3D rigid body transformation?",
+      "score": 0.8333,
+      "top3": [
+        "Szeliski Cv p.69 (0.8333)",
+        "Aumasson Serious Cryptography p.77 (0.1667)",
+        "Cormen Clrs p.333 (0.1589)"
+      ]
+    },
+    {
+      "q": "Why is weight initialization important in deep learning?",
+      "score": 0.763,
+      "top3": [
+        "Kelleher Ml Fundamentals p.575 (0.7630)",
+        "Szeliski Cv p.364 (0.3228)",
+        "Jurafsky Slp3 p.132 (0.3081)"
+      ]
+    },
+    {
+      "q": "What is network depth in neural networks?",
+      "score": 0.8022,
+      "top3": [
+        "Kelleher Ml Fundamentals p.447 (0.8022)",
+        "Shalev-Shwartz Uml p.269 (0.5914)",
+        "Hastie Esl p.430 (0.4717)"
+      ]
+    },
+    {
+      "q": "What is cost-sensitive classification?",
+      "score": 0.4894,
+      "top3": [
+        "Murphy Pml1 p.198 (0.4894)",
+        "Shalev-Shwartz Uml p.12 (0.4400)",
+        "Eisenstein Nlp p.34 (0.3228)"
+      ]
+    },
+    {
+      "q": "What is TF-IDF?",
+      "score": 0.7787,
+      "top3": [
+        "Jurafsky Slp3 p.246 (0.7787)",
+        "Murphy Pml1 p.54 (0.6356)",
+        "Shalev-Shwartz Uml p.230 (0.3128)"
+      ]
+    },
+    {
+      "q": "What is backpropagation?",
+      "score": 0.4897,
+      "top3": [
+        "Bishop Prml p.260 (0.4897)",
+        "Murphy Pml1 p.467 (0.3280)",
+        "Eisenstein Nlp p.542 (0.3280)"
+      ]
+    },
+    {
+      "q": "What is the Transformer architecture?",
+      "score": 0.7991,
+      "top3": [
+        "Jurafsky Slp3 p.157 (0.7991)",
+        "Hamilton Grl p.64 (0.7501)",
+        "Murphy Pml1 p.562 (0.6174)"
+      ]
+    },
+    {
+      "q": "What is Word2Vec?",
+      "score": 0.651,
+      "top3": [
+        "Jurafsky Slp3 p.107 (0.6510)",
+        "Murphy Pml1 p.736 (0.6455)",
+        "Eisenstein Nlp p.352 (0.4692)"
+      ]
+    },
+    {
+      "q": "What is Named Entity Recognition?",
+      "score": 0.7592,
+      "top3": [
+        "Eisenstein Nlp p.200 (0.7592)",
+        "Jurafsky Slp3 p.220 (0.6613)",
+        "Murphy Pml1 p.570 (0.3128)"
+      ]
+    },
+    {
+      "q": "What is beam search?",
+      "score": 0.7829,
+      "top3": [
+        "Eisenstein Nlp p.468 (0.7829)",
+        "Jurafsky Slp3 p.277 (0.6613)",
+        "Google Swe p.379 (0.3035)"
+      ]
+    },
+    {
+      "q": "What is dropout regularization?",
+      "score": 0.795,
+      "top3": [
+        "Hamilton Grl p.80 (0.7950)",
+        "Kelleher Ml Fundamentals p.530 (0.7494)",
+        "Szeliski Cv p.301 (0.6324)"
+      ]
+    },
+    {
+      "q": "What is batch normalization?",
+      "score": 0.799,
+      "top3": [
+        "Eisenstein Nlp p.77 (0.7990)",
+        "Szeliski Cv p.304 (0.6507)",
+        "Murphy Pml1 p.506 (0.6356)"
+      ]
+    },
+    {
+      "q": "What is transfer learning?",
+      "score": 0.7271,
+      "top3": [
+        "Eisenstein Nlp p.135 (0.7271)",
+        "Szeliski Cv p.330 (0.6613)",
+        "Jurafsky Slp3 p.206 (0.6104)"
+      ]
+    },
+    {
+      "q": "What is the BLEU score?",
+      "score": 0.815,
+      "top3": [
+        "Eisenstein Nlp p.450 (0.8150)",
+        "Jurafsky Slp3 p.284 (0.7765)",
+        "Murphy Pml1 p.208 (0.3280)"
+      ]
+    }
+  ],
+  "avg": 0.6956849999999999
+}

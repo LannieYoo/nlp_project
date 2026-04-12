@@ -65,14 +65,27 @@ class RRFFusion:
         # Sort by RRF score descending
         sorted_ids = sorted(scores.keys(), key=lambda x: scores[x], reverse=True)
 
-        # Build final results
+        # Build final results with per-BOOK deduplication:
+        # Keep only the single highest-scoring chunk per book_id.
+        # This ensures diverse results across different textbooks.
         fused = []
-        for chunk_id in sorted_ids[:top_k]:
+        seen_books = set()
+        for chunk_id in sorted_ids:
             item = chunk_data[chunk_id].copy()
             item["rrf_score"] = scores[chunk_id]
             item["method_ranks"] = dict(method_ranks[chunk_id])
             item["method"] = "rrf_fusion"
+
+            book_id = item.get("book_id", "")
+
+            # Skip if we already have a result from this book
+            if book_id in seen_books:
+                continue
+            seen_books.add(book_id)
             fused.append(item)
+
+            if len(fused) >= top_k:
+                break
 
         return fused
 

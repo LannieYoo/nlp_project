@@ -50,6 +50,7 @@ class RAGEngine:
 
         self._retriever = None
         self._client = None
+        self._reranker = None
 
     @property
     def retriever(self):
@@ -68,6 +69,13 @@ class RAGEngine:
             from ollama import Client
             self._client = Client(host=self.ollama_host)
         return self._client
+
+    @property
+    def reranker(self):
+        if self._reranker is None:
+            from backend.retrieval.reranker import CrossEncoderReranker
+            self._reranker = CrossEncoderReranker()
+        return self._reranker
 
     def ask(
         self,
@@ -121,8 +129,16 @@ class RAGEngine:
         except Exception as e:
             answer = f"Error generating answer: {e}"
 
-        # 5. Format sources for tracing
+        # 5. Format sources for tracing (preserves existing rank scores)
         sources = self._format_sources(chunks)
+
+        # 6. Add quality scores via Cross-Encoder (does NOT change order or existing scores)
+        try:
+            self.reranker.rerank(query, sources, score_key="quality_score")
+        except Exception as e:
+            print(f"Cross-Encoder rerank error (non-fatal): {e}")
+            for s in sources:
+                s.setdefault("quality_score", 0.0)
 
         return RAGResponse(
             answer=answer,
@@ -131,20 +147,24 @@ class RAGEngine:
             model=self.model,
         )
 
+    # Theoretical max RRF score: if a doc is ranked #1 by ALL 4 methods
+    # sum(weight_i) / (k + 1) = (2+2+1+1) / (60+1) = 6/61 ≈ 0.0984
+    # 1.0 only if ALL methods rank it #1 (very rare, highly relevant)
+    RRF_MAX = 6.0 / 61.0
+
     def _format_sources(self, chunks: List[dict]) -> List[dict]:
         """Format chunks into source references with 0~1 normalized scores."""
         if not chunks:
             return []
 
-        # Get max raw score for normalization
-        max_score = max(
-            c.get("rrf_score", c.get("normalized_score", 0))
-            for c in chunks
-        ) or 1.0
-
         sources = []
         for c in chunks:
-            raw_score = c.get("rrf_score", c.get("normalized_score", 0))
+            rrf = c.get("rrf_score")
+            if rrf is not None:
+                normalized = min(rrf / self.RRF_MAX, 1.0)
+            else:
+                normalized = c.get("normalized_score", 0)
+
             sources.append({
                 "chunk_id": c.get("chunk_id", ""),
                 "book_id": c.get("book_id", ""),
@@ -153,7 +173,7 @@ class RAGEngine:
                 "chapter": c.get("chapter", ""),
                 "section": c.get("section", ""),
                 "text_preview": c.get("text", "")[:200],
-                "score": round(raw_score / max_score, 4),
+                "score": round(normalized, 4),
                 "method": c.get("method", ""),
             })
         return sources

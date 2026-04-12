@@ -77,6 +77,7 @@ class SourceItem(BaseModel):
     section: str = ""
     text_preview: str = ""
     score: float = 0.0
+    quality_score: float = 0.0
     method: str = ""
     highlight: Optional[HighlightInfo] = None
 
@@ -204,6 +205,7 @@ def search(req: SearchRequest):
                 section=src.get("section", ""),
                 text_preview=src.get("text_preview", ""),
                 score=round(src.get("score", 0), 4),
+                quality_score=round(src.get("quality_score", 0), 4),
                 method=src.get("method", ""),
                 highlight=highlight,
             ))

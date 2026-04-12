@@ -1,6 +1,12 @@
 # Large data files
 mineru_output/
 *.zip
+*.mp4
+*.mp3
+*.pptx
+*.docx
+*.wav
+*.m4a
 
 # Generated indexes (can be regenerated)
 data/chunks.db
@@ -21,6 +27,11 @@ build/
 .venv/
 venv/
 env/
+lannie_venv/
+
+# Agent config
+.agent/
+.agents/
 
 # IDE
 .vscode/

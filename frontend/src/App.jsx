@@ -55,7 +55,13 @@ export default function App() {
     }
   }, [isDragging])
 
-  const { search, result, loading, error, resetSearch } = useSearch()
+  const { search: rawSearch, result, loading, error, resetSearch } = useSearch()
+
+  // Wrap search to close PDF before starting a new query
+  const search = useCallback((params) => {
+    handleClosePdf()
+    rawSearch(params)
+  }, [rawSearch])
 
   const handleViewPdf = useCallback((source) => {
     setPdfState({
@@ -81,9 +87,7 @@ export default function App() {
 
   const handleViewChange = useCallback((view) => {
     setActiveView(view)
-    if (view === 'search') {
-      handleClosePdf()
-    }
+    handleClosePdf()
   }, [handleClosePdf])
 
   const handleGoHome = useCallback(() => {
